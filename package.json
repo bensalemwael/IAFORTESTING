@@ -1,0 +1,9 @@
+{
+  "name": "istqb-ia-prep",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Application hors ligne de préparation aux certifications ISTQB CT-GenAI v1.1 et CT-AI v2.0",
+  "scripts": {
+    "test": "node tests/run.js"
+  }
+}
