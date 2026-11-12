@@ -183,12 +183,22 @@
   }
 
   // ---------- Cours ----------
+  // Vidéo narrée du chapitre, avec sous-titres ; chargée seulement à l'ouverture de la fiche.
+  function chapterVideo(ch) {
+    if (!ch.video) return null;
+    return el('figure', { class: 'video' },
+      el('video', { controls: 'controls', preload: 'none', src: `${ch.video}.mp4` },
+        el('track', { kind: 'subtitles', srclang: 'fr', label: 'Français', src: `${ch.video}.vtt` })),
+      el('figcaption', { class: 'muted' }, `Vidéo explicative du chapitre (${ch.videoMinutes} min). Les sous-titres s'activent depuis le lecteur.`));
+  }
+
   function courseView() {
     render(...cert().chapters.map((ch) => {
       const titleOf = () => `${progress().chapters[ch.n] ? '✓ ' : ''}Ch. ${ch.n} — ${ch.title}`;
       const markLabel = () => (progress().chapters[ch.n] ? 'Marquer à revoir' : 'Marquer comme étudié');
       const title = el('h2', {}, titleOf());
       const body = el('div', { hidden: 'hidden' },
+        chapterVideo(ch),
         el('div', { html: ISTQB.notes[state.cert][ch.n] }),
         el('h3', {}, "Objectifs d'apprentissage"),
         el('ul', {}, ...ch.los.map(([lo, k, label]) => el('li', {}, el('span', { class: 'tag' }, `K${k}`), ` ${lo} — ${label}`))),

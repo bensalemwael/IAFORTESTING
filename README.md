@@ -32,6 +32,12 @@ La progression est enregistrée dans le navigateur (localStorage) : elle dispara
 La banque contient 143 questions originales pour CT-GenAI et 156 pour CT-AI, soit plus de trois examens blancs différents par certification.
 Un examen en cours reprend après un rechargement de la page ; le chrono continue pendant votre absence.
 
+## Vidéos
+
+Les chapitres 1 et 2 de CT-GenAI ont une vidéo explicative en français, sous-titrée (15 et 14 minutes). Elles sont intégrées à leur fiche dans l'onglet Cours ; les fichiers sont aussi dans `videos/`.
+La vidéo du chapitre 2 est animée : les éléments apparaissent au fil de la voix, avec un second narrateur et des quiz à compte à rebours.
+Les générateurs sont dans `tools/video/` (`build.py` pour le style simple, `build2.py` pour le style animé). Ils demandent Python, Microsoft Edge et les paquets `edge-tts` et `imageio-ffmpeg` ; la voix est synthétisée par le service en ligne de Microsoft.
+
 ## Ateliers pratiques
 
 ```text

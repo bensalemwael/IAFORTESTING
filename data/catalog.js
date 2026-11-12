@@ -22,7 +22,7 @@
         { chapter: 5, k: 2, count: 3 },
       ],
       chapters: [
-        { n: 1, title: "Introduction à la GenAI pour le test", minutes: 100, los: [
+        { n: 1, title: "Introduction à la GenAI pour le test", minutes: 100, video: "videos/genai-chapitre-1", videoMinutes: 15, los: [
           ['GenAI-1.1.1', 1, "Citer les types d'IA : symbolique, ML classique, deep learning, générative"],
           ['GenAI-1.1.2', 2, "Expliquer les bases de la GenAI et des LLM"],
           ['GenAI-1.1.3', 2, "Distinguer LLM de fondation, instruction-tuned et de raisonnement"],
@@ -30,7 +30,7 @@
           ['GenAI-1.2.1', 2, "Donner des exemples de capacités des LLM pour les tâches de test"],
           ['GenAI-1.2.2', 2, "Comparer les modèles d'interaction (chatbot / application LLM)"],
         ] },
-        { n: 2, title: "Prompt engineering pour le test", minutes: 365, los: [
+        { n: 2, title: "Prompt engineering pour le test", minutes: 365, video: "videos/genai-chapitre-2", videoMinutes: 14, los: [
           ['GenAI-2.1.1', 2, "Donner des exemples de structure de prompt"],
           ['GenAI-2.1.2', 2, "Différencier les techniques de prompting de base"],
           ['GenAI-2.1.3', 2, "Distinguer system prompt et user prompt"],

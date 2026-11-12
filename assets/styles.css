@@ -169,3 +169,7 @@ input[type="number"] {
 }
 
 label.field { display: inline-flex; flex-direction: column; gap: 2px; font-size: 14px; }
+
+.video { margin: 0 0 16px; }
+.video video { width: 100%; border-radius: 8px; background: #000; }
+.video figcaption { margin-top: 4px; font-size: 14px; }
