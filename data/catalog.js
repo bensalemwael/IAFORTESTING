@@ -42,7 +42,7 @@
           ['GenAI-2.3.1', 2, "Comprendre les métriques d'évaluation des résultats GenAI"],
           ['GenAI-2.3.2', 2, "Donner des exemples de techniques d'évaluation et de raffinement"],
         ] },
-        { n: 3, title: "Gérer les risques de la GenAI", minutes: 160, los: [
+        { n: 3, title: "Gérer les risques de la GenAI", minutes: 160, video: "videos/genai-chapitre-3", videoMinutes: 11, los: [
           ['GenAI-3.1.1', 1, "Rappeler les définitions : hallucination, erreur de raisonnement, biais"],
           ['GenAI-3.1.2', 3, "Identifier hallucinations, erreurs de raisonnement et biais"],
           ['GenAI-3.1.3', 2, "Résumer les techniques d'atténuation"],

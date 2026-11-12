@@ -34,8 +34,8 @@ Un examen en cours reprend après un rechargement de la page ; le chrono continu
 
 ## Vidéos
 
-Les chapitres 1 et 2 de CT-GenAI ont une vidéo explicative en français, sous-titrée (15 et 14 minutes). Elles sont intégrées à leur fiche dans l'onglet Cours ; les fichiers sont aussi dans `videos/`.
-La vidéo du chapitre 2 est animée : les éléments apparaissent au fil de la voix, avec un second narrateur et des quiz à compte à rebours.
+Les chapitres 1 à 3 de CT-GenAI ont une vidéo explicative en français, sous-titrée (15, 14 et 11 minutes). Elles sont intégrées à leur fiche dans l'onglet Cours ; les fichiers sont aussi dans `videos/`.
+Les vidéos des chapitres 2 et 3 sont animées : les éléments apparaissent au fil de la voix, avec un second narrateur et des quiz à compte à rebours.
 Les générateurs sont dans `tools/video/` (`build.py` pour le style simple, `build2.py` pour le style animé). Ils demandent Python, Microsoft Edge et les paquets `edge-tts` et `imageio-ffmpeg` ; la voix est synthétisée par le service en ligne de Microsoft.
 
 ## Ateliers pratiques
