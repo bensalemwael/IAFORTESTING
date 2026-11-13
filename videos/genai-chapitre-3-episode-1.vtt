@@ -1,0 +1,637 @@
+WEBVTT
+
+00:00.650 --> 00:05.122
+Bonjour, et bienvenue dans le chapitre trois, consacré aux risques de l'IA générative
+
+00:05.122 --> 00:09.600
+dans les tests. Dans ce premier épisode, on s'attaque aux trois grands défauts des LLM
+
+00:09.672 --> 00:12.641
+les hallucinations, les erreurs de raisonnement et les biais.
+
+00:12.752 --> 00:17.551
+Quatre objectifs, dont un K trois : savoir les repérer dans une vraie sortie de LLM.
+
+00:17.647 --> 00:19.624
+Il y aura donc beaucoup de scénarios.
+
+00:19.737 --> 00:20.914
+On y va.
+
+00:23.000 --> 00:27.000
+Le chapitre trois représente cent soixante minutes de formation officielle.
+
+00:27.098 --> 00:28.894
+On le découpe en deux épisodes.
+
+00:28.992 --> 00:32.845
+Celui-ci couvre la section trois point un : les défauts des LLM et la façon de
+
+00:32.845 --> 00:37.594
+les maîtriser. Le prochain épisode couvrira la confidentialité des données et la sécurité,
+
+00:37.679 --> 00:41.868
+l'impact énergétique et environnemental, et enfin les réglementations, normes et cadres
+
+00:41.868 --> 00:43.007
+de bonnes pratiques.
+
+00:45.074 --> 00:49.873
+Commençons par les définitions, l'objectif trois point un point un, de niveau K un.
+
+00:49.971 --> 00:53.726
+Les LLM sont sujets à certains défauts, en particulier ces trois-là.
+
+00:53.823 --> 00:57.818
+Ils dégradent la qualité des sorties : le testware généré ne répond plus aux attentes
+
+00:57.818 --> 01:02.702
+des testeurs. Une hallucination, c'est une sortie qui semble factuellement incorrecte,
+
+01:02.702 --> 01:04.524
+ou sans rapport avec la tâche demandée.
+
+01:04.622 --> 01:08.789
+Une erreur de raisonnement, c'est quand le modèle interprète mal une structure logique,
+
+01:08.874 --> 01:10.722
+et arrive à une conclusion incorrecte.
+
+01:10.820 --> 01:15.137
+Et un biais, c'est une sortie qui favorise certains types d'informations, d'approches
+
+01:15.137 --> 01:20.054
+ou d'hypothèses. Le syllabus est clair : le testeur doit les identifier dans les sorties,
+
+01:20.152 --> 01:22.348
+et prendre des mesures pour réduire ces risques.
+
+01:24.450 --> 01:27.535
+À quoi ressemble une hallucination dans le travail du testeur
+
+01:27.633 --> 01:29.597
+Le syllabus donne trois formes.
+
+01:29.722 --> 01:32.704
+Un : des cas de test fictifs, ou hors sujet.
+
+01:32.813 --> 01:37.846
+Deux : des scripts de test incorrects, ou qui ne fonctionnent tout simplement pas. Trois
+
+01:37.982 --> 01:42.484
+des cas de test qui vérifient des critères d'acceptation qui n'existent pas. Le danger,
+
+01:42.544 --> 01:44.327
+c'est que tout cela a l'air plausible.
+
+01:44.477 --> 01:48.086
+Le testeur peut être induit en erreur, et la validité de ses résultats de test
+
+01:48.086 --> 01:49.070
+est compromise.
+
+01:51.141 --> 01:55.316
+Voyons une démonstration, dans l'esprit de l'exercice pratique trois point un point deux
+
+01:55.316 --> 01:59.595
+a. On donne une user story avec trois critères d'acceptation, et on demande un cas
+
+01:59.595 --> 02:01.056
+de test par critère.
+
+02:01.193 --> 02:04.922
+Le modèle répond avec assurance : un, deux, trois…
+
+02:05.085 --> 02:06.546
+et quatre cas de test.
+
+02:07.070 --> 02:11.670
+Max : Attends… CA quatre ? La story n'a que trois critères
+
+02:12.172 --> 02:17.455
+Bien vu, Max. Le critère quatre n'existe nulle part dans les données fournies : c'est une
+
+02:17.455 --> 02:22.299
+hallucination. Dans cet exercice, le syllabus propose de confronter au moins deux LLM
+
+02:22.299 --> 02:25.894
+à ce genre de situation, et de varier les prompts pour observer leur influence sur
+
+02:25.894 --> 02:27.059
+les hallucinations.
+
+02:29.154 --> 02:31.750
+Deuxième défaut : l'erreur de raisonnement.
+
+02:31.899 --> 02:36.629
+Le modèle interprète mal une structure logique : une relation de cause à effet, une logique
+
+02:36.629 --> 02:40.165
+conditionnelle, ou un processus de résolution étape par étape.
+
+02:40.276 --> 02:45.031
+Pourquoi ? Parce que, contrairement à un humain, un LLM n'a pas de véritable raisonnement
+
+02:45.031 --> 02:48.501
+logique. Il s'appuie sur la reconnaissance de motifs.
+
+02:48.599 --> 02:51.658
+D'où des erreurs dans des tâches comme le raisonnement mathématique.
+
+02:51.770 --> 02:56.486
+Côté test, le syllabus cite deux tâches qui exigent un raisonnement logique : la planification
+
+02:56.486 --> 02:59.352
+des tests, et la priorisation des cas de test.
+
+02:59.477 --> 03:03.948
+Retenez la nuance : l'hallucination invente du contenu, l'erreur de raisonnement applique
+
+03:03.948 --> 03:05.100
+une logique fausse.
+
+03:07.194 --> 03:11.027
+Deuxième démonstration, cette fois sur la planification des tests.
+
+03:11.138 --> 03:15.030
+On demande au modèle une estimation de l'effort d'exécution, à partir de trois groupes
+
+03:15.030 --> 03:16.130
+de cas de test.
+
+03:16.227 --> 03:20.614
+Il détaille son calcul, ligne par ligne, et conclut : vingt-huit heures.
+
+03:21.178 --> 03:25.665
+Max : Vingt-huit heures, parfait. Je le reporte dans le plan de test
+
+03:26.170 --> 03:28.083
+Pas si vite, Max.
+
+03:28.195 --> 03:32.646
+Six, plus douze, plus douze, ça fait trente, pas vingt-huit.
+
+03:32.743 --> 03:35.557
+Chaque ligne est juste, mais la conclusion est fausse.
+
+03:35.655 --> 03:40.333
+C'est l'exercice trois point un point deux b : un problème de planification, comme l'estimation
+
+03:40.333 --> 03:44.114
+de l'effort ou la priorisation, avec des données d'entrée assez complexes.
+
+03:44.211 --> 03:48.611
+On compare la sortie au résultat exact, on essaie trois types de modèles, un LLM,
+
+03:48.657 --> 03:52.304
+un SLM et un modèle de raisonnement, et on varie le prompt pour tenter d'améliorer
+
+03:52.304 --> 03:53.237
+le résultat.
+
+03:55.350 --> 03:57.417
+Troisième défaut : les biais.
+
+03:57.514 --> 04:00.418
+Ils proviennent des données sur lesquelles le modèle a été entraîné.
+
+04:00.529 --> 04:05.599
+Résultat : des sorties qui favorisent certains types d'informations, certaines approches,
+
+04:05.658 --> 04:10.788
+ou certaines hypothèses. L'exemple du syllabus : un LLM entraîné principalement sur des
+
+04:10.788 --> 04:14.208
+données en anglais peut sous-représenter les perspectives non anglophones.
+
+04:14.305 --> 04:18.042
+En test, les biais peuvent influencer les réponses du modèle quand il génère des données
+
+04:18.042 --> 04:21.037
+de test, ou quand il affine des critères d'acceptation.
+
+04:23.150 --> 04:24.650
+D'où viennent ces trois défauts
+
+04:24.774 --> 04:26.957
+D'abord de la nature des données d'entraînement.
+
+04:27.094 --> 04:31.493
+Ensuite, des limites inhérentes au modèle transformer, vu au chapitre un.
+
+04:31.604 --> 04:36.377
+Et il y a une difficulté supplémentaire : le comportement non déterministe des LLM.
+
+04:36.487 --> 04:38.747
+Il rend ces défauts difficiles à corriger.
+
+04:38.859 --> 04:43.202
+Un défaut peut sembler corrigé dans une réponse, puis réapparaître dans une autre conversation
+
+04:43.202 --> 04:44.573
+avec le même LLM.
+
+04:44.671 --> 04:48.795
+Reconnaître et traiter ces défauts, c'est justement ce qui améliore la qualité des résultats
+
+04:48.795 --> 04:50.204
+de l'IA dans nos tests.
+
+04:52.271 --> 04:55.047
+Première question, pour fixer les définitions.
+
+04:55.171 --> 04:58.565
+Selon le syllabus, d'où proviennent les biais d'un LLM
+
+05:03.080 --> 05:05.199
+Des données sur lesquelles il a été entraîné.
+
+05:05.297 --> 05:08.549
+C'est l'origine que le syllabus donne explicitement pour les biais.
+
+05:08.674 --> 05:11.630
+Retenez le couple : biais et données d'entraînement.
+
+05:11.741 --> 05:15.788
+Et souvenez-vous où ils frappent en test : la génération de données de test, et l'affinage
+
+05:15.788 --> 05:17.326
+des critères d'acceptation.
+
+05:19.400 --> 05:23.877
+Passons à l'objectif clé du chapitre, trois point un point deux, de niveau K trois
+
+05:24.013 --> 05:26.609
+identifier ces défauts dans une sortie de LLM.
+
+05:26.720 --> 05:31.557
+On s'appuie sur la revue, ou sur une combinaison de revue et de vérification automatisée.
+
+05:31.668 --> 05:33.697
+Et l'approche dépend du type de défaut.
+
+05:33.822 --> 05:36.353
+Pour les hallucinations, trois approches.
+
+05:36.463 --> 05:41.945
+La vérification croisée : comparer la sortie avec la documentation existante, les exigences,
+
+05:42.005 --> 05:43.865
+et le comportement connu du système.
+
+05:43.962 --> 05:47.008
+Des outils automatisés peuvent aider à signaler les écarts.
+
+05:47.159 --> 05:51.644
+La consultation d'experts du domaine, pour valider l'exactitude du contenu : ils captent
+
+05:51.644 --> 05:53.956
+des nuances que l'automatisation peut manquer.
+
+05:54.052 --> 05:58.047
+Et les contrôles de cohérence : les sorties sont-elles cohérentes entre elles, et avec
+
+05:58.047 --> 05:59.044
+ce que l'on sait déjà
+
+06:01.180 --> 06:03.879
+Pour les erreurs de raisonnement, deux approches.
+
+06:04.041 --> 06:08.719
+La validation logique : évaluer, par des cycles de revue, la cohérence et l'enchaînement
+
+06:08.719 --> 06:12.803
+du raisonnement. Des outils peuvent aider, mais les cas complexes demandent un jugement
+
+06:12.803 --> 06:17.119
+humain. Et le test des sorties : par exemple, exécuter les cas de test ou les
+
+06:17.119 --> 06:20.591
+scripts générés sur les objets de test, et vérifier les résultats.
+
+06:20.689 --> 06:24.496
+Selon le testware, c'est automatisable en partie ou totalement.
+
+06:24.621 --> 06:26.855
+Pour les biais, deux approches aussi.
+
+06:26.965 --> 06:31.514
+Vérifier que le testware généré, comme du code de test ou des données synthétiques, représente
+
+06:31.514 --> 06:34.599
+fidèlement la stratégie de test et les exigences de couverture.
+
+06:34.697 --> 06:38.627
+Et repérer les biais liés aux types de test, par exemple des tests non fonctionnels
+
+06:38.627 --> 06:43.100
+sous-représentés. Enfin, l'effort de détection dépend du niveau de risque estimé pour
+
+06:43.100 --> 06:44.291
+la tâche de test.
+
+06:46.410 --> 06:48.103
+Place à l'entraînement K trois.
+
+06:48.202 --> 06:50.952
+Trois scénarios, trois sorties de LLM.
+
+06:51.049 --> 06:52.665
+À vous de repérer le défaut.
+
+06:52.829 --> 06:57.533
+Premier scénario : on demande cinq profils clients variés, pour tester le formulaire d'inscription
+
+06:57.533 --> 06:59.716
+d'une boutique en ligne qui vend dans toute l'Europe.
+
+06:59.865 --> 07:01.314
+Lisez bien la réponse.
+
+07:01.424 --> 07:04.561
+Les noms, les villes, les numéros de téléphone.
+
+07:04.658 --> 07:05.797
+Qu'est-ce qui cloche
+
+07:07.870 --> 07:12.231
+Les profils demandés devaient couvrir l'Europe, mais ils sont tous américains et anglophones.
+
+07:12.329 --> 07:13.339
+Quel défaut
+
+07:17.861 --> 07:22.280
+Un biais. Rien n'est inventé ni illogique, mais les données favorisent un seul type de
+
+07:22.280 --> 07:26.397
+profil. On retrouve l'exemple des données d'entraînement surtout en anglais.
+
+07:26.494 --> 07:31.151
+Pour le détecter : vérifier que les données reflètent la stratégie et la couverture visées.
+
+07:33.240 --> 07:37.891
+Deuxième scénario. On a demandé un script de test automatisé pour une user story de
+
+07:37.891 --> 07:42.531
+code promo. Le script a l'air propre : on ouvre le panier, on saisit le code,
+
+07:42.531 --> 07:45.127
+on clique sur appliquer, on vérifie le total.
+
+07:45.223 --> 07:49.566
+Mais à l'exécution, une erreur : la méthode verify discount automatically n'est pas une
+
+07:49.566 --> 07:52.806
+fonction. Elle n'existe tout simplement pas dans l'outil.
+
+07:52.944 --> 07:54.495
+Alors, quel défaut
+
+07:56.613 --> 08:01.359
+Le script appelle une méthode qui n'existe pas, et il ne s'exécute pas. Quel défaut
+
+08:05.880 --> 08:09.688
+Une hallucination. Le modèle a inventé une méthode plausible.
+
+08:09.798 --> 08:13.785
+Le syllabus cite précisément les scripts de test incorrects ou non fonctionnels.
+
+08:13.883 --> 08:17.754
+Une vérification croisée avec la documentation de l'outil l'aurait révélée.
+
+08:19.857 --> 08:23.728
+Troisième et dernier scénario, sur la priorisation des cas de test.
+
+08:23.826 --> 08:28.246
+On demande de prioriser quatre cas avec une règle précise : le risque élevé d'abord, et
+
+08:28.246 --> 08:30.570
+à risque égal, le cas le plus court d'abord.
+
+08:30.668 --> 08:33.199
+TC-A est à risque moyen, une heure.
+
+08:33.296 --> 08:36.330
+TC-B, risque élevé, trois heures.
+
+08:36.429 --> 08:39.346
+TC-C, risque élevé, une heure.
+
+08:39.443 --> 08:42.580
+Et TC-D, risque faible, deux heures.
+
+08:42.692 --> 08:47.917
+Voici l'ordre proposé. Regardez attentivement les deux premiers cas, ceux à risque élevé.
+
+08:50.014 --> 08:52.429
+Dans cet ordre, quel défaut repérez-vous
+
+08:56.941 --> 08:58.454
+Une erreur de raisonnement.
+
+08:58.578 --> 09:03.101
+TC-B et TC-C ont le même risque, donc le plus court, TC-C, devait passer en
+
+09:03.101 --> 09:07.783
+premier. Aucun cas n'est inventé : c'est la logique conditionnelle qui a échoué.
+
+09:07.921 --> 09:11.328
+La priorisation est justement une tâche citée par le syllabus.
+
+09:13.420 --> 09:14.894
+Comment réduire ces défauts
+
+09:15.031 --> 09:18.374
+C'est l'objectif trois point un point trois, de niveau K deux.
+
+09:18.471 --> 09:21.976
+Le syllabus rappelle qu'ils sont plus fréquents quand le prompt est mal conçu, ou quand
+
+09:21.976 --> 09:24.275
+il manque des données de contexte pertinentes.
+
+09:24.385 --> 09:29.954
+Cinq techniques. Un : fournir un contexte complet, avec toutes les informations utiles, comme
+
+09:29.954 --> 09:31.299
+on l'a vu au chapitre deux.
+
+09:31.409 --> 09:35.971
+Deux : découper les prompts complexes en étapes, avec le chaînage de prompts, en vérifiant
+
+09:35.971 --> 09:37.844
+chaque sortie avant la suivante.
+
+09:37.956 --> 09:40.629
+Cela aide à détecter tôt les erreurs de raisonnement.
+
+09:40.778 --> 09:44.992
+Trois : utiliser des formats de données clairs et faciles à interpréter, plutôt que des
+
+09:44.992 --> 09:49.816
+formats ambigus. Quatre : choisir un modèle spécifiquement entraîné pour la tâche.
+
+09:49.954 --> 09:54.580
+Cinq : quand c'est pertinent, comparer les résultats de plusieurs LLM, pour détecter les
+
+09:54.580 --> 09:56.351
+erreurs et garder le plus fiable.
+
+09:56.447 --> 10:01.684
+Et le chapitre quatre présentera deux techniques complémentaires : le RAG et le fine-tuning.
+
+10:03.761 --> 10:08.792
+Mise en situation. Un LLM se trompe souvent dans un calcul d'effort en plusieurs étapes.
+
+10:08.902 --> 10:10.905
+Que faire pour repérer l'erreur au plus tôt
+
+10:15.432 --> 10:19.233
+Découper la tâche en prompts chaînés, en vérifiant chaque sortie avant de passer à la
+
+10:19.233 --> 10:23.749
+suivante. Retirer le contexte, au contraire, augmenterait le risque.
+
+10:25.850 --> 10:28.737
+Max : Hier, même prompt, il m'a donné douze cas.
+
+10:28.825 --> 10:31.862
+Max : Aujourd'hui, quinze ! Il est cassé
+
+10:32.370 --> 10:35.584
+Il n'est pas cassé, Max : il est non déterministe.
+
+10:35.682 --> 10:39.154
+C'est l'objectif trois point un point quatre, de niveau K un.
+
+10:39.292 --> 10:45.199
+Lundi, une réponse. Mardi, avec exactement le même prompt, une autre réponse.
+
+10:45.310 --> 10:49.413
+Ces variations viennent de l'échantillonnage probabiliste utilisé pendant l'inférence,
+
+10:49.446 --> 10:51.823
+c'est-à-dire pendant la génération de la réponse.
+
+10:51.919 --> 10:55.733
+Obtenir des résultats cohérents et reproductibles est donc difficile, surtout pour les
+
+10:55.733 --> 10:58.561
+sorties longues, qui augmentent le risque de variabilité.
+
+11:00.652 --> 11:04.865
+Une reproductibilité complète ne peut pas être garantie, mais deux stratégies réduisent
+
+11:04.865 --> 11:09.458
+la variabilité. D'abord, baisser la température pendant la génération.
+
+11:09.555 --> 11:14.715
+La distribution de probabilités se resserre : moins d'aléa, et des sorties plus cohérentes.
+
+11:14.853 --> 11:19.175
+Mais attention au revers : cela limite aussi la créativité et la diversité.
+
+11:19.273 --> 11:22.796
+Les sorties deviennent répétitives, voire trop déterministes.
+
+11:22.920 --> 11:27.615
+Ensuite, fixer une graine aléatoire, quand l'implémentation du LLM le permet.
+
+11:27.712 --> 11:32.743
+On utilise toujours la même suite pseudo-aléatoire, ce qui améliore la reproductibilité.
+
+11:32.881 --> 11:36.889
+Enfin, pour réduire le risque d'hallucinations et d'erreurs de raisonnement, il faut aussi
+
+11:36.889 --> 11:41.231
+tenir compte de ce non-déterminisme, par exemple en automatisant une partie de la vérification
+
+11:41.231 --> 11:44.845
+des sorties : l'évaluation devient structurée et cohérente.
+
+11:44.969 --> 11:48.891
+Retenez bien : on réduit la variabilité, on ne la supprime jamais.
+
+11:50.981 --> 11:53.215
+Voici à quoi cela ressemble en pratique.
+
+11:53.353 --> 11:57.631
+Dans l'appel au modèle, on fixe une température basse, et une graine, si l'outil le
+
+11:57.631 --> 12:02.695
+permet. Puis, chaque sortie passe par la même vérification automatique : chaque cas de test
+
+12:02.695 --> 12:06.175
+doit correspondre à un critère réellement présent dans la user story, et il doit y
+
+12:06.175 --> 12:07.610
+avoir un cas par critère.
+
+12:07.721 --> 12:11.347
+Notre critère quatre inventé de tout à l'heure serait immédiatement signalé.
+
+12:11.457 --> 12:15.212
+On gagne en régularité, et on contrôle chaque sortie de la même façon.
+
+12:15.337 --> 12:16.940
+Mais sans garantie absolue.
+
+12:19.073 --> 12:23.471
+Dernière question. Une équipe baisse fortement la température de son LLM.
+
+12:23.569 --> 12:25.172
+Quel effet faut-il attendre
+
+12:29.681 --> 12:32.663
+Des sorties plus cohérentes, mais moins créatives.
+
+12:32.761 --> 12:37.354
+Attention au piège de la réponse A : la reproductibilité totale n'est jamais garantie.
+
+12:39.444 --> 12:42.581
+Récapitulons. Un : les trois défauts.
+
+12:42.730 --> 12:46.867
+L'hallucination invente, l'erreur de raisonnement applique une logique fausse, le biais
+
+12:46.867 --> 12:48.238
+vient des données d'entraînement.
+
+12:48.388 --> 12:52.800
+Deux : à cause du non-déterminisme, un défaut corrigé peut réapparaître.
+
+12:52.962 --> 12:57.821
+Trois : pour les hallucinations, vérification croisée, experts du domaine et contrôles de
+
+12:57.821 --> 13:02.491
+cohérence. Pour le raisonnement, validation logique et test des sorties.
+
+13:02.589 --> 13:06.957
+Quatre : pour les biais, fidélité à la stratégie de test, et attention aux types de
+
+13:06.957 --> 13:11.499
+test sous-représentés. Cinq : les cinq techniques pour limiter ces défauts.
+
+13:11.609 --> 13:16.524
+Et six : la température et la graine réduisent la variabilité, sans jamais la supprimer,
+
+13:16.583 --> 13:19.668
+et la vérification automatisée rend l'évaluation cohérente.
+
+13:21.764 --> 13:24.502
+Bravo, c'est la fin de ce premier épisode.
+
+13:24.598 --> 13:29.552
+Dans le prochain, on parle de confidentialité et de sécurité, avec les vecteurs d'attaque,
+
+13:29.598 --> 13:33.186
+puis de l'impact énergétique de l'IA, et des réglementations et normes.
+
+13:33.324 --> 13:38.393
+Ensuite viendra le chapitre quatre, sur l'infrastructure de test propulsée par les LLM.
+
+13:38.491 --> 13:42.736
+D'ici là, faites les questions et les flashcards du chapitre trois dans l'application.
+
+13:42.886 --> 13:43.883
+À très vite

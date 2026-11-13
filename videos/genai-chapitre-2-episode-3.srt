@@ -1,0 +1,795 @@
+1
+00:00:00,652 --> 00:00:04,226
+Bonjour, et bienvenue dans le troisième épisode du chapitre deux.
+
+2
+00:00:04,324 --> 00:00:09,028
+Au programme : les tests de régression automatisés avec l'IA générative, puis le pilotage
+
+3
+00:00:09,028 --> 00:00:13,010
+et le contrôle des tests, et enfin une compétence clé pour l'examen : choisir la bonne
+
+4
+00:00:13,010 --> 00:00:15,231
+technique de prompting selon la situation.
+
+5
+00:00:15,329 --> 00:00:17,448
+Trois objectifs de niveau K trois.
+
+6
+00:00:17,545 --> 00:00:20,720
+Et pour le dernier, on s'entraînera sur plusieurs scénarios.
+
+7
+00:00:20,818 --> 00:00:21,854
+C'est parti.
+
+8
+00:00:23,930 --> 00:00:28,608
+Partons d'un constat. À chaque nouvelle itération ou version, le nombre de cas de test
+
+9
+00:00:28,608 --> 00:00:31,023
+de régression à exécuter augmente souvent.
+
+10
+00:00:31,121 --> 00:00:35,399
+Ce sont donc des candidats idéaux pour l'automatisation, surtout dans les pipelines d'intégration
+
+11
+00:00:35,399 --> 00:00:38,858
+et de livraison continues, où les tests s'exécutent très souvent.
+
+12
+00:00:38,970 --> 00:00:43,950
+L'IA générative aide à créer, maintenir et optimiser ces suites de régression automatisées.
+
+13
+00:00:44,046 --> 00:00:47,938
+En s'adaptant dynamiquement aux changements du code, et grâce à l'analyse d'impact, elle
+
+14
+00:00:47,938 --> 00:00:51,191
+identifie les zones du logiciel les plus susceptibles d'être affectées.
+
+15
+00:00:51,289 --> 00:00:54,683
+On concentre alors l'effort de régression là où il est le plus nécessaire.
+
+16
+00:00:56,770 --> 00:00:59,932
+Le syllabus cite cinq activités que l'IA peut soutenir.
+
+17
+00:01:00,058 --> 00:01:03,839
+Un : les scripts keyword-driven, dirigés par les mots-clés.
+
+18
+00:01:03,935 --> 00:01:07,711
+Des mots-clés prédéfinis représentent des étapes courantes ; l'IA les associe aux cas
+
+19
+00:01:07,711 --> 00:01:09,456
+de test et génère les scripts.
+
+20
+00:01:09,554 --> 00:01:14,405
+Deux : l'analyse d'impact et l'optimisation des tests, pour cibler les zones à haut risque.
+
+21
+00:01:14,502 --> 00:01:18,651
+Trois : les tests auto-réparateurs et adaptatifs, qui s'ajustent aux petits changements
+
+22
+00:01:18,651 --> 00:01:23,742
+d'interface ou d'API. Quatre : les rapports de test et les enseignements automatisés, avec
+
+23
+00:01:23,742 --> 00:01:27,187
+des tableaux de bord de tendances et des prédictions sur les points de défaillance.
+
+24
+00:01:27,300 --> 00:01:31,583
+Cinq : des rapports de défaut enrichis, et l'analyse des causes racines.
+
+25
+00:01:31,681 --> 00:01:35,358
+Ces activités valent pour la régression fonctionnelle comme non fonctionnelle.
+
+26
+00:01:37,430 --> 00:01:41,721
+Premier exercice de la section, le deux point deux point trois a, sur une application
+
+27
+00:01:41,721 --> 00:01:44,445
+web et un framework d'automatisation d'interface.
+
+28
+00:01:44,558 --> 00:01:49,996
+On documente d'abord la bibliothèque de mots-clés : ouvrir page, saisir, cliquer, vérifier
+
+29
+00:01:49,996 --> 00:01:54,589
+texte. Puis on donne deux exemples complets de scripts, et on demande un nouveau script
+
+30
+00:01:54,609 --> 00:01:56,161
+ajouter un article au panier.
+
+31
+00:01:56,310 --> 00:01:58,506
+Le modèle génère les scripts initiaux.
+
+32
+00:01:58,603 --> 00:02:02,405
+On lui fait ensuite valider ces scripts, puis on étend la couverture avec des scripts
+
+33
+00:02:02,405 --> 00:02:07,500
+supplémentaires. Des exemples pour un format répétitif et contraint : c'est du few-shot.
+
+34
+00:02:09,571 --> 00:02:12,553
+Deuxième partie de l'exercice : le débogage.
+
+35
+00:02:12,664 --> 00:02:16,762
+On crée un assistant avec un system prompt, par exemple : tu vérifies et corriges des
+
+36
+00:02:16,762 --> 00:02:20,659
+scripts keyword-driven, en n'utilisant que les mots-clés de la bibliothèque.
+
+37
+00:02:20,757 --> 00:02:23,404
+Ensuite, le testeur lui soumet un script.
+
+38
+00:02:23,566 --> 00:02:28,760
+L'assistant repère un mot-clé inconnu, « cliquer sur », puis un paramètre manquant, et propose
+
+39
+00:02:28,760 --> 00:02:30,118
+une correction pour chacun.
+
+40
+00:02:30,280 --> 00:02:34,172
+Le system prompt reste constant pendant toute la session : chaque script est contrôlé
+
+41
+00:02:34,172 --> 00:02:35,401
+selon les mêmes règles.
+
+42
+00:02:35,512 --> 00:02:39,577
+On combine ainsi l'automatisation classique et une validation assistée par l'IA.
+
+43
+00:02:41,640 --> 00:02:44,609
+Passons à l'analyse d'impact, dans une boutique en ligne.
+
+44
+00:02:44,721 --> 00:02:47,917
+On fournit le diff d'un commit sur le calcul des frais de port, avec la
+
+45
+00:02:47,917 --> 00:02:50,281
+liste des deux cent quarante tests de régression.
+
+46
+00:02:50,443 --> 00:02:54,477
+Le modèle identifie les zones à haut risque, propose trente et un tests ciblés, et
+
+47
+00:02:54,477 --> 00:02:57,381
+repère même une fonction d'arrondi partagée avec les remises.
+
+48
+00:02:57,938 --> 00:03:00,475
+Max : Donc je ne lance plus que ces trente et un tests
+
+49
+00:03:00,960 --> 00:03:02,847
+Pas si vite, Max.
+
+50
+00:03:02,945 --> 00:03:06,558
+L'analyse d'impact cible la régression là où elle est le plus nécessaire.
+
+51
+00:03:06,656 --> 00:03:10,844
+Mais l'IA peut se tromper : sa sortie doit être vérifiée avec soin, en fonction du
+
+52
+00:03:10,844 --> 00:03:14,497
+risque associé. Le chapitre trois reviendra sur ces risques.
+
+53
+00:03:16,600 --> 00:03:20,595
+L'IA aide aussi la régression automatisée de bout en bout, par l'interface graphique
+
+54
+00:03:20,595 --> 00:03:21,631
+ou par les API.
+
+55
+00:03:21,740 --> 00:03:23,846
+Chacune a ses propres difficultés.
+
+56
+00:03:24,010 --> 00:03:28,384
+Les tests par l'interface deviennent souvent instables, car l'interface change régulièrement.
+
+57
+00:03:28,481 --> 00:03:32,424
+L'IA peut adapter automatiquement les scripts aux localisateurs dynamiques et aux interactions
+
+58
+00:03:32,424 --> 00:03:35,419
+modifiées, ce qui réduit les interventions manuelles.
+
+59
+00:03:35,531 --> 00:03:40,183
+Les tests d'API, eux, subissent des formats de requête et de réponse, des endpoints et
+
+60
+00:03:40,183 --> 00:03:41,915
+une authentification qui évoluent.
+
+61
+00:03:42,051 --> 00:03:46,773
+L'IA adapte les scripts aux spécifications d'API, et génère des données de test variées.
+
+62
+00:03:46,897 --> 00:03:50,420
+La couverture reste complète, avec moins de mises à jour manuelles.
+
+63
+00:03:52,490 --> 00:03:54,622
+Voyons l'auto-réparation en action.
+
+64
+00:03:54,772 --> 00:03:59,546
+Le test « payer la commande » échoue : le localisateur du bouton est introuvable.
+
+65
+00:03:59,695 --> 00:04:04,631
+L'IA examine la page actuelle : le bouton existe toujours, avec le même libellé, mais son
+
+66
+00:04:04,631 --> 00:04:06,311
+identifiant a été renommé.
+
+67
+00:04:06,408 --> 00:04:09,905
+Elle propose un nouveau localisateur, et le test repasse.
+
+68
+00:04:10,004 --> 00:04:14,063
+C'est le but des tests auto-réparateurs : éviter les échecs inutiles dus à de petites
+
+69
+00:04:14,063 --> 00:04:16,697
+modifications, et garder une suite stable.
+
+70
+00:04:16,795 --> 00:04:20,571
+Mais ce correctif touche le paiement, une zone à fort risque : on le relit avant
+
+71
+00:04:20,571 --> 00:04:21,568
+de l'accepter.
+
+72
+00:04:23,650 --> 00:04:26,156
+Scénario d'examen, en logistique.
+
+73
+00:04:26,253 --> 00:04:30,305
+Après la mise à jour d'un service de suivi de colis, quarante tests d'API échouent
+
+74
+00:04:30,519 --> 00:04:34,132
+un champ de la réponse a été renommé, mais le comportement est intact.
+
+75
+00:04:34,230 --> 00:04:36,078
+Quelle activité aide le plus
+
+76
+00:04:40,600 --> 00:04:44,840
+Les tests auto-réparateurs et adaptatifs : ils ajustent les scripts aux petits changements
+
+77
+00:04:44,840 --> 00:04:50,073
+d'interface ou d'API. L'analyse d'impact, elle, sert à choisir quels tests lancer, pas à
+
+78
+00:04:50,073 --> 00:04:51,380
+réparer des scripts.
+
+79
+00:04:53,442 --> 00:04:57,965
+Deuxième exercice : le deux point deux point trois b, des prompts structurés pour analyser
+
+80
+00:04:57,965 --> 00:04:59,722
+un rapport de tests de régression.
+
+81
+00:04:59,819 --> 00:05:01,461
+La démarche est méthodique.
+
+82
+00:05:01,573 --> 00:05:06,488
+D'abord, on analyse les résultats fournis, et on les compare à la spécification de test.
+
+83
+00:05:06,585 --> 00:05:09,245
+Ensuite, on regroupe les défauts similaires.
+
+84
+00:05:09,395 --> 00:05:11,797
+Puis on tient à jour la liste des anomalies connues.
+
+85
+00:05:11,907 --> 00:05:14,039
+Enfin, on recoupe les constats.
+
+86
+00:05:14,136 --> 00:05:18,278
+Chaque étape est reliée à la suivante, dans une seule conversation avec le modèle.
+
+87
+00:05:18,376 --> 00:05:22,041
+Les résultats et les journaux de test deviennent des informations exploitables.
+
+88
+00:05:24,120 --> 00:05:28,282
+À l'étape deux, dans la même conversation, on demande de regrouper les trente-sept échecs
+
+89
+00:05:28,282 --> 00:05:31,831
+de la régression nocturne par cause probable, dans un format précis.
+
+90
+00:05:31,982 --> 00:05:35,591
+Le modèle forme quatre groupes : vingt et un dépassements de délai sur la passerelle de
+
+91
+00:05:35,591 --> 00:05:40,222
+paiement, douze problèmes de format de date, trois échecs liés à une anomalie déjà connue,
+
+92
+00:05:40,346 --> 00:05:42,091
+et un échec isolé à analyser.
+
+93
+00:05:42,200 --> 00:05:45,556
+Au lieu de trente-sept échecs, l'équipe traite quatre problèmes.
+
+94
+00:05:45,654 --> 00:05:49,551
+Et le groupe C alimente l'étape suivante : la liste des anomalies connues.
+
+95
+00:05:51,614 --> 00:05:56,163
+Scénario bancaire. Le modèle classe neuf échecs d'une version comme une anomalie déjà
+
+96
+00:05:56,163 --> 00:05:58,836
+connue, et propose de les exclure du rapport.
+
+97
+00:05:58,934 --> 00:05:59,815
+Que faites-vous
+
+98
+00:06:04,330 --> 00:06:06,707
+On recoupe ce classement avant de l'accepter.
+
+99
+00:06:06,805 --> 00:06:10,812
+C'est la dernière étape de l'exercice, et c'est la règle du syllabus : l'IA peut se
+
+100
+00:06:10,812 --> 00:06:14,516
+tromper, et plus le risque est élevé, plus on vérifie soigneusement.
+
+101
+00:06:16,570 --> 00:06:20,789
+Objectif deux point deux point quatre : le pilotage et le contrôle des tests.
+
+102
+00:06:20,900 --> 00:06:25,230
+Le pilotage demande de récupérer beaucoup de données, parfois non structurées, souvent
+
+103
+00:06:25,230 --> 00:06:27,658
+déjà présentes dans les outils de gestion des tests.
+
+104
+00:06:27,834 --> 00:06:30,456
+L'IA aide à les analyser et à les synthétiser.
+
+105
+00:06:30,579 --> 00:06:35,051
+Première tâche : automatiser le suivi et analyser les tendances, pour prédire les risques
+
+106
+00:06:35,051 --> 00:06:36,912
+et alerter l'équipe en cas d'écart au plan.
+
+107
+00:06:37,023 --> 00:06:42,551
+Deuxième : le contrôle, avec des pistes pour reprioriser, ajuster le calendrier ou réallouer
+
+108
+00:06:42,551 --> 00:06:48,149
+des ressources. Troisième : des rapports de clôture, avec les succès et les leçons apprises.
+
+109
+00:06:48,246 --> 00:06:52,666
+Quatrième : des tableaux de bord dynamiques et des résumés en langage naturel, pour toutes
+
+110
+00:06:52,666 --> 00:06:53,870
+les parties prenantes.
+
+111
+00:06:55,974 --> 00:06:59,910
+Voici la démonstration de l'objectif pratique deux point deux point quatre.
+
+112
+00:07:00,006 --> 00:07:03,937
+À partir de données extraites des outils de test, on demande l'avancement, la tendance
+
+113
+00:07:03,937 --> 00:07:07,808
+des défauts et la couverture, les risques, et un résumé pour le comité.
+
+114
+00:07:07,972 --> 00:07:12,044
+Le modèle produit les métriques clés, repère la hausse des défauts de facturation, et
+
+115
+00:07:12,044 --> 00:07:14,137
+signale quatre exigences sans test.
+
+116
+00:07:14,720 --> 00:07:17,370
+Max : Et le directeur, il va vraiment lire tout ça
+
+117
+00:07:17,920 --> 00:07:20,567
+Non, Max : il lira le résumé.
+
+118
+00:07:20,676 --> 00:07:24,607
+Ces métriques peuvent alimenter un tableau de bord, et le résumé en langage naturel les
+
+119
+00:07:24,607 --> 00:07:26,429
+rend compréhensibles par tous.
+
+120
+00:07:26,527 --> 00:07:30,153
+Les données de test deviennent des informations utiles pour décider vite.
+
+121
+00:07:32,254 --> 00:07:36,730
+Scénario. En milieu de sprint, les défauts de facturation augmentent.
+
+122
+00:07:36,881 --> 00:07:41,473
+Le test manager demande au modèle comment reprioriser les tests et réaffecter deux testeurs.
+
+123
+00:07:41,570 --> 00:07:42,902
+Quelle tâche est soutenue
+
+124
+00:07:47,440 --> 00:07:48,953
+Le contrôle des tests.
+
+125
+00:07:49,052 --> 00:07:53,194
+Attention au piège : détecter la hausse des défauts, c'est le pilotage.
+
+126
+00:07:53,303 --> 00:07:58,360
+Décider comment réagir, en repriorisant et en réallouant les ressources, c'est le contrôle.
+
+127
+00:08:00,430 --> 00:08:04,482
+Objectif deux point deux point cinq : choisir la technique de prompting.
+
+128
+00:08:04,594 --> 00:08:06,893
+Le syllabus résume tout dans un tableau.
+
+129
+00:08:07,055 --> 00:08:11,179
+Le chaînage convient aux tâches complexes qui exigent de la précision, avec une vérification
+
+130
+00:08:11,179 --> 00:08:12,499
+humaine à chaque étape.
+
+131
+00:08:12,622 --> 00:08:17,442
+On découpe en petites étapes, en analyse, en conception ou en automatisation, et chaque
+
+132
+00:08:17,442 --> 00:08:21,836
+étape est vérifiée. Le few-shot convient aux tâches répétitives, ou à format de sortie
+
+133
+00:08:21,836 --> 00:08:27,189
+spécifique : du Gherkin, du keyword-driven, ou des rapports de test au format imposé.
+
+134
+00:08:27,339 --> 00:08:31,437
+Le méta-prompting convient aux tâches flexibles et dynamiques, et à la création de prompts
+
+135
+00:08:31,437 --> 00:08:32,679
+pour des tâches nouvelles.
+
+136
+00:08:32,777 --> 00:08:36,236
+On décrit l'objectif et la tâche, et le modèle construit le prompt.
+
+137
+00:08:36,332 --> 00:08:39,670
+Il sert pour des tâches complexes comme l'analyse de rapports de test et la détection
+
+138
+00:08:39,670 --> 00:08:40,564
+d'anomalies.
+
+139
+00:08:42,631 --> 00:08:45,432
+Comment choisir, à l'examen comme au travail
+
+140
+00:08:45,583 --> 00:08:49,763
+L'exercice deux point deux point cinq le dit : on évalue la nature de la tâche.
+
+141
+00:08:49,874 --> 00:08:53,294
+Exige-t-elle de la précision, ou une structure répétitive
+
+142
+00:08:53,392 --> 00:08:58,049
+Si elle est complexe, et demande précision et vérifications intermédiaires : chaînage.
+
+143
+00:08:58,147 --> 00:09:02,276
+Si elle est répétitive, ou impose un format de sortie : few-shot.
+
+144
+00:09:02,387 --> 00:09:05,273
+Si elle est nouvelle et flexible, et que vous ne savez pas encore quel prompt
+
+145
+00:09:05,273 --> 00:09:10,084
+écrire : méta-prompting. Et si plusieurs besoins se cumulent, on combine.
+
+146
+00:09:10,182 --> 00:09:13,834
+Repérez les indices du scénario : ils pointent vers la bonne technique.
+
+147
+00:09:15,920 --> 00:09:18,445
+Max : Et si ma tâche coche plusieurs cases à la fois
+
+148
+00:09:18,983 --> 00:09:21,037
+Alors on combine, Max.
+
+149
+00:09:21,148 --> 00:09:25,419
+Le syllabus le dit : on peut utiliser plusieurs techniques pour un seul cas d'usage.
+
+150
+00:09:25,542 --> 00:09:28,769
+D'abord, le méta-prompting crée un prompt initial.
+
+151
+00:09:28,866 --> 00:09:33,407
+Ce prompt peut contenir des exemples, à adapter et à enrichir : c'est du few-shot.
+
+152
+00:09:33,519 --> 00:09:38,151
+Enfin, on divise la tâche en sous-tâches plus petites, pour valider les étapes intermédiaires
+
+153
+00:09:38,223 --> 00:09:42,389
+c'est le chaînage. Les techniques ne s'excluent pas : elles se complètent.
+
+154
+00:09:44,472 --> 00:09:49,290
+Premier scénario. Dans un hôpital, l'équipe doit rédiger cent cinquante scénarios Gherkin
+
+155
+00:09:49,290 --> 00:09:53,315
+pour des user stories d'ordonnance électronique, toutes au même gabarit strict.
+
+156
+00:09:53,427 --> 00:09:54,978
+Quelle technique choisir
+
+157
+00:09:59,514 --> 00:10:05,383
+Le few-shot. Deux indices : la tâche est répétitive, et le format de sortie est imposé.
+
+158
+00:10:05,505 --> 00:10:08,861
+Quelques exemples bien choisis suffisent à guider toute la série.
+
+159
+00:10:10,930 --> 00:10:13,126
+Deuxième scénario, en banque.
+
+160
+00:10:13,225 --> 00:10:17,438
+Un testeur analyse une exigence anti-fraude complexe, et chaque résultat intermédiaire
+
+161
+00:10:17,438 --> 00:10:19,815
+doit être validé par un expert conformité.
+
+162
+00:10:19,913 --> 00:10:21,052
+Quelle technique
+
+163
+00:10:25,646 --> 00:10:26,940
+Le chaînage de prompts.
+
+164
+00:10:27,051 --> 00:10:32,154
+Tâche complexe, besoin de précision, vérification humaine de chaque étape : tous les indices
+
+165
+00:10:32,154 --> 00:10:36,063
+y sont. Un seul gros prompt ne permettrait pas ces validations intermédiaires.
+
+166
+00:10:38,180 --> 00:10:43,424
+Troisième scénario. Une équipe logistique doit, pour la première fois, détecter des anomalies
+
+167
+00:10:43,424 --> 00:10:44,885
+dans des journaux de capteurs.
+
+168
+00:10:44,983 --> 00:10:47,101
+Elle ne sait pas comment formuler sa demande.
+
+169
+00:10:47,213 --> 00:10:48,352
+Quelle technique
+
+170
+00:10:52,933 --> 00:10:57,706
+Le méta-prompting. La tâche est nouvelle, et l'équipe ne sait pas encore quel prompt écrire
+
+171
+00:10:57,919 --> 00:11:01,043
+elle décrit l'objectif, et le modèle l'aide à construire le prompt.
+
+172
+00:11:01,193 --> 00:11:04,807
+Le syllabus cite d'ailleurs la détection d'anomalies parmi ses usages.
+
+173
+00:11:06,881 --> 00:11:09,205
+Quatrième scénario, plus piégeux.
+
+174
+00:11:09,303 --> 00:11:13,414
+Chaque semaine, le rapport de régression doit suivre exactement les cinq rubriques des
+
+175
+00:11:13,414 --> 00:11:15,803
+rapports précédents. Quelle technique
+
+176
+00:11:20,331 --> 00:11:23,338
+Le few-shot, avec d'anciens rapports comme exemples.
+
+177
+00:11:23,515 --> 00:11:27,643
+Le piège : le mot « rapport » fait penser au méta-prompting.
+
+178
+00:11:27,740 --> 00:11:31,109
+Mais ici, la tâche est répétitive et le format imposé.
+
+179
+00:11:31,219 --> 00:11:32,513
+C'est le few-shot.
+
+180
+00:11:34,610 --> 00:11:38,738
+Dernier scénario. Une équipe veut générer des scripts keyword-driven.
+
+181
+00:11:38,848 --> 00:11:42,920
+Elle ignore comment écrire le prompt, elle exige un format strict, et elle veut valider
+
+182
+00:11:42,920 --> 00:11:44,897
+chaque étape. Que faire
+
+183
+00:11:49,450 --> 00:11:54,540
+On combine. Le méta-prompting crée le prompt initial, le few-shot impose le format par
+
+184
+00:11:54,540 --> 00:11:57,729
+des exemples, et le chaînage permet de valider chaque étape.
+
+185
+00:11:57,839 --> 00:12:00,950
+Quand les besoins se cumulent, une seule technique ne suffit pas.
+
+186
+00:12:03,034 --> 00:12:08,730
+Récapitulons. Un : la suite de régression grossit à chaque version ; on l'automatise, et on
+
+187
+00:12:08,730 --> 00:12:10,759
+la cible grâce à l'analyse d'impact.
+
+188
+00:12:10,855 --> 00:12:15,495
+Deux : cinq activités soutenues par l'IA, du keyword-driven jusqu'à l'analyse des causes
+
+189
+00:12:15,495 --> 00:12:19,985
+racines. Trois : l'interface et les API ont chacune leurs difficultés.
+
+190
+00:12:20,122 --> 00:12:23,710
+Quatre : l'IA peut se tromper, on vérifie selon le risque.
+
+191
+00:12:23,806 --> 00:12:26,840
+Cinq : quatre tâches de pilotage et de contrôle.
+
+192
+00:12:26,938 --> 00:12:34,521
+Et six : précision, chaînage ; répétition ou format, few-shot ; tâche nouvelle, méta-prompting.
+
+193
+00:12:34,618 --> 00:12:36,466
+Et souvent, on combine.
+
+194
+00:12:38,542 --> 00:12:41,304
+Bravo, c'est la fin de ce troisième épisode.
+
+195
+00:12:41,415 --> 00:12:45,462
+Dans le dernier épisode du chapitre, on apprend à évaluer les résultats de l'IA générative
+
+196
+00:12:45,462 --> 00:12:48,804
+avec des métriques, et à affiner ses prompts de façon itérative.
+
+197
+00:12:48,954 --> 00:12:52,065
+Deux objectifs K deux, pour boucler le chapitre deux.
+
+198
+00:12:52,161 --> 00:12:55,517
+D'ici là, entraînez-vous sur les scénarios dans l'application.
+
+199
+00:12:55,615 --> 00:12:56,690
+À très vite

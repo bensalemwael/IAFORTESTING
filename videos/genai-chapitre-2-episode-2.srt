@@ -1,0 +1,815 @@
+1
+00:00:00,652 --> 00:00:04,149
+Bonjour, et bienvenue dans ce deuxième épisode du chapitre deux.
+
+2
+00:00:04,246 --> 00:00:06,906
+Dans le premier, on a appris à écrire un bon prompt.
+
+3
+00:00:07,018 --> 00:00:11,579
+Aujourd'hui, on l'applique à de vraies tâches de test : l'analyse de test, puis la conception
+
+4
+00:00:11,579 --> 00:00:13,234
+et l'implémentation des tests.
+
+5
+00:00:13,358 --> 00:00:18,100
+Deux objectifs de niveau K trois : à l'examen, on vous décrira une situation, et vous
+
+6
+00:00:18,100 --> 00:00:19,639
+devrez choisir quoi faire.
+
+7
+00:00:19,735 --> 00:00:22,498
+Alors on va pratiquer, avec beaucoup d'exemples.
+
+8
+00:00:24,560 --> 00:00:27,066
+La section deux point deux part d'une idée simple.
+
+9
+00:00:27,165 --> 00:00:33,123
+L'IA générative peut soutenir de nombreuses tâches de test : l'analyse, la conception, l'automatisation,
+
+10
+00:00:33,183 --> 00:00:37,835
+la priorisation des cas de test, la détection de défauts, l'analyse de couverture, et le
+
+11
+00:00:37,835 --> 00:00:39,670
+pilotage et le contrôle des tests.
+
+12
+00:00:39,806 --> 00:00:43,995
+Pour cela, on utilise et on combine les techniques de l'épisode un : le chaînage, le
+
+13
+00:00:43,995 --> 00:00:47,801
+few-shot et le méta-prompting, en les adaptant aux objectifs de test.
+
+14
+00:00:47,912 --> 00:00:52,402
+Résultat : des sorties plus précises, plus pertinentes et plus efficaces.
+
+15
+00:00:52,513 --> 00:00:55,804
+Mais une condition reste essentielle : des entrées de qualité.
+
+16
+00:00:57,882 --> 00:01:01,572
+Commençons par l'analyse de test, objectif deux point deux point un.
+
+17
+00:01:01,669 --> 00:01:06,462
+En entrée, on donne au modèle la base de test : des exigences, des user stories,
+
+18
+00:01:06,462 --> 00:01:10,444
+des spécifications techniques, des wireframes de l'interface graphique, et toute autre
+
+19
+00:01:10,444 --> 00:01:15,142
+information utile. Le modèle aide alors à générer et à prioriser des conditions de test,
+
+20
+00:01:15,214 --> 00:01:18,711
+à repérer des défauts dans la base de test, et à analyser la couverture.
+
+21
+00:01:18,821 --> 00:01:23,839
+En sortie, on obtient les produits habituels de l'analyse : des conditions de test priorisées,
+
+22
+00:01:23,872 --> 00:01:25,939
+par exemple des critères d'acceptation.
+
+23
+00:01:26,065 --> 00:01:30,343
+Et retenez cette phrase du syllabus : la qualité et la pertinence des entrées, par rapport
+
+24
+00:01:30,343 --> 00:01:34,588
+à la tâche, ont un impact direct sur l'exactitude et la précision du résultat.
+
+25
+00:01:36,671 --> 00:01:39,124
+Le syllabus cite cinq tâches typiques.
+
+26
+00:01:39,288 --> 00:01:43,888
+Un : identifier des défauts potentiels dans la base de test, c'est-à-dire des incohérences,
+
+27
+00:01:43,888 --> 00:01:46,367
+des ambiguïtés ou des informations incomplètes.
+
+28
+00:01:46,517 --> 00:01:50,293
+Le modèle peut comparer des exigences de forme similaire, ou s'appuyer sur des rapports
+
+29
+00:01:50,293 --> 00:01:54,293
+de défauts passés, pour signaler des anomalies et proposer des améliorations.
+
+30
+00:01:54,389 --> 00:01:59,222
+Deux : générer des conditions de test, en décomposant les exigences en énoncés mesurables
+
+31
+00:01:59,222 --> 00:02:03,751
+et testables. Trois : prioriser ces conditions selon le niveau de risque.
+
+32
+00:02:03,849 --> 00:02:06,573
+Quatre : soutenir l'analyse de couverture.
+
+33
+00:02:06,670 --> 00:02:11,142
+Et cinq : suggérer des techniques de test adaptées, comme l'analyse des valeurs limites
+
+34
+00:02:11,142 --> 00:02:12,848
+ou les partitions d'équivalence.
+
+35
+00:02:14,930 --> 00:02:17,744
+Passons à la pratique, dans le domaine de la santé.
+
+36
+00:02:17,857 --> 00:02:22,218
+On demande au modèle, dans le rôle d'un analyste de test, de repérer les ambiguïtés,
+
+37
+00:02:22,251 --> 00:02:26,066
+les incohérences et les manques de cette user story : le patient peut annuler un rendez-vous
+
+38
+00:02:26,066 --> 00:02:29,125
+rapidement, sauf exceptions. On envoie.
+
+39
+00:02:29,274 --> 00:02:34,112
+Le modèle relève que « rapidement » n'est pas mesurable, que les exceptions ne sont pas définies,
+
+40
+00:02:34,171 --> 00:02:35,890
+et que le délai d'annulation manque.
+
+41
+00:02:36,040 --> 00:02:37,901
+Puis il propose des améliorations.
+
+42
+00:02:38,420 --> 00:02:43,270
+Max : Pratique ! Ces trous, je les découvrais d'habitude en pleine exécution.
+
+43
+00:02:43,762 --> 00:02:48,470
+Exactement, Max : trouvés dès l'analyse, ces défauts coûtent bien moins cher.
+
+44
+00:02:48,567 --> 00:02:51,020
+Mais le modèle signale des défauts potentiels.
+
+45
+00:02:51,132 --> 00:02:54,397
+C'est au testeur de les confirmer, avec l'équipe et le métier.
+
+46
+00:02:56,520 --> 00:02:59,064
+Troisième tâche : la priorisation.
+
+47
+00:02:59,188 --> 00:03:03,492
+Pour aider à prioriser l'effort de test, le modèle a besoin d'informations sur la probabilité
+
+48
+00:03:03,492 --> 00:03:07,002
+et sur l'impact d'une défaillance, pour chaque condition de test.
+
+49
+00:03:07,152 --> 00:03:11,590
+Le paiement par carte est une fonction exposée à l'utilisateur : priorité haute.
+
+50
+00:03:11,739 --> 00:03:15,502
+Le consentement aux données personnelles relève de la conformité réglementaire : haute
+
+51
+00:03:15,502 --> 00:03:19,977
+aussi. Le blocage de la connexion a un historique de défauts : on le remonte.
+
+52
+00:03:20,076 --> 00:03:24,282
+Et le tri des avis clients, à faible risque, reste en priorité basse.
+
+53
+00:03:24,392 --> 00:03:29,367
+Conformité réglementaire, fonctions exposées, historique des défauts : ce sont les aspects
+
+54
+00:03:29,367 --> 00:03:30,892
+cités par le syllabus.
+
+55
+00:03:32,990 --> 00:03:35,135
+Direction la banque, maintenant.
+
+56
+00:03:35,247 --> 00:03:38,778
+On donne au modèle quatre exigences et six conditions de test, et on lui demande
+
+57
+00:03:38,778 --> 00:03:42,907
+la matrice de couverture, les trous, et une technique de test par exigence.
+
+58
+00:03:43,030 --> 00:03:47,540
+On envoie. Il relie chaque exigence à ses conditions, propose les valeurs limites pour
+
+59
+00:03:47,540 --> 00:03:51,689
+le montant, les partitions d'équivalence pour le type de compte, et signale que l'exigence
+
+60
+00:03:51,689 --> 00:03:53,846
+quatre n'est couverte par aucune condition.
+
+61
+00:03:53,958 --> 00:03:58,841
+Trou détecté. C'est précieux sur les projets aux exigences complexes, où un trou de couverture
+
+62
+00:03:58,841 --> 00:04:00,469
+peut laisser s'échapper des défauts.
+
+63
+00:04:02,540 --> 00:04:07,063
+À vous. Une équipe d'assurance fournit au modèle ses nouvelles exigences, avec les rapports
+
+64
+00:04:07,063 --> 00:04:11,141
+de défauts des projets précédents, pour signaler des anomalies avant la conception.
+
+65
+00:04:11,240 --> 00:04:12,959
+Quelle tâche d'analyse est soutenue
+
+66
+00:04:17,470 --> 00:04:20,504
+Identifier des défauts potentiels dans la base de test.
+
+67
+00:04:20,629 --> 00:04:24,564
+Attention au piège : l'historique des défauts sert aussi à prioriser.
+
+68
+00:04:24,674 --> 00:04:28,648
+Mais ici, le but est de signaler des anomalies dans les exigences elles-mêmes.
+
+69
+00:04:30,721 --> 00:04:33,960
+Premier exercice pratique, le deux point deux point un a.
+
+70
+00:04:34,058 --> 00:04:38,955
+Objectif : produire des critères d'acceptation de haute qualité, c'est-à-dire bien formés,
+
+71
+00:04:38,955 --> 00:04:42,503
+clairs et complets, à partir d'une user story et d'une maquette d'écran.
+
+72
+00:04:42,616 --> 00:04:47,299
+Le rôle. Le contexte : une application de prise de rendez-vous de livraison.
+
+73
+00:04:47,395 --> 00:04:51,640
+L'instruction. Les données d'entrée textuelles : la user story.
+
+74
+00:04:51,738 --> 00:04:54,952
+Et des données d'entrée en image : le wireframe de l'écran.
+
+75
+00:04:55,050 --> 00:04:58,813
+On peut ajouter d'autres éléments de texte, comme des contraintes sur les champs de saisie
+
+76
+00:04:58,813 --> 00:05:00,068
+ou des règles métier.
+
+77
+00:05:00,166 --> 00:05:02,336
+Enfin, le format de sortie.
+
+78
+00:05:02,434 --> 00:05:05,854
+Du texte et une image ensemble : c'est un prompt multimodal.
+
+79
+00:05:07,920 --> 00:05:10,941
+On envoie le prompt complet, avec la maquette jointe.
+
+80
+00:05:11,053 --> 00:05:14,924
+Les critères reprennent les contraintes du texte, comme les cinq chiffres du code postal,
+
+81
+00:05:15,009 --> 00:05:19,249
+mais aussi des éléments visibles seulement sur la maquette : le créneau grisé, le bouton
+
+82
+00:05:19,249 --> 00:05:21,947
+Confirmer inactif, le récapitulatif.
+
+83
+00:05:22,475 --> 00:05:24,875
+Max : Et sans l'image, j'aurais obtenu quoi
+
+84
+00:05:25,370 --> 00:05:27,927
+C'est justement l'exercice, Max.
+
+85
+00:05:28,025 --> 00:05:31,749
+On compare les résultats de plusieurs formulations du prompt structuré : avec ou sans
+
+86
+00:05:31,749 --> 00:05:35,903
+image, avec ou sans contraintes, avec une instruction plus ou moins précise.
+
+87
+00:05:36,016 --> 00:05:39,985
+On mesure ainsi l'apport de chaque composant, et l'importance des données de contexte,
+
+88
+00:05:39,985 --> 00:05:41,524
+textuelles comme visuelles.
+
+89
+00:05:43,590 --> 00:05:47,959
+Scénario d'examen. Les critères d'acceptation générés pour un écran de paiement ignorent
+
+90
+00:05:47,959 --> 00:05:51,018
+le champ cryptogramme, pourtant visible sur la maquette.
+
+91
+00:05:51,116 --> 00:05:53,286
+Mais la maquette n'a pas été jointe au prompt.
+
+92
+00:05:53,385 --> 00:05:54,692
+Que faites-vous d'abord
+
+93
+00:05:59,241 --> 00:06:01,385
+On joint la maquette comme donnée d'entrée.
+
+94
+00:06:01,535 --> 00:06:03,821
+Le modèle ne peut pas deviner ce qu'il n'a pas vu.
+
+95
+00:06:03,944 --> 00:06:07,480
+Demander plus d'exhaustivité ne remplace pas une information manquante.
+
+96
+00:06:09,541 --> 00:06:14,515
+Deuxième exercice, le deux point deux point un b : le chaînage de prompts, avec vérification
+
+97
+00:06:14,515 --> 00:06:19,361
+humaine. On analyse une user story, et on affine ses critères d'acceptation, pas à pas.
+
+98
+00:06:19,361 --> 00:06:21,866
+Étape un : identifier les ambiguïtés.
+
+99
+00:06:21,977 --> 00:06:24,637
+Étape deux : évaluer la testabilité.
+
+100
+00:06:24,747 --> 00:06:27,419
+Étape trois : évaluer la complétude.
+
+101
+00:06:27,517 --> 00:06:31,903
+À chaque étape, le testeur vérifie le résultat du modèle et le corrige si nécessaire,
+
+102
+00:06:32,027 --> 00:06:35,872
+soit en ajustant lui-même la sortie, soit en poursuivant la chaîne avec le modèle.
+
+103
+00:06:35,972 --> 00:06:38,902
+Ainsi, chaque étape part d'un résultat propre.
+
+104
+00:06:40,994 --> 00:06:44,543
+Voici l'étape deux, dans notre application de rendez-vous médicaux.
+
+105
+00:06:44,640 --> 00:06:48,957
+On envoie les critères corrigés après l'étape un, et on demande, pour chacun, s'il est
+
+106
+00:06:48,957 --> 00:06:54,724
+testable. On envoie. Le modèle valide deux critères, signale deux critères non testables,
+
+107
+00:06:54,796 --> 00:06:56,953
+et propose une reformulation mesurable.
+
+108
+00:06:57,090 --> 00:06:59,505
+Mais cette reformulation convient-elle au métier
+
+109
+00:06:59,601 --> 00:07:03,111
+C'est au testeur d'en juger, et de la corriger avant l'étape trois.
+
+110
+00:07:03,211 --> 00:07:07,373
+C'est tout l'intérêt de l'exercice : découper une tâche complexe en sous-tâches, avec une
+
+111
+00:07:07,373 --> 00:07:09,299
+vérification humaine à chaque étape.
+
+112
+00:07:11,397 --> 00:07:16,821
+Nouveau scénario. À l'étape deux d'une chaîne, le modèle juge testable le critère : le virement
+
+113
+00:07:16,821 --> 00:07:19,635
+est sécurisé. Que faites-vous avant l'étape trois
+
+114
+00:07:24,184 --> 00:07:27,940
+On corrige ce résultat d'abord, soi-même ou en relançant le modèle.
+
+115
+00:07:28,036 --> 00:07:31,766
+Si on le laisse passer, l'erreur se propage dans toute la suite de la chaîne.
+
+116
+00:07:33,820 --> 00:07:38,271
+Objectif deux point deux point deux : la conception et l'implémentation des tests.
+
+117
+00:07:38,383 --> 00:07:41,734
+La conception transforme les conditions de test en cas de test et en d'autres éléments
+
+118
+00:07:41,734 --> 00:07:45,721
+du testware ; l'implémentation crée ou acquiert le testware nécessaire.
+
+119
+00:07:45,870 --> 00:07:50,226
+L'IA aide à créer et à évaluer ce testware : cas de test, données, scripts et
+
+120
+00:07:50,226 --> 00:07:54,968
+environnements de test. Première tâche : générer des brouillons de cas de test, à partir
+
+121
+00:07:54,968 --> 00:07:57,293
+d'exigences fonctionnelles et non fonctionnelles.
+
+122
+00:07:57,404 --> 00:08:00,257
+Deuxième : synthétiser des données de test.
+
+123
+00:08:00,394 --> 00:08:03,260
+Troisième : générer des scripts de test.
+
+124
+00:08:03,358 --> 00:08:06,778
+Quatrième : planifier et prioriser l'exécution.
+
+125
+00:08:06,940 --> 00:08:10,948
+Le modèle analyse les cas de test et leurs interdépendances, et optimise le calendrier
+
+126
+00:08:10,948 --> 00:08:15,334
+selon la priorité, les risques, les ressources disponibles et les objectifs de test.
+
+127
+00:08:17,410 --> 00:08:19,825
+Démonstration, toujours en banque.
+
+128
+00:08:19,937 --> 00:08:23,932
+On demande cinq clients fictifs pour tester le virement instantané, sans aucune donnée
+
+129
+00:08:23,932 --> 00:08:26,528
+réelle, en couvrant les situations extrêmes.
+
+130
+00:08:26,690 --> 00:08:30,311
+Le modèle produit un cas nominal, un solde nul, un nom très long avec un
+
+131
+00:08:30,311 --> 00:08:34,543
+solde maximal, un découvert, et un solde exactement égal au plafond.
+
+132
+00:08:34,653 --> 00:08:38,660
+C'est la synthèse de données de test : des données représentatives, qui ressemblent à la
+
+133
+00:08:38,660 --> 00:08:41,153
+production, mais qui protègent la vie privée.
+
+134
+00:08:41,250 --> 00:08:45,090
+Elles s'adaptent aux exigences de l'application, et servent aux tests fonctionnels comme
+
+135
+00:08:45,090 --> 00:08:46,191
+non fonctionnels.
+
+136
+00:08:48,294 --> 00:08:51,263
+Troisième tâche : la génération de scripts.
+
+137
+00:08:51,400 --> 00:08:55,189
+On part d'un cas de test structuré : un code promo de dix pour cent, dans
+
+138
+00:08:55,189 --> 00:08:56,779
+un panier de quatre-vingts euros.
+
+139
+00:08:56,928 --> 00:09:00,910
+Le modèle interprète les étapes, et les traduit en code compatible avec le framework
+
+140
+00:09:00,910 --> 00:09:05,514
+d'automatisation de l'équipe. Il peut aussi produire des procédures de test manuelles.
+
+141
+00:09:05,625 --> 00:09:09,922
+Et quand une nouvelle exigence arrive, le script peut être mis à jour ou étendu.
+
+142
+00:09:10,020 --> 00:09:14,355
+Bien sûr, un script généré se relit et s'exécute avant d'être adopté.
+
+143
+00:09:16,440 --> 00:09:20,564
+Exercice deux point deux point deux a : générer des cas de test fonctionnels à partir
+
+144
+00:09:20,564 --> 00:09:25,028
+de user stories, en combinant chaînage, prompts structurés et méta-prompting.
+
+145
+00:09:25,126 --> 00:09:29,430
+Première étape : un prompt demande des cas de test fonctionnels, à partir des critères
+
+146
+00:09:29,430 --> 00:09:32,232
+d'acceptation, dans un format de sortie précis.
+
+147
+00:09:32,342 --> 00:09:35,144
+Deuxième étape : vérifier la complétude.
+
+148
+00:09:35,308 --> 00:09:40,068
+Le modèle produit un tableau qui montre, pour chaque critère d'acceptation, s'il est couvert.
+
+149
+00:09:40,204 --> 00:09:44,521
+Troisième étape : un méta-prompt, pour aider à créer des procédures de test de bout en
+
+150
+00:09:44,521 --> 00:09:48,774
+bout. On affine ce prompt par itérations successives, pour des tests de bout en bout
+
+151
+00:09:48,774 --> 00:09:49,527
+complets.
+
+152
+00:09:51,602 --> 00:09:53,759
+Troisième étape, en e-commerce.
+
+153
+00:09:53,882 --> 00:09:56,679
+Je veux un prompt qui génère des procédures de test de bout en bout pour
+
+154
+00:09:56,679 --> 00:09:59,429
+le parcours commande, paiement, livraison.
+
+155
+00:09:59,526 --> 00:10:01,142
+Pose-moi d'abord tes questions.
+
+156
+00:10:01,305 --> 00:10:05,261
+Le modèle demande quels moyens de paiement inclure, s'il faut couvrir les retours, quel
+
+157
+00:10:05,261 --> 00:10:07,947
+format adopter, puis propose un premier prompt.
+
+158
+00:10:08,096 --> 00:10:12,870
+Le testeur l'utilise, examine les cas produits, et revient vers le modèle pour l'améliorer.
+
+159
+00:10:13,019 --> 00:10:16,504
+On itère ainsi jusqu'à obtenir des tests de bout en bout vraiment complets.
+
+160
+00:10:18,581 --> 00:10:23,207
+Exercice deux point deux point deux b : le few-shot, pour produire des conditions de test
+
+161
+00:10:23,207 --> 00:10:24,952
+et des cas de test en style Gherkin.
+
+162
+00:10:25,063 --> 00:10:29,174
+On commence par revoir des exemples prédéfinis et la syntaxe Gherkin, puis on choisit
+
+163
+00:10:29,174 --> 00:10:30,854
+n exemples à inclure dans le prompt.
+
+164
+00:10:30,964 --> 00:10:35,165
+Chaque exemple contient une user story, ses conditions de test, et les cas de test
+
+165
+00:10:35,165 --> 00:10:37,902
+attendus, en Given, When, Then.
+
+166
+00:10:38,015 --> 00:10:41,087
+Deuxième exemple, avec ses conditions et ses scénarios.
+
+167
+00:10:41,223 --> 00:10:44,940
+Puis on applique le prompt à une nouvelle user story : choisir un point relais.
+
+168
+00:10:45,089 --> 00:10:48,857
+Le modèle produit des scénarios Gherkin qui reprennent la logique des exemples.
+
+169
+00:10:48,968 --> 00:10:52,904
+Et si le résultat est inexact, on affine le prompt, ou les exemples.
+
+170
+00:10:55,004 --> 00:10:59,707
+Scénario. Avec trois exemples few-shot, les scénarios Gherkin générés pour une nouvelle
+
+171
+00:10:59,707 --> 00:11:01,723
+user story oublient les cas d'erreur.
+
+172
+00:11:01,847 --> 00:11:05,190
+En relisant, vous constatez qu'aucun exemple n'en contient.
+
+173
+00:11:05,288 --> 00:11:06,169
+Que faites-vous
+
+174
+00:11:10,692 --> 00:11:13,712
+On affine les exemples, en y ajoutant des cas d'erreur.
+
+175
+00:11:13,823 --> 00:11:17,689
+Le modèle généralise à partir de ce qu'on lui montre : la qualité des exemples fait
+
+176
+00:11:17,689 --> 00:11:19,112
+la qualité du résultat.
+
+177
+00:11:21,182 --> 00:11:25,511
+Dernier exercice, le deux point deux point deux c : prioriser une suite de tests par
+
+178
+00:11:25,511 --> 00:11:30,188
+chaînage. On revoit d'abord plusieurs approches, basées sur les risques, sur la couverture
+
+179
+00:11:30,188 --> 00:11:34,227
+ou sur les exigences, puis on fait générer des plans de priorisation exploitables.
+
+180
+00:11:34,339 --> 00:11:37,939
+Ici, à l'étape deux, on demande l'ordre d'exécution.
+
+181
+00:11:38,102 --> 00:11:41,393
+Le modèle place le paiement en premier, car son risque est élevé.
+
+182
+00:11:41,960 --> 00:11:45,347
+Max : Attends… le paiement passe avant la création du compte
+
+183
+00:11:45,854 --> 00:11:50,519
+Bien vu, Max. Le paiement dépend du compte et de la connexion : le modèle a
+
+184
+00:11:50,519 --> 00:11:54,888
+ignoré une dépendance. Voilà pourquoi on vérifie manuellement son raisonnement : risques
+
+185
+00:11:54,888 --> 00:11:58,037
+et dépendances à la fois, c'est un raisonnement multicritère.
+
+186
+00:12:00,140 --> 00:12:04,501
+Dernier scénario. Un modèle ordonne une suite de tests bancaires par niveau de risque,
+
+187
+00:12:04,586 --> 00:12:07,220
+mais place la clôture de compte avant l'ouverture de compte.
+
+188
+00:12:07,331 --> 00:12:08,212
+Que faites-vous
+
+189
+00:12:12,730 --> 00:12:16,666
+On corrige l'ordre, et on explicite les dépendances dans les entrées de la chaîne.
+
+190
+00:12:16,804 --> 00:12:21,082
+Relancer au hasard ne garantit rien : c'est la vérification humaine qui détecte l'erreur
+
+191
+00:12:21,082 --> 00:12:21,963
+de raisonnement.
+
+192
+00:12:24,037 --> 00:12:28,720
+Récapitulons. Un : la qualité des entrées fait la qualité des sorties.
+
+193
+00:12:28,817 --> 00:12:33,449
+Deux : cinq tâches d'analyse, des défauts de la base de test jusqu'au choix des techniques.
+
+194
+00:12:33,573 --> 00:12:38,785
+Trois : un prompt multimodal, avec la maquette, donne des critères d'acceptation plus complets.
+
+195
+00:12:38,896 --> 00:12:44,785
+Quatre : le chaînage, ambiguïtés, testabilité, complétude, avec une vérification humaine à
+
+196
+00:12:44,785 --> 00:12:49,055
+chaque étape. Cinq : quatre tâches de conception et d'implémentation.
+
+197
+00:12:49,205 --> 00:12:53,805
+Et six : le few-shot pour le Gherkin, et une priorisation dont on vérifie toujours le
+
+198
+00:12:53,805 --> 00:12:54,609
+raisonnement.
+
+199
+00:12:56,714 --> 00:12:59,413
+Bravo, c'est la fin de ce deuxième épisode.
+
+200
+00:12:59,510 --> 00:13:04,200
+Dans le prochain, on automatise la régression avec l'IA générative, on pilote et on contrôle
+
+201
+00:13:04,200 --> 00:13:08,234
+les tests, et surtout, on apprend à choisir la bonne technique de prompting pour chaque
+
+202
+00:13:08,234 --> 00:13:13,020
+situation. Encore des objectifs K trois, avec des scénarios comme à l'examen.
+
+203
+00:13:13,118 --> 00:13:15,713
+D'ici là, entraînez-vous dans l'application.
+
+204
+00:13:15,851 --> 00:13:16,848
+À très vite

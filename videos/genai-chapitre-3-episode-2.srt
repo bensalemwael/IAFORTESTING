@@ -1,0 +1,875 @@
+1
+00:00:00,650 --> 00:00:04,315
+Bonjour, et bienvenue dans le second épisode du chapitre trois.
+
+2
+00:00:04,414 --> 00:00:08,603
+Au programme : les risques pour la confidentialité des données et la sécurité, les vecteurs
+
+3
+00:00:08,603 --> 00:00:12,628
+d'attaque et les mesures de protection, puis l'impact énergétique de l'IA générative,
+
+4
+00:00:12,778 --> 00:00:15,940
+et enfin les réglementations, normes et cadres de bonnes pratiques.
+
+5
+00:00:16,064 --> 00:00:20,554
+Cinq objectifs, de niveau K un et K deux, avec quelques pièges classiques.
+
+6
+00:00:20,650 --> 00:00:21,686
+C'est parti.
+
+7
+00:00:23,790 --> 00:00:26,853
+Max : J'ai collé l'export clients de la prod dans le chatbot.
+
+8
+00:00:26,978 --> 00:00:29,640
+Max : C'est plus rapide que de créer des données de test
+
+9
+00:00:30,142 --> 00:00:34,863
+Regardez ce que Max vient d'envoyer : des noms, des adresses e-mail, des IBAN.
+
+10
+00:00:34,972 --> 00:00:36,472
+De vraies données de clients.
+
+11
+00:00:36,649 --> 00:00:38,407
+Le modèle répond avec plaisir…
+
+12
+00:00:38,595 --> 00:00:40,714
+et recopie ces données dans ses cas de test.
+
+13
+00:00:40,823 --> 00:00:43,509
+C'est exactement le risque de la section trois point deux.
+
+14
+00:00:43,634 --> 00:00:48,234
+L'IA générative en test manipule des informations sensibles, et l'infrastructure de test
+
+15
+00:00:48,234 --> 00:00:50,997
+basée sur les LLM peut avoir des vulnérabilités.
+
+16
+00:00:51,107 --> 00:00:55,476
+Une protection robuste des données est donc essentielle, pour éviter les fuites, les accès
+
+17
+00:00:55,476 --> 00:00:58,703
+non autorisés, et l'exposition de données confidentielles.
+
+18
+00:01:00,790 --> 00:01:03,012
+Objectif trois point deux point un.
+
+19
+00:01:03,124 --> 00:01:07,621
+L'IA générative peut traiter de grandes quantités de données, parfois sensibles, ou permettant
+
+20
+00:01:07,621 --> 00:01:11,736
+d'identifier une personne. Le syllabus en tire trois préoccupations.
+
+21
+00:01:11,847 --> 00:01:17,042
+Un : l'exposition involontaire. Le modèle peut générer des sorties qui révèlent accidentellement
+
+22
+00:01:17,042 --> 00:01:21,736
+des informations sensibles. Deux : la perte de contrôle sur l'usage des données.
+
+23
+00:01:21,834 --> 00:01:25,094
+L'outil peut stocker et traiter des données sensibles sans consentement ni contrôle
+
+24
+00:01:25,094 --> 00:01:29,223
+explicites de l'utilisateur, avec un risque d'abus ou d'accès non autorisé.
+
+25
+00:01:29,322 --> 00:01:31,659
+Trois : les risques de conformité.
+
+26
+00:01:31,769 --> 00:01:35,648
+Utiliser ces outils sans respecter la réglementation sur la protection des données, comme
+
+27
+00:01:35,648 --> 00:01:39,733
+le RGPD, le règlement européen deux mille seize barre six cent soixante-dix-neuf, peut
+
+28
+00:01:39,733 --> 00:01:41,014
+conduire à des litiges.
+
+29
+00:01:43,110 --> 00:01:46,705
+À ces préoccupations s'ajoutent des risques de sécurité propres aux tests avec l'IA
+
+30
+00:01:46,705 --> 00:01:52,519
+générative. D'abord, l'infrastructure de test basée sur les LLM peut être la cible d'attaques,
+
+31
+00:01:52,519 --> 00:01:55,024
+comme des fuites de données ou des accès non autorisés.
+
+32
+00:01:55,186 --> 00:01:59,851
+Ensuite, des acteurs malveillants peuvent exploiter les vulnérabilités des LLM, par exemple
+
+33
+00:01:59,851 --> 00:02:03,460
+avec des attaques manipulatrices, pour modifier leur comportement ou en extraire des
+
+34
+00:02:03,460 --> 00:02:07,802
+informations sensibles. Enfin, des attaquants peuvent introduire volontairement des données
+
+35
+00:02:07,802 --> 00:02:12,653
+d'entrée malveillantes, pour tromper le LLM et compromettre sa précision ou sa sécurité.
+
+36
+00:02:14,720 --> 00:02:18,896
+Première question. Un outil d'IA conserve les prompts de l'équipe de test pour son propre
+
+37
+00:02:18,896 --> 00:02:21,247
+usage, sans son accord explicite.
+
+38
+00:02:21,344 --> 00:02:22,368
+Quel risque
+
+39
+00:02:26,943 --> 00:02:29,113
+Le manque de contrôle sur l'usage des données.
+
+40
+00:02:29,222 --> 00:02:34,094
+L'exposition involontaire, elle, concerne une sortie qui révèle accidentellement une information
+
+41
+00:02:34,094 --> 00:02:35,014
+sensible.
+
+42
+00:02:37,070 --> 00:02:41,933
+Objectif trois point deux point deux : le syllabus donne quatre exemples de vecteurs d'attaque.
+
+43
+00:02:42,031 --> 00:02:44,330
+Attention, les noms sont trompeurs.
+
+44
+00:02:44,481 --> 00:02:48,528
+La manipulation du contexte : des requêtes conçues pour extraire des données d'entraînement
+
+45
+00:02:48,528 --> 00:02:53,390
+confidentielles. Par exemple, des prompts si longs qu'ils dépassent la fenêtre de contexte
+
+46
+00:02:53,642 --> 00:02:57,616
+le modèle peut alors révéler des extraits de ses données d'entraînement, parfois sensibles.
+
+47
+00:02:57,767 --> 00:03:01,974
+La manipulation de la requête : introduire des données qui perturbent la sortie.
+
+48
+00:03:02,070 --> 00:03:06,104
+Par exemple, des images qui entraînent l'IA dans un autre contexte, et provoquent des
+
+49
+00:03:06,104 --> 00:03:08,531
+hallucinations sur les critères d'acceptation.
+
+50
+00:03:08,644 --> 00:03:12,613
+L'empoisonnement des données : manipuler les données d'entraînement, par exemple avec de
+
+51
+00:03:12,613 --> 00:03:15,517
+fausses évaluations d'un rapport de test généré par l'IA.
+
+52
+00:03:15,614 --> 00:03:20,614
+Et la génération de code malveillant : pousser le LLM, pendant son utilisation, à générer
+
+53
+00:03:20,614 --> 00:03:23,622
+des portes dérobées, comme des appels de commandes externes.
+
+54
+00:03:23,720 --> 00:03:27,990
+Par exemple, un canal de communication ouvert vers une adresse IP malveillante.
+
+55
+00:03:30,090 --> 00:03:31,668
+C'est un piège classique.
+
+56
+00:03:31,793 --> 00:03:36,540
+Intuitivement, on pourrait croire que manipuler le contexte, c'est détourner la réponse.
+
+57
+00:03:36,651 --> 00:03:41,443
+Eh bien non. Dans le syllabus, la manipulation du contexte sert à extraire des données
+
+58
+00:03:41,443 --> 00:03:45,430
+d'entraînement confidentielles, par exemple en saturant la fenêtre de contexte.
+
+59
+00:03:45,529 --> 00:03:49,858
+Et c'est la manipulation de la requête qui perturbe la sortie : on introduit des données,
+
+60
+00:03:49,858 --> 00:03:53,485
+comme une image, qui entraînent l'IA ailleurs et provoquent des hallucinations.
+
+61
+00:03:53,583 --> 00:03:57,003
+Un moyen mnémotechnique : contexte, on extrait.
+
+62
+00:03:57,128 --> 00:03:58,731
+Requête, on perturbe.
+
+63
+00:04:00,863 --> 00:04:03,845
+Voyons à quoi peut ressembler une génération de code malveillant.
+
+64
+00:04:03,941 --> 00:04:06,704
+Un assistant génère un script de test d'API.
+
+65
+00:04:06,855 --> 00:04:10,830
+Le premier test est banal : on se connecte, on vérifie le code de retour.
+
+66
+00:04:10,926 --> 00:04:15,501
+Mais plus bas, une petite fonction au nom rassurant, synchroniser les résultats, ouvre
+
+67
+00:04:15,501 --> 00:04:19,148
+une connexion vers une adresse IP externe, et y envoie le fichier qui contient les
+
+68
+00:04:19,148 --> 00:04:21,938
+secrets du projet. C'est une porte dérobée.
+
+69
+00:04:22,034 --> 00:04:26,266
+D'où l'importance de relire systématiquement tout code généré avant de l'exécuter.
+
+70
+00:04:28,340 --> 00:04:30,085
+Entraînement sur les vecteurs.
+
+71
+00:04:30,183 --> 00:04:34,655
+Des faux comptes notent « excellents » des rapports de test erronés générés par l'IA, et
+
+72
+00:04:34,655 --> 00:04:36,400
+ces notes servent à la réentraîner.
+
+73
+00:04:36,498 --> 00:04:37,933
+Quel vecteur d'attaque
+
+74
+00:04:42,460 --> 00:04:46,808
+L'empoisonnement des données. Ces fausses évaluations finissent dans les données d'entraînement,
+
+75
+00:04:46,893 --> 00:04:49,270
+et dès qu'on les manipule, c'est de l'empoisonnement.
+
+76
+00:04:49,420 --> 00:04:53,897
+Ici, l'attaque ne vise pas le prompt d'un utilisateur, mais ce que le modèle apprend.
+
+77
+00:04:55,982 --> 00:05:01,328
+Et celle-ci. Une image piégée, jointe au prompt, entraîne l'IA vers un autre sujet, et
+
+78
+00:05:01,328 --> 00:05:03,421
+elle invente alors des critères d'acceptation.
+
+79
+00:05:03,519 --> 00:05:04,671
+Quel vecteur
+
+80
+00:05:09,190 --> 00:05:13,590
+La manipulation de la requête : on introduit des données qui perturbent la sortie.
+
+81
+00:05:13,688 --> 00:05:17,400
+Ce n'est pas la manipulation du contexte, qui vise à extraire des données d'entraînement
+
+82
+00:05:17,400 --> 00:05:18,552
+confidentielles.
+
+83
+00:05:20,620 --> 00:05:24,028
+Objectif trois point deux point trois : comment se protéger.
+
+84
+00:05:24,125 --> 00:05:28,120
+Avec la diffusion de l'IA générative, des réglementations et des normes apparaissent
+
+85
+00:05:28,120 --> 00:05:29,543
+pour encadrer ses risques.
+
+86
+00:05:29,642 --> 00:05:31,400
+On les verra en fin d'épisode.
+
+87
+00:05:31,524 --> 00:05:34,660
+Mais d'abord, une nuance importante sur le RGPD.
+
+88
+00:05:34,757 --> 00:05:39,190
+Les réglementations sur la protection des données, comme le RGPD, ne restreignent pas
+
+89
+00:05:39,190 --> 00:05:41,901
+explicitement les applications de l'IA générative.
+
+90
+00:05:41,999 --> 00:05:45,543
+En revanche, elles fournissent des garanties qui peuvent limiter ce que l'on a le droit
+
+91
+00:05:45,543 --> 00:05:50,491
+de faire. En particulier sur la licéité, et sur la limitation des finalités pour lesquelles
+
+92
+00:05:50,491 --> 00:05:53,112
+les données sont collectées, traitées et conservées.
+
+93
+00:05:53,225 --> 00:05:58,668
+Donc, à l'examen, méfiez-vous d'une réponse qui dit que le RGPD interdit l'IA générative.
+
+94
+00:06:00,790 --> 00:06:04,605
+Pour réduire ces risques, le syllabus demande aux organisations des mesures robustes
+
+95
+00:06:04,605 --> 00:06:05,976
+de protection des données.
+
+96
+00:06:06,072 --> 00:06:07,366
+Il en cite quatre.
+
+97
+00:06:07,517 --> 00:06:11,422
+La minimisation des données : ne pas traiter de données sensibles, sauf si la loi le
+
+98
+00:06:11,422 --> 00:06:15,319
+permet, et n'utiliser que la quantité nécessaire de données non sensibles.
+
+99
+00:06:15,429 --> 00:06:20,159
+L'anonymisation et la pseudonymisation : masquer ou remplacer les informations sensibles
+
+100
+00:06:20,159 --> 00:06:22,870
+par des données qui ne permettent pas d'identifier une personne.
+
+101
+00:06:22,966 --> 00:06:27,649
+Le stockage et la transmission sécurisés, avec un chiffrement fort et des contrôles d'accès.
+
+102
+00:06:27,747 --> 00:06:31,948
+Et la formation des équipes : des programmes de formation et des politiques claires, pour
+
+103
+00:06:31,948 --> 00:06:36,085
+un usage responsable des outils d'IA générative, des pratiques éthiques, et des risques
+
+104
+00:06:36,085 --> 00:06:36,954
+maîtrisés.
+
+105
+00:06:39,047 --> 00:06:41,060
+Max : Bon, j'ai compris la leçon.
+
+106
+00:06:41,185 --> 00:06:43,897
+Max : Cette fois, mes données sont pseudonymisées.
+
+107
+00:06:44,400 --> 00:06:50,882
+Voyons ça, Max. Plus de noms, plus d'e-mails, plus d'IBAN : des identifiants neutres, et seulement
+
+108
+00:06:50,882 --> 00:06:52,717
+les champs utiles au calcul des remises.
+
+109
+00:06:52,828 --> 00:06:55,281
+Les cas de test sont tout aussi exploitables.
+
+110
+00:06:55,380 --> 00:06:58,967
+Et le modèle ne voit plus aucun nom ni aucune coordonnée de client réel.
+
+111
+00:06:59,066 --> 00:07:03,801
+On applique deux mesures à la fois : la minimisation, avec seulement les données nécessaires,
+
+112
+00:07:03,886 --> 00:07:05,386
+et la pseudonymisation.
+
+113
+00:07:07,440 --> 00:07:11,448
+Le syllabus ajoute cinq stratégies à envisager quand on met en place l'IA générative
+
+114
+00:07:11,448 --> 00:07:15,998
+pour les tests. La revue systématique des sorties : l'évaluation humaine est essentielle
+
+115
+00:07:15,998 --> 00:07:18,413
+pour garantir la qualité et l'exactitude.
+
+116
+00:07:18,550 --> 00:07:23,387
+L'évaluation par comparaison avec un autre LLM : on confie la même tâche à plusieurs modèles,
+
+117
+00:07:23,408 --> 00:07:24,831
+et on compare leurs réponses.
+
+118
+00:07:24,942 --> 00:07:28,923
+Le choix d'un environnement d'exploitation sécurisé, selon le niveau de confidentialité
+
+119
+00:07:28,923 --> 00:07:31,363
+requis. On y revient juste après.
+
+120
+00:07:31,461 --> 00:07:36,035
+Des audits de sécurité et des évaluations de vulnérabilités réguliers, pour identifier
+
+121
+00:07:36,035 --> 00:07:37,535
+et corriger les faiblesses.
+
+122
+00:07:37,648 --> 00:07:42,145
+Et enfin, se tenir à jour des bonnes pratiques de sécurité, des dernières recommandations
+
+123
+00:07:42,145 --> 00:07:43,155
+et technologies.
+
+124
+00:07:45,220 --> 00:07:49,898
+Selon le niveau de confidentialité exigé, l'organisation peut choisir entre trois solutions
+
+125
+00:07:49,898 --> 00:07:54,916
+sécurisées. Utiliser une offre commerciale et sécurisée d'un fournisseur de LLM.
+
+126
+00:07:55,014 --> 00:07:57,893
+Exploiter le LLM dans un cloud sécurisé.
+
+127
+00:07:58,003 --> 00:08:01,011
+Ou installer le LLM dans sa propre infrastructure.
+
+128
+00:08:01,111 --> 00:08:05,621
+Retenez aussi ceci : ces stratégies sont souvent complémentaires, et il faut les combiner
+
+129
+00:08:05,621 --> 00:08:07,417
+pour assurer la sécurité des données.
+
+130
+00:08:07,514 --> 00:08:12,089
+Le syllabus recommande vivement d'impliquer des ingénieurs sécurité seniors, des juristes,
+
+131
+00:08:12,089 --> 00:08:17,063
+le directeur technique, ou CTO, ou le responsable de la sécurité des systèmes d'information,
+
+132
+00:08:17,063 --> 00:08:19,671
+le CISO, s'il existe dans l'organisation.
+
+133
+00:08:21,803 --> 00:08:25,758
+Mise en situation. Une banque exige que ses données de test ne quittent jamais son
+
+134
+00:08:25,758 --> 00:08:29,062
+propre système d'information. Quelle option retenir
+
+135
+00:08:33,560 --> 00:08:36,864
+Installer le LLM dans l'infrastructure de l'organisation.
+
+136
+00:08:36,962 --> 00:08:41,124
+Et en pratique, on la combinera avec d'autres mesures, comme le contrôle d'accès et la
+
+137
+00:08:41,124 --> 00:08:42,599
+minimisation des données.
+
+138
+00:08:44,733 --> 00:08:49,004
+L'exercice trois point deux point trois est une démonstration, autour d'études de cas.
+
+139
+00:08:49,100 --> 00:08:53,172
+En voici une. Une équipe connecte un assistant d'IA à son outil de gestion des
+
+140
+00:08:53,172 --> 00:08:55,420
+tests et à une copie de la base de production.
+
+141
+00:08:55,518 --> 00:08:59,500
+Tous les testeurs partagent le même compte, et les scripts générés partent directement
+
+142
+00:08:59,500 --> 00:09:01,284
+dans la chaîne d'intégration continue.
+
+143
+00:09:01,383 --> 00:09:06,640
+Quelles menaces ? Les vulnérabilités du modèle, l'accès non autorisé aux données, et l'usage
+
+144
+00:09:06,640 --> 00:09:10,357
+malveillant des sorties générées, comme notre porte dérobée de tout à l'heure.
+
+145
+00:09:10,466 --> 00:09:15,209
+Les parades : une manipulation sécurisée des données, des contrôles d'accès robustes, et
+
+146
+00:09:15,209 --> 00:09:16,580
+une surveillance de l'IA.
+
+147
+00:09:16,692 --> 00:09:20,395
+L'exercice invite aussi à réfléchir aux implications éthiques et pratiques.
+
+148
+00:09:22,474 --> 00:09:26,320
+Changeons de sujet : l'énergie, section trois point trois.
+
+149
+00:09:26,431 --> 00:09:30,206
+Entraîner et faire tourner des LLM demande un usage intensif de nombreuses ressources
+
+150
+00:09:30,206 --> 00:09:34,514
+de calcul spécialisées. Et comme ces modèles sont proposés sous forme de services web,
+
+151
+00:09:34,638 --> 00:09:38,019
+leur usage charge les appareils, les réseaux et les centres de données.
+
+152
+00:09:38,117 --> 00:09:43,264
+La complexité de la tâche, et les ressources de calcul nécessaires, influencent la consommation.
+
+153
+00:09:43,415 --> 00:09:46,049
+Le syllabus donne une comparaison frappante.
+
+154
+00:09:46,146 --> 00:09:49,639
+Générer une seule image avec un modèle puissant peut consommer autant d'énergie qu'une
+
+155
+00:09:49,639 --> 00:09:51,603
+recharge complète de smartphone.
+
+156
+00:09:51,753 --> 00:09:56,320
+Générer du texte, en revanche, ne consomme qu'un petit pourcentage d'une recharge.
+
+157
+00:09:58,470 --> 00:10:02,645
+Max : Moi, je relance le même prompt vingt fois jusqu'à ce que la réponse me plaise.
+
+158
+00:10:02,732 --> 00:10:04,295
+Max : C'est gratuit, non
+
+159
+00:10:04,790 --> 00:10:07,991
+Gratuit pour vous, Max, mais pas pour l'environnement.
+
+160
+00:10:08,155 --> 00:10:11,343
+La consommation d'énergie augmente fortement avec l'usage.
+
+161
+00:10:11,454 --> 00:10:15,093
+Une seule recherche ou une seule génération de texte semble négligeable.
+
+162
+00:10:15,189 --> 00:10:19,107
+Mais leur effet cumulé, sur des millions d'utilisateurs dans le monde, crée une pression
+
+163
+00:10:19,107 --> 00:10:22,999
+environnementale importante. Il est difficile d'obtenir des données précises sur cet
+
+164
+00:10:22,999 --> 00:10:27,638
+impact, mais ces opérations, ensemble, contribuent clairement à des émissions de CO deux
+
+165
+00:10:27,638 --> 00:10:32,342
+significatives. D'où une bonne pratique essentielle : limiter les interactions inutiles
+
+166
+00:10:32,342 --> 00:10:33,390
+avec le modèle.
+
+167
+00:10:35,470 --> 00:10:40,071
+L'objectif trois point trois point un, de niveau K deux, vous demande d'expliquer l'impact
+
+168
+00:10:40,071 --> 00:10:42,692
+des caractéristiques de la tâche et de l'usage du modèle.
+
+169
+00:10:42,790 --> 00:10:45,140
+C'est le but de l'exercice pratique associé.
+
+170
+00:10:45,238 --> 00:10:49,272
+On utilise un simulateur pour calculer l'énergie consommée et les émissions de CO deux
+
+171
+00:10:49,272 --> 00:10:50,913
+de différentes tâches de test.
+
+172
+00:10:51,012 --> 00:10:54,432
+On fait varier les caractéristiques de la tâche, et l'usage du modèle.
+
+173
+00:10:54,569 --> 00:10:58,848
+En observant l'effet de chaque facteur, on comprend ce qui pilote la consommation d'énergie
+
+174
+00:10:58,848 --> 00:10:59,858
+des LLM.
+
+175
+00:11:01,950 --> 00:11:06,904
+Question sur l'énergie. Une équipe relance chaque prompt une dizaine de fois, pour voir.
+
+176
+00:11:07,003 --> 00:11:08,413
+Que faut-il retenir
+
+177
+00:11:12,921 --> 00:11:16,663
+Une requête semble négligeable, mais l'effet cumulé est important.
+
+178
+00:11:16,775 --> 00:11:20,233
+D'où la bonne pratique : limiter les interactions inutiles.
+
+179
+00:11:20,383 --> 00:11:24,893
+Les autres sont fausses : le texte consomme peu, mais pas rien, les données précises sont
+
+180
+00:11:24,893 --> 00:11:27,514
+difficiles à obtenir, et l'usage consomme aussi.
+
+181
+00:11:29,580 --> 00:11:33,271
+Dernière section, trois point quatre, de niveau K un.
+
+182
+00:11:33,369 --> 00:11:37,228
+Face à ces risques, le syllabus cite quatre textes de référence.
+
+183
+00:11:37,378 --> 00:11:41,476
+La norme ISO IEC quarante-deux mille un, de deux mille vingt-trois : des exigences pour
+
+184
+00:11:41,476 --> 00:11:44,174
+le management des systèmes d'IA dans une organisation.
+
+185
+00:11:44,284 --> 00:11:48,335
+En test, elle favorise des pratiques recommandées, cohérentes et fiables.
+
+186
+00:11:48,499 --> 00:11:52,649
+La norme ISO IEC vingt-trois mille cinquante-trois, de deux mille vingt-deux : un cadre
+
+187
+00:11:52,649 --> 00:11:56,270
+pour le cycle de vie de l'IA, axé sur la sûreté et la transparence, et
+
+188
+00:11:56,270 --> 00:11:58,324
+en test, sur la qualité des données.
+
+189
+00:11:58,486 --> 00:12:03,589
+L'EU AI Act, une réglementation : un cadre juridique qui classe les applications par niveau
+
+190
+00:12:03,589 --> 00:12:08,156
+de risque, et impose transparence, responsabilité et atténuation des biais.
+
+191
+00:12:08,266 --> 00:12:12,724
+Et le NIST AI Risk Management Framework, américain : un cadre pour gérer les risques de
+
+192
+00:12:12,724 --> 00:12:17,415
+l'IA, axé sur l'équité, la transparence et la sécurité, qui aide à éviter des résultats
+
+193
+00:12:17,415 --> 00:12:18,593
+de test biaisés.
+
+194
+00:12:20,674 --> 00:12:25,636
+Dernière question. Parmi ces textes, lequel est une réglementation, et non une norme ou
+
+195
+00:12:25,636 --> 00:12:26,479
+un cadre
+
+196
+00:12:31,017 --> 00:12:35,309
+L'EU AI Act. Les deux textes ISO IEC sont des normes, et le NIST AI
+
+197
+00:12:35,309 --> 00:12:37,388
+RMF est un cadre de bonnes pratiques.
+
+198
+00:12:37,498 --> 00:12:41,686
+Et comme ce paysage évolue vite, les organisations de test doivent suivre l'évolution
+
+199
+00:12:41,686 --> 00:12:45,944
+des réglementations, des normes, des lois nationales et des cadres de bonnes pratiques.
+
+200
+00:12:48,024 --> 00:12:54,107
+Récapitulons. Un : trois risques pour la confidentialité, l'exposition involontaire, la perte
+
+201
+00:12:54,107 --> 00:12:57,063
+de contrôle sur les données, et les risques de conformité.
+
+202
+00:12:57,160 --> 00:12:59,523
+Deux : les quatre vecteurs d'attaque.
+
+203
+00:12:59,621 --> 00:13:01,830
+Le contexte, pour extraire.
+
+204
+00:13:01,968 --> 00:13:04,086
+La requête, pour perturber.
+
+205
+00:13:04,249 --> 00:13:06,741
+L'empoisonnement, sur les données d'entraînement.
+
+206
+00:13:06,837 --> 00:13:09,755
+Et le code malveillant, avec ses portes dérobées.
+
+207
+00:13:09,893 --> 00:13:14,859
+Trois : le RGPD n'interdit pas l'IA générative, mais il encadre l'usage des données.
+
+208
+00:13:14,956 --> 00:13:19,724
+Quatre : les quatre mesures de protection, complétées par des stratégies combinées, avec
+
+209
+00:13:19,724 --> 00:13:23,196
+la sécurité, les juristes, le CTO ou le CISO.
+
+210
+00:13:23,308 --> 00:13:28,017
+Cinq : une image coûte bien plus d'énergie que du texte, et l'effet cumulé compte.
+
+211
+00:13:28,114 --> 00:13:30,374
+Limitez les interactions inutiles.
+
+212
+00:13:30,486 --> 00:13:35,813
+Et six : deux normes ISO IEC, une réglementation européenne, un cadre américain.
+
+213
+00:13:35,910 --> 00:13:37,139
+Et on reste à jour.
+
+214
+00:13:39,277 --> 00:13:42,002
+Bravo, vous avez terminé le chapitre trois
+
+215
+00:13:42,112 --> 00:13:46,391
+Dans le chapitre quatre, on ouvre le capot : l'infrastructure de test propulsée par les
+
+216
+00:13:46,391 --> 00:13:52,504
+LLM, son architecture, le RAG, les agents, puis le fine-tuning et le LLMOps.
+
+217
+00:13:52,654 --> 00:13:56,816
+Le RAG et le fine-tuning, ce sont justement les deux techniques complémentaires annoncées
+
+218
+00:13:56,816 --> 00:14:01,029
+dans l'épisode précédent. D'ici là, faites les questions et les flashcards du chapitre
+
+219
+00:14:01,029 --> 00:14:03,561
+trois dans l'application. À très vite

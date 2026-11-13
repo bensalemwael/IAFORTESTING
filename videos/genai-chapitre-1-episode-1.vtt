@@ -1,0 +1,661 @@
+WEBVTT
+
+00:00.650 --> 00:03.181
+Bonjour, et bienvenue dans le chapitre un.
+
+00:03.292 --> 00:08.073
+Ici, on pose les fondations : d'où vient l'IA générative, comment fonctionne un grand modèle
+
+00:08.073 --> 00:12.008
+de langage, quels types de modèles existent, et ce qu'ils peuvent faire pour les testeurs.
+
+00:12.108 --> 00:17.680
+Un objectif K un, cinq objectifs K deux, et aucune connaissance préalable n'est nécessaire.
+
+00:17.789 --> 00:20.488
+On avance pas à pas, avec des images simples.
+
+00:22.542 --> 00:24.454
+Commençons par deux définitions.
+
+00:24.603 --> 00:28.147
+L'IA générative est une branche de l'intelligence artificielle qui utilise de grands
+
+00:28.147 --> 00:31.691
+modèles pré-entraînés pour produire un résultat qui ressemble à celui d'un humain : du
+
+00:31.691 --> 00:33.990
+texte, des images, ou du code.
+
+00:34.100 --> 00:38.778
+Les grands modèles de langage, les LLM, sont des modèles d'IA générative pré-entraînés
+
+00:38.778 --> 00:40.768
+sur de très grands ensembles de textes.
+
+00:40.865 --> 00:44.550
+Ils peuvent saisir le contexte, et produire des réponses pertinentes à partir des prompts
+
+00:44.550 --> 00:49.293
+de l'utilisateur. En test, ils aident tout au long du processus : revoir et améliorer des
+
+00:49.293 --> 00:54.388
+critères d'acceptation, générer des cas ou des scripts de test, repérer des défauts potentiels,
+
+00:54.499 --> 00:58.506
+analyser des tendances de défauts, générer des données de test synthétiques, ou produire
+
+00:58.506 --> 00:59.749
+de la documentation.
+
+01:01.810 --> 01:03.568
+L'IA est un vaste domaine.
+
+01:03.666 --> 01:06.017
+Le syllabus en retient quatre familles.
+
+01:06.167 --> 01:10.072
+L'IA symbolique imite la prise de décision humaine avec des règles : la connaissance y
+
+01:10.072 --> 01:12.603
+est représentée par des symboles et des règles logiques.
+
+01:12.712 --> 01:15.411
+Le machine learning classique est piloté par les données.
+
+01:15.522 --> 01:20.174
+Il demande de préparer les données, de sélectionner les features, c'est-à-dire les caractéristiques
+
+01:20.174 --> 01:22.357
+utiles, puis d'entraîner le modèle.
+
+01:22.454 --> 01:26.828
+On s'en sert par exemple pour catégoriser des défauts ou prédire des problèmes logiciels.
+
+01:26.992 --> 01:30.683
+Le deep learning utilise des réseaux de neurones qui apprennent les features tout seuls,
+
+01:30.729 --> 01:35.747
+dans des données très volumineuses et complexes : images, vidéo, audio ou texte.
+
+01:35.884 --> 01:40.806
+Même si, en pratique, l'humain intervient encore, pour annoter les données, régler le modèle
+
+01:40.806 --> 01:42.152
+ou valider les résultats.
+
+01:42.301 --> 01:47.044
+Enfin, l'IA générative utilise le deep learning pour créer du contenu nouveau, en imitant
+
+01:47.044 --> 01:48.763
+les motifs de ses données d'entraînement.
+
+01:48.912 --> 01:53.647
+Retenez la distinction clé : features choisies à la main, ou apprises automatiquement.
+
+01:55.720 --> 01:57.968
+Quel est l'intérêt pour nous, testeurs
+
+01:58.066 --> 02:02.653
+Avec une approche classique, il faut collecter et préparer des données, choisir des features
+
+02:02.653 --> 02:05.004
+et entraîner un modèle avant de pouvoir s'en servir.
+
+02:05.102 --> 02:09.561
+Avec l'IA générative, le modèle est déjà pré-entraîné : on l'applique directement aux tâches
+
+02:09.561 --> 02:12.285
+de test, sans phase d'entraînement supplémentaire.
+
+02:12.396 --> 02:14.579
+Le syllabus en fait l'avantage clé.
+
+02:15.150 --> 02:18.050
+Max : Génial, donc on branche et ça marche tout seul
+
+02:18.550 --> 02:20.463
+Pas si vite, Max.
+
+02:20.626 --> 02:24.265
+Le syllabus précise aussitôt que cet avantage s'accompagne de risques.
+
+02:24.362 --> 02:26.815
+On les étudiera en détail au chapitre trois.
+
+02:28.900 --> 02:33.609
+Premier quiz. Un outil classe les défauts grâce à des caractéristiques choisies par l'équipe,
+
+02:33.836 --> 02:36.083
+et à un modèle entraîné sur l'historique des défauts.
+
+02:36.195 --> 02:38.107
+De quel type d'IA s'agit-il
+
+02:42.624 --> 02:44.524
+Du machine learning classique.
+
+02:44.686 --> 02:48.287
+L'indice décisif : les features sont sélectionnées par des humains.
+
+02:48.385 --> 02:51.380
+En deep learning, le réseau les apprendrait tout seul.
+
+02:53.440 --> 02:54.888
+Entrons dans la machine.
+
+02:55.040 --> 02:59.581
+Les LLM reposent sur le modèle GPT : generative pre-trained transformer.
+
+02:59.704 --> 03:02.145
+Génératif : il produit du contenu.
+
+03:02.243 --> 03:05.122
+Pré-entraîné : il a appris avant qu'on s'en serve.
+
+03:05.219 --> 03:07.801
+Transformer : c'est son architecture.
+
+03:07.952 --> 03:12.617
+Les LLM sont entraînés sur de très grands ensembles de données : des livres, des articles,
+
+03:12.617 --> 03:16.327
+des sites web. Cela leur permet de gérer les nuances du langage et de produire
+
+03:16.327 --> 03:21.784
+un contenu cohérent. À côté, il existe des petits modèles de langage, les SLM.
+
+03:21.881 --> 03:25.863
+Ils sont compacts, avec moins de paramètres, et conçus pour offrir des solutions d'IA
+
+03:25.863 --> 03:27.801
+générative légères et ciblées.
+
+03:29.880 --> 03:33.635
+Pour traiter du texte, un LLM doit d'abord le convertir en nombres.
+
+03:33.735 --> 03:36.162
+Première étape : la tokenisation.
+
+03:36.259 --> 03:40.627
+Imaginez une construction en Lego : le modèle démonte la phrase en petites briques, les
+
+03:40.627 --> 03:43.637
+tokens. Prenons une phrase de rapport de défaut.
+
+03:43.733 --> 03:48.391
+Un tokenizer la découpe : certains mots restent entiers, d'autres sont coupés en morceaux,
+
+03:48.502 --> 03:50.543
+et la ponctuation devient un token à part.
+
+03:50.641 --> 03:52.927
+Huit mots, mais quatorze tokens.
+
+03:53.024 --> 03:56.800
+Un token peut être aussi petit qu'un caractère, ou aussi grand qu'un morceau de mot
+
+03:56.800 --> 03:57.978
+ou qu'un mot entier.
+
+03:58.129 --> 04:01.969
+Le modèle traite chaque token individuellement, tout en gardant le contexte global de
+
+04:01.969 --> 04:05.698
+la phrase. C'est le premier volet de l'exercice du syllabus.
+
+04:07.780 --> 04:10.105
+Deuxième étape : les embeddings.
+
+04:10.203 --> 04:14.352
+Chaque token est transformé en vecteur, c'est-à-dire une liste de nombres, qui le place
+
+04:14.352 --> 04:16.509
+dans un espace à très nombreuses dimensions.
+
+04:16.608 --> 04:21.149
+Ces nombres encodent les relations sémantiques, syntaxiques et contextuelles du token.
+
+04:21.248 --> 04:24.508
+Pensez à une carte : les tokens dont le sens ou le rôle se ressemblent sont
+
+04:24.508 --> 04:27.490
+placés tout près les uns des autres, comme deux villages voisins.
+
+04:27.587 --> 04:30.865
+Défaut, par exemple, se retrouve près de bug.
+
+04:30.963 --> 04:34.507
+Cette proximité permet au modèle de comprendre les relations entre les mots, de garder
+
+04:34.507 --> 04:37.850
+le contexte, et de produire des réponses cohérentes et adaptées.
+
+04:37.975 --> 04:42.052
+Retenez : tokenisation et embeddings convertissent le langage en nombres.
+
+04:44.140 --> 04:45.808
+Comment le modèle écrit-il
+
+04:45.959 --> 04:49.971
+Les LLM utilisent une architecture de réseau de neurones appelée transformer.
+
+04:50.068 --> 04:53.547
+Elle excelle à traiter le contexte de longues séquences de texte, et apprend comment
+
+04:53.547 --> 04:55.125
+les tokens sont liés entre eux.
+
+04:55.222 --> 05:00.029
+Quand il génère, le modèle prédit le token suivant, puis le suivant, comme l'autocomplétion
+
+05:00.029 --> 05:02.444
+de votre téléphone, en beaucoup plus puissant.
+
+05:02.543 --> 05:05.460
+Demandons-lui de compléter une phrase de rapport de test.
+
+05:05.558 --> 05:07.303
+La réponse coule de source.
+
+05:07.870 --> 05:09.595
+Max : Il a l'air tellement sûr de lui.
+
+05:09.708 --> 05:11.995
+Max : C'est forcément la bonne cause, non
+
+05:12.490 --> 05:17.595
+Non, Max. Le texte est statistiquement plausible, d'après les données d'entraînement et
+
+05:17.595 --> 05:22.394
+le prompt. Mais le syllabus insiste : plausible ne veut pas forcément dire correct.
+
+05:22.556 --> 05:25.022
+Le modèle n'a jamais vu vos journaux d'exécution.
+
+05:27.090 --> 05:29.840
+Envoyons maintenant exactement le même prompt trois fois.
+
+05:29.939 --> 05:32.650
+Premier essai : le mot de passe avait expiré.
+
+05:32.748 --> 05:35.704
+Deuxième essai : le serveur n'a pas répondu à temps.
+
+05:35.829 --> 05:39.146
+Troisième essai : le jeton de session n'était plus valide.
+
+05:39.243 --> 05:43.521
+Imaginez un dé pipé : certaines faces sortent plus souvent que d'autres, mais jamais avec
+
+05:43.521 --> 05:46.245
+certitude. C'est le non-déterminisme.
+
+05:46.343 --> 05:51.284
+Il vient surtout de la nature probabiliste de l'inférence, et du réglage des hyperparamètres.
+
+05:51.383 --> 05:55.035
+Résultat : la même entrée peut produire des sorties différentes.
+
+05:55.145 --> 05:57.882
+Pour un testeur, c'est une donnée essentielle.
+
+06:00.053 --> 06:03.138
+Dernière notion clé : la fenêtre de contexte.
+
+06:03.248 --> 06:07.475
+C'est la quantité de texte précédent, mesurée en tokens, que le modèle peut prendre en
+
+06:07.475 --> 06:09.284
+compte pour générer sa réponse.
+
+06:09.422 --> 06:13.473
+Voyez-la comme un bureau : le modèle ne travaille qu'avec les documents qui tiennent dessus.
+
+06:13.584 --> 06:16.463
+Prenons un journal de tests de cent cinquante mille tokens.
+
+06:16.560 --> 06:20.946
+C'est le second volet de l'exercice du syllabus : compter les tokens de différents textes,
+
+06:21.018 --> 06:22.957
+et comparer à la fenêtre du modèle.
+
+06:23.055 --> 06:27.243
+Une grande fenêtre garde la cohérence sur de longs passages, par exemple pour analyser
+
+06:27.243 --> 06:28.691
+de gros journaux de tests.
+
+06:28.789 --> 06:32.049
+Mais plus il y a de tokens, plus la complexité de calcul et le temps
+
+06:32.049 --> 06:33.369
+de traitement augmentent.
+
+06:35.450 --> 06:39.411
+Deuxième quiz. Qu'est-ce que la fenêtre de contexte d'un LLM
+
+06:43.983 --> 06:48.975
+La quantité de texte précédent, mesurée en tokens, que le modèle peut prendre en compte.
+
+06:49.112 --> 06:52.939
+Plus elle est grande, plus le modèle reste cohérent sur de longs textes, mais plus
+
+06:52.939 --> 06:54.182
+le traitement est coûteux.
+
+06:56.303 --> 06:59.569
+Les LLM sont construits par étapes de plus en plus spécialisées.
+
+06:59.718 --> 07:02.288
+Le LLM de fondation est généraliste.
+
+07:02.384 --> 07:06.933
+Il est pré-entraîné sur des données vastes et variées : texte, code, images, et d'autres
+
+07:06.933 --> 07:11.049
+modalités. Il demande en général une adaptation pour une tâche précise.
+
+07:11.200 --> 07:16.437
+Le LLM ajusté aux instructions, ou instruction-tuned, dérive d'un modèle de fondation.
+
+07:16.533 --> 07:19.974
+Il est affiné avec des paires associant un prompt et la réponse attendue, pour mieux
+
+07:19.974 --> 07:24.206
+suivre les consignes, respecter la tâche, et répondre de façon cohérente.
+
+07:24.357 --> 07:28.873
+Le LLM de raisonnement prolonge le précédent : il met l'accent sur l'inférence logique,
+
+07:28.906 --> 07:31.824
+la résolution de problèmes en plusieurs étapes et la chaîne de pensée.
+
+07:31.920 --> 07:34.503
+Il convient aux tâches à forte charge cognitive.
+
+07:34.614 --> 07:38.300
+En test, on utilise les deux derniers : le choix dépend de la complexité de la
+
+07:38.300 --> 07:39.052
+tâche.
+
+07:41.131 --> 07:46.311
+Troisième quiz. Il faut déduire, étape par étape, les cas limites de règles de tarification
+
+07:46.311 --> 07:49.435
+imbriquées. Quel type de LLM convient le mieux
+
+07:53.952 --> 07:56.122
+Un LLM de raisonnement.
+
+07:56.271 --> 08:00.980
+La tâche demande plusieurs étapes de raisonnement logique : c'est exactement sa spécialité.
+
+08:03.103 --> 08:08.103
+Les LLM multimodaux étendent le transformer à plusieurs modalités : texte, images, son et
+
+08:08.103 --> 08:12.180
+vidéo. Pour chaque type de données, la tokenisation est adaptée.
+
+08:12.277 --> 08:16.535
+Par exemple, les images sont converties en embeddings par des modèles vision-langage,
+
+08:16.633 --> 08:18.519
+avant d'être traitées par le transformer.
+
+08:18.617 --> 08:22.702
+Les modèles vision-langage sont justement un sous-ensemble des multimodaux, qui intègrent
+
+08:22.702 --> 08:24.512
+information visuelle et texte.
+
+08:24.609 --> 08:28.836
+Ils savent légender une image, répondre à une question sur une image, et analyser la
+
+08:28.836 --> 08:30.877
+cohérence entre un texte et un visuel.
+
+08:30.975 --> 08:35.524
+En test, ils analysent des captures d'écran ou des wireframes, avec une user story ou
+
+08:35.524 --> 08:36.689
+un rapport de défaut.
+
+08:36.787 --> 08:40.349
+On repère ainsi les écarts entre le résultat attendu et l'écran réel.
+
+08:40.473 --> 08:44.391
+Et ils peuvent générer des cas de test riches, mêlant texte et indices visuels, ce
+
+08:44.391 --> 08:45.904
+qui augmente la couverture.
+
+08:47.980 --> 08:51.052
+Passons à l'exercice du syllabus, en deux étapes.
+
+08:51.165 --> 08:55.603
+Étape un : revoir les entrées, c'est-à-dire le prompt, le texte et l'image.
+
+08:55.699 --> 09:00.609
+Ici, une capture de l'écran de paiement, et une user story : le bouton Payer affiche
+
+09:00.609 --> 09:04.725
+le total TTC. On envoie les deux ensemble au modèle multimodal.
+
+09:04.837 --> 09:08.773
+Étape deux : exécuter, puis vérifier le résultat réel.
+
+09:08.922 --> 09:12.059
+Le modèle signale deux écarts, et une zone illisible.
+
+09:12.627 --> 09:14.202
+Max : Il a vraiment lu l'image
+
+09:14.340 --> 09:15.990
+Max : Je peux lui faire confiance
+
+09:16.490 --> 09:21.186
+C'est tout l'enjeu de l'étape deux, Max : on contrôle chaque écart sur la vraie capture.
+
+09:21.337 --> 09:25.878
+L'exercice montre les bénéfices de l'approche, mais aussi ses difficultés potentielles.
+
+09:27.940 --> 09:29.324
+Section un point deux.
+
+09:29.422 --> 09:34.216
+Les LLM savent interpréter des exigences, des spécifications, des captures d'écran, du
+
+09:34.216 --> 09:36.734
+code, des cas de test et des rapports de défauts.
+
+09:36.833 --> 09:39.879
+Le syllabus en tire sept capacités clés pour le test.
+
+09:39.978 --> 09:42.985
+Un : l'analyse et l'amélioration des exigences.
+
+09:43.135 --> 09:47.787
+Le modèle repère les ambiguïtés, les incohérences ou les informations manquantes, et propose
+
+09:47.787 --> 09:49.802
+des questions à poser aux parties prenantes.
+
+09:49.900 --> 09:54.436
+Deux : l'aide à la création de cas de test, et la suggestion d'objectifs de test,
+
+09:54.436 --> 09:56.090
+à partir de la base de test.
+
+09:56.215 --> 10:00.563
+Trois : la génération d'oracles de test, c'est-à-dire des résultats attendus.
+
+10:00.699 --> 10:05.622
+Quatre : la génération de données de test : des jeux de données, des valeurs limites, des
+
+10:05.622 --> 10:06.568
+combinaisons.
+
+10:08.650 --> 10:11.078
+Cinq : l'aide à l'automatisation.
+
+10:11.190 --> 10:14.966
+Le modèle génère des scripts à partir des descriptions de cas de test, améliore les
+
+10:14.966 --> 10:18.896
+scripts existants en suggérant des modifications, et identifie les techniques de test
+
+10:18.896 --> 10:24.167
+appropriées. Six : l'analyse des résultats de test, en produisant des résumés, et en classant
+
+10:24.167 --> 10:26.840
+les anomalies par sévérité et par priorité.
+
+10:26.936 --> 10:31.395
+Et sept : la création du testware, comme les plans de test, les rapports de test
+
+10:31.395 --> 10:34.274
+et les rapports de défauts, tenus à jour au fil du projet.
+
+10:34.386 --> 10:37.935
+Ensemble, ces capacités couvrent tout le processus de test.
+
+10:40.000 --> 10:44.615
+Quatrième quiz. Un LLM propose le résultat attendu de chacun des vingt cas de test
+
+10:44.615 --> 10:47.777
+déjà rédigés. Quelle capacité est utilisée
+
+10:52.322 --> 10:54.505
+La génération d'oracles de test.
+
+10:54.602 --> 10:57.443
+Un oracle, c'est ce qui donne le résultat attendu.
+
+10:57.592 --> 11:02.069
+Ne confondez pas avec l'analyse des résultats, qui porte sur des tests déjà exécutés.
+
+11:04.187 --> 11:08.381
+Dernier objectif : comparer deux façons d'utiliser l'IA générative.
+
+11:08.530 --> 11:13.066
+Le chatbot IA offre une interface conversationnelle : on pose une question, on obtient
+
+11:13.066 --> 11:15.417
+une réponse immédiate et adaptée au contexte.
+
+11:15.514 --> 11:19.379
+Avec le chaînage de prompts, on affine le résultat pas à pas. Il est idéal
+
+11:19.379 --> 11:23.915
+pour les tâches courantes, le test exploratoire, l'intégration des nouveaux testeurs, le
+
+11:23.915 --> 11:28.495
+retour rapide, la clarification de concepts, ou l'exploration des exigences.
+
+11:28.593 --> 11:30.943
+Et il est accessible même aux non-techniciens.
+
+11:31.043 --> 11:34.883
+L'application de test à base de LLM intègre le modèle via des API, pour des
+
+11:34.883 --> 11:39.721
+tâches bien définies et souvent automatisées : génération de cas de test, analyse de défauts,
+
+11:39.741 --> 11:41.370
+synthèse de données de test.
+
+11:41.467 --> 11:45.101
+Elle offre plus de personnalisation et de passage à l'échelle, et peut aller jusqu'à
+
+11:45.101 --> 11:48.714
+des agents IA dédiés à un rôle de test, vus au chapitre quatre.
+
+11:50.800 --> 11:55.317
+Cinquième quiz. Une équipe veut générer chaque nuit des données de test synthétiques,
+
+11:55.428 --> 11:57.263
+au sein de son framework de test.
+
+11:57.360 --> 11:58.937
+Quelle approche convient le mieux
+
+12:03.450 --> 12:07.399
+Une application de test à base de LLM, intégrée via API.
+
+12:07.498 --> 12:11.872
+Tâche bien définie, automatisée et répétitive : c'est son terrain.
+
+12:12.021 --> 12:15.519
+Le chatbot, lui, brille dans l'échange interactif.
+
+12:17.591 --> 12:22.075
+Quelle que soit la façon d'interagir avec un LLM, réussir avec l'IA générative en test
+
+12:22.075 --> 12:24.117
+demande un prompt engineering solide.
+
+12:24.214 --> 12:26.062
+C'est tout le sujet du chapitre deux.
+
+12:26.172 --> 12:30.309
+Des prompts conçus avec soin, avec des instructions claires et spécifiques, augmentent
+
+12:30.309 --> 12:34.098
+les chances d'obtenir des résultats exacts, pertinents et alignés sur les objectifs de
+
+12:34.098 --> 12:38.776
+test. C'est ainsi qu'on tire le meilleur de l'IA générative, avec une aide plus cohérente
+
+12:38.776 --> 12:41.255
+et plus fiable sur toutes les activités de test.
+
+12:43.334 --> 12:49.087
+Récapitulons ce chapitre. Un : quatre familles d'IA, et l'avantage clé de l'IA générative,
+
+12:49.133 --> 12:50.775
+des modèles déjà pré-entraînés.
+
+12:50.872 --> 12:55.395
+Deux : tokenisation et embeddings convertissent le langage en nombres, et le transformer
+
+12:55.395 --> 12:56.895
+prédit le token suivant.
+
+12:57.033 --> 13:00.641
+Trois : plausible ne veut pas dire correct, et le même prompt peut donner des réponses
+
+13:00.641 --> 13:05.788
+différentes. Quatre : la fenêtre de contexte se mesure en tokens, et elle a un coût.
+
+13:05.886 --> 13:11.234
+Cinq : modèles de fondation, ajustés aux instructions ou de raisonnement, et modèles multimodaux
+
+13:11.234 --> 13:15.693
+pour les images. Et six : sept capacités clés pour le test, deux façons de les
+
+13:15.693 --> 13:18.520
+utiliser, et toujours le même besoin de bons prompts.
+
+13:20.640 --> 13:23.197
+Bravo, vous avez terminé le chapitre un
+
+13:23.294 --> 13:26.083
+Vous savez maintenant ce qu'est un LLM et ce qu'il peut faire.
+
+13:26.194 --> 13:30.576
+Dans le chapitre deux, on apprend à bien lui parler : structurer ses prompts, les appliquer
+
+13:30.576 --> 13:33.828
+aux tâches de test, puis évaluer et améliorer les résultats.
+
+13:33.925 --> 13:37.165
+C'est le plus gros chapitre du programme, en quatre épisodes.
+
+13:37.276 --> 13:41.250
+D'ici là, faites les questions et les flashcards du chapitre un dans l'application.
+
+13:41.400 --> 13:42.411
+À très vite

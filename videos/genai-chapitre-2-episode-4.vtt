@@ -1,0 +1,577 @@
+WEBVTT
+
+00:00.664 --> 00:04.046
+Bonjour, et bienvenue dans le dernier épisode du chapitre deux.
+
+00:04.144 --> 00:08.487
+Aujourd'hui, on apprend à mesurer la qualité de ce que produit l'IA générative, puis à
+
+00:08.487 --> 00:11.778
+améliorer ses prompts, pas à pas, à partir de ces mesures.
+
+00:11.888 --> 00:16.939
+Deux objectifs de niveau K deux, la section deux point trois, et une démonstration complète,
+
+00:16.939 --> 00:19.651
+de la première version d'un prompt jusqu'à sa version finale.
+
+00:19.748 --> 00:20.784
+C'est parti.
+
+00:22.852 --> 00:26.344
+Dans les épisodes précédents, on a appris à écrire des prompts et à les appliquer
+
+00:26.344 --> 00:27.560
+aux tâches de test.
+
+00:27.658 --> 00:31.349
+Il reste une question essentielle : comment savoir si le résultat est bon
+
+00:31.473 --> 00:32.960
+On génère un résultat.
+
+00:33.056 --> 00:37.798
+On le mesure, avec un ensemble clair de métriques qui évaluent sa qualité, sa pertinence
+
+00:37.798 --> 00:40.498
+et son efficacité. Puis on affine le prompt.
+
+00:40.608 --> 00:44.964
+Et on recommence. Le syllabus précise que ces métriques, qu'elles soient générales ou
+
+00:44.964 --> 00:48.216
+spécifiques à une tâche, servent à optimiser le prompting.
+
+00:50.304 --> 00:52.346
+Prenons une situation très courante.
+
+00:52.444 --> 00:56.328
+On demande au modèle les cas de test d'un formulaire d'inscription à une newsletter.
+
+00:56.477 --> 01:00.155
+La réponse est propre, bien présentée, avec huit cas de test.
+
+01:00.670 --> 01:02.095
+Max : Ça a l'air parfait.
+
+01:02.182 --> 01:04.120
+Max : On l'adopte pour toute l'équipe
+
+01:04.620 --> 01:06.713
+Ça a l'air parfait, Max.
+
+01:06.864 --> 01:08.802
+Mais une impression n'est pas une mesure.
+
+01:08.898 --> 01:11.107
+Ces cas couvrent-ils toutes les exigences
+
+01:11.205 --> 01:13.736
+Les scripts tirés de ces cas s'exécutent-ils
+
+01:13.874 --> 01:15.439
+Combien de temps a-t-on gagné
+
+01:15.548 --> 01:19.839
+Sans métriques, impossible de répondre, et impossible de savoir si une nouvelle version
+
+01:19.839 --> 01:21.507
+du prompt fait mieux ou moins bien.
+
+01:23.580 --> 01:25.866
+Le syllabus liste sept métriques.
+
+01:25.965 --> 01:27.658
+Voici les quatre premières.
+
+01:27.808 --> 01:32.860
+L'exactitude, ou accuracy, mesure la justesse globale du résultat, comparé à des cas de
+
+01:32.860 --> 01:36.525
+test écrits par des experts, aux exigences, ou à d'autres normes.
+
+01:36.636 --> 01:41.009
+Exemple : dans quelle mesure les cas générés couvrent toutes les exigences spécifiées.
+
+01:41.120 --> 01:44.643
+La précision évalue la justesse par rapport à un objectif précis.
+
+01:44.767 --> 01:48.625
+Exemple : les cas générés identifient-ils correctement les anomalies
+
+01:48.762 --> 01:52.409
+Le rappel mesure la capacité du modèle à trouver toutes les instances pertinentes d'un
+
+01:52.409 --> 01:56.958
+jeu de données. Exemple : les cas générés couvrent-ils les partitions d'équivalence valides
+
+01:56.958 --> 01:58.638
+et invalides d'une classe de données
+
+01:58.735 --> 02:04.269
+Enfin, la pertinence et l'adéquation au contexte : le résultat est-il applicable et approprié
+
+02:04.367 --> 02:08.916
+Par exemple, les cas sont-ils cohérents avec la base de test, et intègrent-ils les exigences
+
+02:08.916 --> 02:10.003
+propres au domaine
+
+02:12.090 --> 02:14.763
+Ces trois métriques se confondent facilement à l'examen.
+
+02:14.861 --> 02:17.005
+Commençons par la paire la plus piégeuse.
+
+02:17.130 --> 02:21.357
+La précision répond à la question : ce que le modèle a produit est-il juste, pour
+
+02:21.357 --> 02:26.151
+l'objectif visé ? Le rappel répond à une autre question : le modèle a-t-il trouvé tout ce
+
+02:26.151 --> 02:29.965
+qu'il fallait trouver ? Un jeu de cas peut être très précis, mais oublier la moitié
+
+02:29.965 --> 02:33.153
+des partitions : précision haute, rappel faible.
+
+02:33.264 --> 02:38.148
+Et l'exactitude, elle, est la justesse globale, mesurée face à une référence : des tests
+
+02:38.148 --> 02:40.860
+d'experts, les exigences, ou une norme.
+
+02:42.930 --> 02:44.546
+Passons aux trois dernières.
+
+02:44.645 --> 02:49.181
+La diversité : un large éventail d'entrées et de scénarios est couvert, en évitant les
+
+02:49.181 --> 02:54.225
+répétitions. Exemple : les cas générés couvrent différents comportements d'utilisateurs,
+
+02:54.310 --> 02:55.785
+et explorent les cas limites.
+
+02:55.934 --> 03:00.535
+Le taux de réussite d'exécution : la proportion des artefacts de test générés qui s'exécutent
+
+03:00.535 --> 03:03.826
+avec succès, tels quels, dans l'environnement de test.
+
+03:03.950 --> 03:08.434
+Exemple : combien de scripts générés tournent sans erreur de syntaxe ni problème de format
+
+03:08.434 --> 03:13.399
+de sortie. Et l'efficacité temporelle : le temps gagné par rapport à l'effort manuel.
+
+03:13.497 --> 03:16.461
+On compare le temps que met l'IA à générer les cas de test, et le
+
+03:16.461 --> 03:19.301
+temps qu'il faudrait à une personne pour écrire des tests équivalents.
+
+03:19.399 --> 03:22.549
+Retenez bien le mot clé de l'exécution : tels quels.
+
+03:24.620 --> 03:29.467
+Premier quiz. Sur cinquante scripts générés, quarante-trois tournent sans aucune retouche
+
+03:29.467 --> 03:30.967
+dans l'environnement de test.
+
+03:31.065 --> 03:32.603
+Quelle métrique mesure-t-on
+
+03:37.130 --> 03:39.146
+Le taux de réussite d'exécution.
+
+03:39.245 --> 03:43.722
+On compte la part des artefacts générés qui s'exécutent avec succès, tels quels.
+
+03:45.823 --> 03:49.899
+Deuxième question. Un champ âge accepte de dix-huit à soixante-cinq ans.
+
+03:50.050 --> 03:52.452
+Les cas générés ne testent que des âges valides.
+
+03:52.562 --> 03:53.959
+Quelle métrique est faible
+
+03:58.472 --> 04:03.374
+Le rappel. Le modèle n'a pas trouvé toutes les instances pertinentes : les partitions invalides,
+
+04:03.446 --> 04:06.943
+en dessous de dix-huit et au-dessus de soixante-cinq, manquent à l'appel.
+
+04:09.010 --> 04:11.000
+Ces sept métriques sont générales.
+
+04:11.098 --> 04:15.028
+Le syllabus ajoute qu'on peut définir des métriques spécifiques à une tâche, pour évaluer
+
+04:15.028 --> 04:17.727
+comment l'IA soutient une activité de test précise.
+
+04:17.865 --> 04:19.906
+Ensuite, comment les mesurer
+
+04:20.015 --> 04:24.732
+Soit par une revue manuelle, soit de façon automatisée, par exemple en comparant le résultat
+
+04:24.732 --> 04:27.366
+du LLM à une référence définie à l'avance.
+
+04:27.960 --> 04:30.948
+Max : J'ai lancé mon prompt une fois, résultat parfait.
+
+04:31.035 --> 04:32.485
+Max : Ça suffit, non
+
+04:32.990 --> 04:38.713
+Justement non, Max. L'IA générative est non déterministe : le même prompt peut donner des
+
+04:38.713 --> 04:42.591
+résultats différents. Les métriques doivent donc reposer sur des données statistiquement
+
+04:42.591 --> 04:45.186
+pertinentes, pas sur un seul essai chanceux.
+
+04:47.290 --> 04:51.259
+Troisième question. Pourquoi les métriques d'évaluation doivent-elles reposer sur des
+
+04:51.259 --> 04:53.223
+données statistiquement pertinentes
+
+04:57.740 --> 05:00.413
+Parce que l'IA générative est non déterministe.
+
+05:00.525 --> 05:04.177
+Attention au piège : le modèle n'apprend pas à chaque exécution.
+
+05:04.274 --> 05:06.547
+Ses réponses varient, tout simplement.
+
+05:08.620 --> 05:11.202
+Une fois qu'on sait mesurer, on peut améliorer.
+
+05:11.313 --> 05:13.548
+Le syllabus cite cinq techniques.
+
+05:13.673 --> 05:16.230
+Un : la modification itérative.
+
+05:16.339 --> 05:19.888
+On part d'un prompt de base, et on le modifie en fonction des résultats réels,
+
+05:19.973 --> 05:24.355
+en ajoutant du contexte ou en ajustant la formulation, par exemple la terminologie, pour
+
+05:24.355 --> 05:26.731
+gagner en spécificité et en pertinence.
+
+05:26.829 --> 05:28.986
+Deux : le test A B de prompts.
+
+05:29.084 --> 05:33.105
+On crée plusieurs versions, et on regarde laquelle donne les meilleurs résultats, selon
+
+05:33.105 --> 05:34.875
+des métriques définies à l'avance.
+
+05:34.974 --> 05:39.206
+Cela montre quelle formulation ou quelle structure est la plus exacte et la plus pertinente.
+
+05:39.304 --> 05:41.590
+Trois : l'analyse des résultats.
+
+05:41.687 --> 05:44.901
+Quatre : l'intégration des retours des utilisateurs.
+
+05:44.999 --> 05:48.883
+Et cinq : l'ajustement de la longueur et de la spécificité du prompt.
+
+05:50.980 --> 05:52.725
+Détaillons les trois dernières.
+
+05:52.876 --> 05:57.708
+L'analyse des résultats : on examine ce que l'IA a produit, à la recherche d'inexactitudes
+
+05:57.708 --> 06:00.935
+ou d'incohérences, par exemple par rapport à la base de test.
+
+06:01.046 --> 06:04.603
+Comprendre le type d'erreur aide à corriger le prompt, pour ne pas reproduire les mêmes
+
+06:04.603 --> 06:06.412
+défauts aux itérations suivantes.
+
+06:06.523 --> 06:10.286
+Les retours des utilisateurs : on demande aux testeurs si les résultats sont utiles et
+
+06:10.286 --> 06:14.105
+clairs, par exemple si le niveau de détail des tests générés leur convient.
+
+06:14.202 --> 06:17.643
+On analyse leurs remarques, et on affine le prompt pour coller aux vrais besoins du
+
+06:17.643 --> 06:22.442
+terrain. Enfin, la longueur et la spécificité : on expérimente.
+
+06:22.554 --> 06:27.360
+Parfois, ajouter du contexte améliore la réponse ; dans d'autres cas, un prompt plus court
+
+06:27.360 --> 06:28.500
+généralise mieux.
+
+06:30.580 --> 06:32.196
+Place à la démonstration.
+
+06:32.334 --> 06:36.527
+La tâche de test : générer des cas de test pour une user story de réservation,
+
+06:36.600 --> 06:38.022
+de un à neuf passagers.
+
+06:38.119 --> 06:42.307
+Une experte a écrit à l'avance une référence de dix conditions de test : partitions valides
+
+06:42.307 --> 06:44.335
+et invalides, et valeurs limites.
+
+06:44.433 --> 06:46.912
+Voici le prompt de départ, très simple.
+
+06:47.076 --> 06:48.976
+Le modèle propose quatre cas.
+
+06:49.087 --> 06:52.030
+Trois sont utiles, mais ils ne testent que des valeurs valides.
+
+06:52.126 --> 06:55.392
+Et le quatrième, sur le paiement, sort du sujet.
+
+06:55.543 --> 06:59.293
+La métrique choisie pour cette tâche, c'est le rappel : la part des dix conditions de
+
+06:59.293 --> 07:04.388
+référence couvertes, comparée automatiquement, et calculée en moyenne sur dix exécutions.
+
+07:04.499 --> 07:06.579
+Résultat : trente pour cent.
+
+07:08.670 --> 07:12.820
+On part de la version un, à trente pour cent. L'analyse des résultats montre deux
+
+07:12.820 --> 07:16.240
+problèmes : aucun cas invalide, et un cas hors sujet.
+
+07:16.352 --> 07:20.597
+Version deux : on ajoute un rôle de testeur et les règles métier de la réservation.
+
+07:20.746 --> 07:24.844
+Le rappel monte à soixante pour cent. Mais l'analyse montre que les valeurs invalides,
+
+07:24.844 --> 07:27.298
+zéro ou dix passagers, manquent encore.
+
+07:27.395 --> 07:32.743
+Version trois : on ajuste la terminologie, en demandant explicitement les partitions d'équivalence
+
+07:32.743 --> 07:35.183
+valides et invalides, et les valeurs limites.
+
+07:35.282 --> 07:40.178
+Quatre-vingts pour cent. À chaque version, dix exécutions, et la même comparaison à la
+
+07:40.178 --> 07:41.137
+référence.
+
+07:41.697 --> 07:44.197
+Max : Et si j'écrivais le prompt d'une tout autre façon
+
+07:44.740 --> 07:48.521
+Bonne idée, Max : c'est exactement le principe du test A B.
+
+07:50.580 --> 07:52.724
+On prépare deux versions concurrentes.
+
+07:52.862 --> 07:56.612
+Le prompt A est long et détaillé : la version trois, plus toutes les règles rédigées
+
+07:56.612 --> 07:59.079
+en paragraphes, et trois exemples complets.
+
+07:59.190 --> 08:03.636
+Sur dix exécutions, son rappel moyen est de quatre-vingt-deux pour cent. Le prompt B
+
+08:03.636 --> 08:07.991
+est plus court et structuré : les règles en liste, des consignes ciblées, et un tableau
+
+08:07.991 --> 08:09.324
+comme format de sortie.
+
+08:09.422 --> 08:14.296
+Sur dix exécutions également, il atteint quatre-vingt-douze pour cent. Dans ce cas précis,
+
+08:14.382 --> 08:16.101
+la version la plus courte gagne.
+
+08:16.199 --> 08:20.271
+C'est l'esprit de la technique sur la longueur et la spécificité : on ne devine pas,
+
+08:20.271 --> 08:23.872
+on expérimente et on mesure, avec la même métrique pour les deux versions.
+
+08:25.961 --> 08:31.056
+Quatre-vingt-douze pour cent. C'est le rappel moyen du prompt B, mesuré sur dix exécutions
+
+08:31.218 --> 08:35.373
+il couvre en moyenne neuf conditions de référence sur dix, contre trois au départ.
+
+08:35.471 --> 08:37.886
+Mais la démonstration ne s'arrête pas au chiffre.
+
+08:37.983 --> 08:42.370
+Comme le prévoit l'exercice du syllabus, une vérification humaine complète la mesure
+
+08:42.584 --> 08:46.674
+deux testeurs relisent les cas produits, et confirment que le niveau de détail leur convient.
+
+08:46.772 --> 08:49.354
+C'est l'intégration des retours des utilisateurs.
+
+08:49.452 --> 08:52.537
+Le prompt B peut alors être partagé avec toute l'équipe.
+
+08:54.600 --> 08:56.332
+Dernière idée de la section.
+
+08:56.430 --> 09:00.528
+Avec ces techniques, les équipes de test peuvent organiser de vraies sessions d'évaluation
+
+09:00.528 --> 09:03.677
+et d'optimisation des prompts, pour une amélioration continue.
+
+09:03.828 --> 09:07.707
+Le syllabus recommande de partager les pratiques dans l'équipe ou l'organisation, par
+
+09:07.707 --> 09:09.568
+exemple avec des bibliothèques de prompts.
+
+09:09.665 --> 09:13.093
+Ce partage aide à standardiser les techniques de prompting et à maintenir une qualité
+
+09:13.093 --> 09:17.685
+constante. Il favorise aussi une culture d'apprentissage et d'amélioration itérative
+
+09:17.874 --> 09:22.010
+chacun s'appuie sur l'expérience collective, on évite de répéter les mêmes erreurs, et
+
+09:22.010 --> 09:24.361
+l'usage des outils d'IA s'améliore avec le temps.
+
+09:26.430 --> 09:30.945
+Quatrième question. Deux formulations d'un même prompt sont lancées vingt fois chacune,
+
+09:31.018 --> 09:33.561
+puis comparées sur un indicateur fixé d'avance.
+
+09:33.673 --> 09:34.825
+Quelle technique
+
+09:39.320 --> 09:40.794
+Le test A B de prompts.
+
+09:40.905 --> 09:44.905
+Plusieurs versions, et des métriques définies à l'avance pour les départager.
+
+09:45.056 --> 09:49.373
+Le méta-prompting, lui, est une technique du deux point un, où le modèle aide à
+
+09:49.373 --> 09:50.409
+écrire le prompt.
+
+09:52.494 --> 09:56.868
+Dernière question. Les testeurs jugent les cas générés trop détaillés pour leurs revues,
+
+09:56.992 --> 09:58.402
+et l'équipe adapte le prompt.
+
+09:58.498 --> 10:00.836
+Quelle technique décrit le mieux cette démarche
+
+10:05.350 --> 10:07.843
+L'intégration des retours des utilisateurs.
+
+10:07.980 --> 10:12.362
+Le déclencheur, c'est l'avis des testeurs sur l'utilité et la clarté, ici le niveau de
+
+10:12.362 --> 10:15.794
+détail. C'est d'ailleurs l'exemple que donne le syllabus.
+
+10:17.860 --> 10:24.130
+Récapitulons l'épisode. Un : les sept métriques, de l'exactitude à l'efficacité temporelle.
+
+10:24.253 --> 10:27.248
+Deux : ne confondez pas précision et rappel.
+
+10:27.345 --> 10:32.203
+Trois : on mesure par revue manuelle ou par comparaison automatisée à une référence, avec
+
+10:32.203 --> 10:34.257
+si besoin des métriques propres à la tâche.
+
+10:34.369 --> 10:39.026
+Quatre : l'IA est non déterministe, donc des données statistiquement pertinentes.
+
+10:39.137 --> 10:42.068
+Cinq : les cinq techniques pour affiner un prompt.
+
+10:42.166 --> 10:45.727
+Et six : on partage les bonnes pratiques et les bibliothèques de prompts.
+
+10:47.791 --> 10:50.953
+Et maintenant, prenons de la hauteur sur tout le chapitre deux.
+
+10:51.065 --> 10:54.853
+On a appris à structurer un prompt en six composants, et à distinguer system prompt
+
+10:54.853 --> 11:00.181
+et user prompt. On a vu trois techniques : le chaînage, le few-shot et le méta-prompting.
+
+11:00.277 --> 11:04.066
+On les a appliquées à l'analyse de test, puis à la conception et à l'implémentation
+
+11:04.066 --> 11:09.007
+des tests. Puis à la régression automatisée, et au suivi et au contrôle des tests.
+
+11:09.106 --> 11:12.990
+On a appris à choisir : le chaînage pour les tâches complexes vérifiées pas à pas,
+
+11:13.062 --> 11:16.877
+le few-shot pour les sorties répétitives au format imposé, le méta-prompting pour les
+
+11:16.877 --> 11:18.389
+tâches nouvelles et flexibles.
+
+11:18.513 --> 11:21.830
+Et aujourd'hui, à évaluer les résultats et à affiner ses prompts.
+
+11:23.937 --> 11:28.324
+Bravo, vous avez terminé le chapitre deux, le plus gros morceau du programme
+
+11:28.435 --> 11:32.520
+Dans le chapitre trois, on regarde l'autre face de la médaille : les risques de l'IA
+
+11:32.520 --> 11:37.840
+générative. Les hallucinations, les erreurs de raisonnement et les biais, puis la confidentialité
+
+11:37.840 --> 11:42.072
+des données et la sécurité, l'impact énergétique, et les réglementations.
+
+11:42.172 --> 11:46.339
+D'ici là, faites les questions et les flashcards du chapitre deux dans l'application.
+
+11:46.463 --> 11:47.512
+À très vite

@@ -183,13 +183,25 @@
   }
 
   // ---------- Cours ----------
-  // Vidéo narrée du chapitre, avec sous-titres ; chargée seulement à l'ouverture de la fiche.
+  // Vidéos narrées du chapitre, en épisodes ; rien n'est téléchargé avant la lecture.
   function chapterVideo(ch) {
-    if (!ch.video) return null;
-    return el('figure', { class: 'video' },
-      el('video', { controls: 'controls', preload: 'none', src: `${ch.video}.mp4` },
-        el('track', { kind: 'subtitles', srclang: 'fr', label: 'Français', src: `${ch.video}.vtt` })),
-      el('figcaption', { class: 'muted' }, `Vidéo explicative du chapitre (${ch.videoMinutes} min). Les sous-titres s'activent depuis le lecteur.`));
+    const episodes = ch.videos || [];
+    if (episodes.length === 0) return null;
+    const player = el('video', { controls: 'controls', preload: 'none' });
+    const caption = el('figcaption', { class: 'muted' });
+    const tabs = el('div', { class: 'row episodes', role: 'group', 'aria-label': 'Épisodes' });
+    const show = (index) => {
+      const episode = episodes[index];
+      player.pause();
+      player.replaceChildren(el('track', { kind: 'subtitles', srclang: 'fr', label: 'Français', src: `${episode.src}.vtt` }));
+      player.src = `${episode.src}.mp4`;
+      caption.textContent = `${episode.title} · ${episode.minutes} min. Les sous-titres sont incrustés ; une piste supplémentaire s'active depuis le lecteur.`;
+      [...tabs.children].forEach((tab, i) => tab.setAttribute('aria-pressed', String(i === index)));
+    };
+    episodes.forEach((episode, index) => tabs.append(
+      el('button', { type: 'button', class: 'btn', onclick: () => show(index) }, episodes.length > 1 ? `Épisode ${index + 1}` : 'Vidéo')));
+    show(0);
+    return el('figure', { class: 'video' }, episodes.length > 1 ? tabs : null, player, caption);
   }
 
   function courseView() {

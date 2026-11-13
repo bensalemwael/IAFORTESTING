@@ -1,0 +1,9 @@
+{
+  "name": "istqb-video-studio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Générateur des vidéos explicatives animées",
+  "dependencies": {
+    "playwright-core": "^1.65.0"
+  }
+}

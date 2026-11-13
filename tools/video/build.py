@@ -1,208 +1,265 @@
-"""Génère une vidéo MP4 narrée à partir d'une liste de diapositives.
+"""Génère un épisode vidéo animé à partir d'un module de scènes (dossier episodes/).
 
-Usage : python build.py <module_diapositives> <fichier_sortie.mp4>
-Étapes : HTML -> capture Edge -> voix edge-tts -> segments ffmpeg -> concaténation + sous-titres.
+Usage : python build.py <module_episode> [dossier_sortie]
+Étapes : voix (edge-tts, mise en cache) -> repères au mot près -> page HTML de l'épisode ->
+capture image par image en parallèle -> piste audio -> MP4 avec sous-titres incrustés et pistes SRT/VTT.
 """
 import asyncio
-import importlib
+import hashlib
 import html
+import importlib
+import json
+import os
 import re
+import shutil
 import subprocess
 import sys
+import time
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 import edge_tts
 import imageio_ffmpeg
 
 HERE = Path(__file__).resolve().parent
-EDGE = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
-VOICE = "fr-FR-DeniseNeural"
-RATE = "-6%"
-LEAD_S = 0.6
-TAIL_S = 1.1
-FADE_S = 0.4
-TICKS_PER_SECOND = 10_000_000
-
-CSS = """
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { width: 1920px; height: 1080px; overflow: hidden; }
-body { font-family: "Segoe UI", system-ui, sans-serif; color: #1c2430; background: #f4f6fb; }
-.frame { position: relative; width: 1920px; height: 1080px; padding: 70px 110px 90px; display: flex; flex-direction: column; }
-.top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 26px; }
-.tag { font-size: 26px; color: #5d6877; font-weight: 600; letter-spacing: .5px; }
-.sec { font-size: 26px; background: #2456c9; color: #fff; padding: 6px 20px; border-radius: 30px; font-weight: 700; }
-h2 { font-size: 64px; line-height: 1.12; margin-bottom: 36px; color: #13306b; }
-.content { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 30px; font-size: 34px; line-height: 1.4; }
-.bar { position: absolute; left: 0; bottom: 0; height: 12px; background: #2456c9; }
-.foot { position: absolute; right: 110px; bottom: 30px; font-size: 22px; color: #8a94a3; }
-b { color: #13306b; }
-.hero { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 26px; }
-.hero h1 { font-size: 104px; line-height: 1.05; color: #13306b; }
-.kicker { font-size: 34px; color: #2456c9; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
-.lead { font-size: 42px; color: #33405a; }
-.chips { display: flex; gap: 20px; margin-top: 20px; }
-.chips span { background: #fff; border: 2px solid #d5ddef; padding: 12px 26px; border-radius: 40px; font-size: 30px; }
-.grid { width: 100%; border-collapse: separate; border-spacing: 0; background: #fff; border-radius: 18px; overflow: hidden; box-shadow: 0 6px 24px rgba(19,48,107,.08); font-size: 32px; }
-.grid th { background: #13306b; color: #fff; text-align: left; padding: 18px 26px; }
-.grid td { padding: 16px 26px; border-top: 1px solid #e6eaf3; vertical-align: top; }
-.grid.cmp td:first-child { font-weight: 700; color: #13306b; width: 230px; }
-.k1, .k2 { padding: 2px 14px; border-radius: 10px; color: #fff !important; }
-.k1 { background: #17794a; } .k2 { background: #2456c9; }
-.note { font-size: 30px; color: #5d6877; text-align: center; }
-.small { font-size: 24px; color: #8a94a3; } .center { text-align: center; }
-.cards4, .cards3 { display: grid; gap: 28px; }
-.cards4 { grid-template-columns: repeat(4, 1fr); } .cards3 { grid-template-columns: repeat(3, 1fr); }
-.c { background: #fff; border-radius: 22px; padding: 34px 30px; box-shadow: 0 6px 24px rgba(19,48,107,.08); border-top: 8px solid #9db4ea; font-size: 30px; display: flex; flex-direction: column; gap: 14px; }
-.c.hl { border-top-color: #e08a00; background: #fff8ec; }
-.c h3 { font-size: 38px; color: #13306b; }
-.ic { font-size: 64px; } .ic.big { font-size: 110px; }
-.ex { font-size: 26px; color: #5d6877; font-style: italic; border-left: 4px solid #d5ddef; padding-left: 14px; }
-.split { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
-.box { background: #fff; border-radius: 22px; padding: 36px 40px; box-shadow: 0 6px 24px rgba(19,48,107,.08); display: flex; flex-direction: column; gap: 16px; }
-.box h3 { font-size: 40px; color: #13306b; }
-.box.ok { border-left: 10px solid #17794a; } .box.warn { border-left: 10px solid #e08a00; }
-ul { padding-left: 40px; display: flex; flex-direction: column; gap: 12px; }
-ul.big { font-size: 34px; }
-.trap { background: #fff4dc; border: 2px solid #f0c060; border-radius: 18px; padding: 22px 32px; font-size: 32px; }
-.tokens { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
-.tokens span { white-space: pre; background: #fff; border: 3px solid #2456c9; border-radius: 12px; padding: 14px 18px; font-size: 46px; font-family: Consolas, monospace; color: #13306b; }
-.tokens span:nth-child(odd) { background: #e6edfb; }
-.map { position: relative; background: #fff; border-radius: 22px; box-shadow: 0 6px 24px rgba(19,48,107,.08); min-height: 520px;
-  background-image: linear-gradient(#eef1f7 1px, transparent 1px), linear-gradient(90deg, #eef1f7 1px, transparent 1px); background-size: 60px 60px; }
-.dot { position: absolute; background: #2456c9; color: #fff; padding: 8px 18px; border-radius: 30px; font-size: 30px; font-weight: 600; }
-.dot.b { background: #17794a; } .dot.c { background: #b3261e; }
-.ring { position: absolute; border: 4px dashed #2456c9; border-radius: 50%; }
-.predict { display: flex; flex-direction: column; gap: 24px; }
-.prompt { background: #13306b; color: #fff; border-radius: 18px; padding: 26px 34px; font-size: 38px; }
-.bars { display: flex; flex-direction: column; gap: 16px; }
-.bars div { display: grid; grid-template-columns: 220px 1fr 120px; align-items: center; gap: 20px; font-size: 34px; }
-.bars i { display: block; height: 40px; background: #2456c9; border-radius: 8px; min-width: 6px; }
-.bars em { font-style: normal; color: #5d6877; }
-.window { background: #fff; border-radius: 18px; padding: 26px; box-shadow: 0 6px 24px rgba(19,48,107,.08); }
-.tape { display: flex; gap: 14px; align-items: center; font-size: 30px; }
-.tape .out { flex: 1; color: #aab3c2; border: 3px dashed #d5ddef; padding: 18px; border-radius: 12px; }
-.tape .in { flex: 2; background: #e6edfb; border: 4px solid #2456c9; padding: 18px; border-radius: 12px; color: #13306b; font-weight: 700; text-align: center; }
-.tape .next { color: #17794a; font-weight: 700; }
-.steps { display: grid; grid-template-columns: 1fr 70px 1fr 70px 1fr; align-items: stretch; gap: 10px; }
-.s { background: #fff; border-radius: 22px; padding: 30px; box-shadow: 0 6px 24px rgba(19,48,107,.08); font-size: 29px; display: flex; flex-direction: column; gap: 14px; }
-.s h3 { font-size: 36px; color: #13306b; }
-.arrow { display: flex; align-items: center; justify-content: center; font-size: 60px; color: #2456c9; }
-.usecase { background: #e2f4ea; border: 2px solid #8fd1ac; border-radius: 18px; padding: 22px 32px; font-size: 32px; text-align: center; }
-.caps { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 30px; }
-.caps div { display: flex; gap: 20px; align-items: center; background: #fff; border-radius: 16px; padding: 18px 24px; box-shadow: 0 4px 16px rgba(19,48,107,.07); font-size: 29px; }
-.caps div:last-child { grid-column: 1 / span 2; }
-.caps .n { flex: none; width: 60px; height: 60px; border-radius: 50%; background: #2456c9; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 32px; }
-.story { background: #13306b; color: #fff; border-radius: 18px; padding: 26px 34px; font-size: 38px; text-align: center; }
-.story b { color: #ffd27a; }
-.traps { list-style: none; padding: 0; gap: 16px; }
-.traps li { background: #fff; border-left: 10px solid #e08a00; border-radius: 12px; padding: 16px 26px; font-size: 31px; box-shadow: 0 4px 16px rgba(19,48,107,.06); }
-.quiz { display: flex; flex-direction: column; gap: 26px; }
-.q { background: #fff; border-radius: 20px; padding: 28px 36px; box-shadow: 0 6px 24px rgba(19,48,107,.08); font-size: 33px; }
-.q ol { margin: 14px 0 0 60px; display: flex; flex-direction: column; gap: 6px; }
-.q.ok { border-left: 10px solid #17794a; }
-.hero.compact { gap: 18px; }
-.caps .n { font-style: normal; font-weight: 700; }
-"""
+NODE = os.environ.get("NODE_EXE") or shutil.which("node") or "node"
+VOICES = {"main": ("fr-FR-VivienneMultilingualNeural", "-3%"), "max": ("fr-FR-RemyMultilingualNeural", "+0%")}
+FPS = 30
+WORKERS = 1
+SCENE_LEAD_S = 1.0      # la voix démarre après la transition d'entrée
+SEGMENT_GAP_S = 0.35
+SCENE_TAIL_S = 0.9
+CAPTION_MAX_WORDS = 15
+CAPTION_MAX_CHARS = 84
+TICKS = 10_000_000
+MARKER = re.compile(r"\{#([\w.]+)\}")
+CUE_ATTRS = re.compile(r'data-(?:in|out|type|until|stream|glow|count|countdown|good|bad|dim)="([^"]+)"')
 
 
-def slide_html(slide, index, total, chapter):
-    section = f'<span class="sec">{html.escape(slide["section"])}</span>' if slide["section"] else ""
-    title = "" if index == 0 else f'<h2>{html.escape(slide["title"])}</h2>'
-    progress = (index + 1) / total * 100
-    return f"""<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><style>{CSS}</style></head>
-<body><div class="frame">
-<div class="top"><span class="tag">{html.escape(chapter)}</span>{section}</div>
-{title}<div class="content">{slide["body"]}</div>
-<div class="foot">{index + 1} / {total}</div><div class="bar" style="width:{progress:.2f}%"></div>
-</div></body></html>"""
+def run(args, **kwargs):
+    return subprocess.run(args, check=True, **kwargs)
 
 
-def render_png(html_path, png_path):
-    profile = HERE / "edge-shot-profile"
-    subprocess.run([EDGE, "--headless=new", "--disable-gpu", "--hide-scrollbars", "--force-device-scale-factor=1",
-                    f"--user-data-dir={profile}", "--window-size=1920,1080", "--virtual-time-budget=3000",
-                    f"--screenshot={png_path}", html_path.as_uri()],
-                   check=True, capture_output=True, timeout=90)
-    if not png_path.exists():
-        raise RuntimeError(f"Capture absente : {png_path}")
+def duration_of(path):
+    probe = subprocess.run([FFMPEG, "-i", str(path)], capture_output=True, text=True, encoding="utf-8", errors="replace")
+    h, m, s = re.search(r"Duration: (\d+):(\d+):(\d+\.\d+)", probe.stderr).groups()
+    return int(h) * 3600 + int(m) * 60 + float(s)
 
 
-async def synthesize(text, mp3_path):
-    """Écrit l'audio et renvoie les phrases avec leurs instants (secondes)."""
-    sentences = []
-    communicate = edge_tts.Communicate(text, VOICE, rate=RATE, boundary="SentenceBoundary")
-    with open(mp3_path, "wb") as audio:
+def split_markers(text):
+    plain, marks = "", {}
+    for part in re.split(r"(\{#[\w.]+\})", text):
+        match = MARKER.fullmatch(part)
+        if match:
+            marks[match.group(1)] = len(plain)
+        else:
+            plain += part
+    return plain.replace("’", "'"), marks
+
+
+async def tts(text, voice_key, mp3):
+    voice, rate = VOICES[voice_key]
+    words = []
+    communicate = edge_tts.Communicate(text, voice, rate=rate, boundary="WordBoundary")
+    with open(mp3, "wb") as out:
         async for chunk in communicate.stream():
             if chunk["type"] == "audio":
-                audio.write(chunk["data"])
-            elif chunk["type"] in ("SentenceBoundary", "WordBoundary"):
-                start = chunk["offset"] / TICKS_PER_SECOND
-                sentences.append((start, start + chunk["duration"] / TICKS_PER_SECOND, chunk["text"]))
-    return sentences
+                out.write(chunk["data"])
+            elif chunk["type"] == "WordBoundary":
+                words.append([chunk["offset"] / TICKS, (chunk["offset"] + chunk["duration"]) / TICKS, chunk["text"]])
+    return words
 
 
-def media_duration(path):
-    probe = subprocess.run([FFMPEG, "-i", str(path)], capture_output=True, text=True, encoding="utf-8", errors="replace")
-    match = re.search(r"Duration: (\d+):(\d+):(\d+\.\d+)", probe.stderr)
-    if not match:
-        raise RuntimeError(f"Durée illisible : {path}")
-    hours, minutes, seconds = match.groups()
-    return int(hours) * 3600 + int(minutes) * 60 + float(seconds)
+def speak(text, voice_key, cache):
+    """Synthèse mise en cache : relancer un épisode ne refait que les phrases modifiées."""
+    key = hashlib.sha1(f"{VOICES[voice_key]}|{text}".encode("utf-8")).hexdigest()[:16]
+    mp3, meta = cache / f"{key}.mp3", cache / f"{key}.json"
+    if not (mp3.exists() and meta.exists()):
+        for attempt in range(5):
+            try:
+                words = asyncio.run(tts(text, voice_key, mp3))
+                break
+            except Exception:  # service vocal momentanément indisponible : nouvel essai après une pause
+                if attempt == 4:
+                    raise
+                time.sleep(5 * (attempt + 1))
+        meta.write_text(json.dumps({"words": words, "duration": duration_of(mp3)}), encoding="utf-8")
+    data = json.loads(meta.read_text(encoding="utf-8"))
+    return mp3, data["words"], data["duration"]
 
 
-def encode_segment(png, mp3, out, duration):
-    lead_ms = int(LEAD_S * 1000)
-    video_filter = (f"[0:v]scale=1920:1080,format=yuv420p,fade=t=in:st=0:d={FADE_S},"
-                    f"fade=t=out:st={duration - FADE_S:.3f}:d={FADE_S}[v]")
-    audio_filter = f"[1:a]adelay={lead_ms}|{lead_ms},apad[a]"
-    subprocess.run([FFMPEG, "-y", "-loglevel", "error", "-loop", "1", "-framerate", "30", "-i", str(png), "-i", str(mp3),
-                    "-filter_complex", f"{video_filter};{audio_filter}", "-map", "[v]", "-map", "[a]",
-                    "-t", f"{duration:.3f}", "-c:v", "libx264", "-preset", "medium", "-tune", "stillimage", "-crf", "20",
-                    "-r", "30", "-c:a", "aac", "-b:a", "160k", "-ar", "48000", "-ac", "2", str(out)], check=True)
+def align(plain, words):
+    """Position de chaque mot prononcé dans le texte écrit."""
+    out, cursor = [], 0
+    for start, end, word in words:
+        found = plain.find(word, cursor)
+        if found < 0:
+            continue
+        out.append((found, start, end, word))
+        cursor = found + len(word)
+    return out
+
+
+def captions_for(plain, placed, offset, prefix):
+    """Découpe en sous-titres courts, coupés après une ponctuation forte ou à la longueur maximale."""
+    chunks, current = [], []
+    for i, (pos, start, end, word) in enumerate(placed):
+        current.append((pos, start, end, word))
+        after = plain[pos + len(word): pos + len(word) + 2]
+        text_len = sum(len(w[3]) + 1 for w in current)
+        sentence_end = re.match(r"\s*[.?!…]", after) and len(current) >= 4
+        if sentence_end or len(current) >= CAPTION_MAX_WORDS or text_len >= CAPTION_MAX_CHARS or i == len(placed) - 1:
+            chunks.append(current)
+            current = []
+    out = []
+    for chunk in chunks:
+        first, last = chunk[0][0], chunk[-1][0] + len(chunk[-1][3])
+        while last < len(plain) and plain[last] in ".,;:!?…»)":
+            last += 1
+        out.append({"start": offset + chunk[0][1], "end": offset + chunk[-1][2] + 0.25, "text": prefix + plain[first:last].strip()})
+    return out
+
+
+def build_timeline(scenes, cache):
+    timeline, audio, captions, clock = [], [], [], 0.0
+    for index, sc in enumerate(scenes):
+        start = clock
+        cues = {"start": start + (0.05 if index == 0 else 0.35)}
+        t = start + (0.6 if index == 0 else SCENE_LEAD_S)
+        for seg in sc["narration"]:
+            if isinstance(seg, dict) and "pause" in seg:
+                if seg.get("cue"):
+                    cues[seg["cue"]] = t
+                t += seg["pause"]
+                continue
+            voice = "max" if isinstance(seg, dict) else "main"
+            text = seg["max"] if voice == "max" else seg
+            if voice == "max":
+                cues.setdefault("max", t)
+            plain, marks = split_markers(text)
+            mp3, words, length = speak(plain, voice, cache)
+            placed = align(plain, words)
+            if not placed:
+                raise RuntimeError(f"Aucun mot aligné dans la scène {index} : {plain[:60]}")
+            for name, at in marks.items():
+                hit = next((p for p in placed if p[0] >= at), placed[-1])
+                cues[name] = t + hit[1]
+            captions += captions_for(plain, placed, t, "Max : " if voice == "max" else "")
+            audio.append((mp3, t))
+            t += length + SEGMENT_GAP_S
+        end = t - SEGMENT_GAP_S + SCENE_TAIL_S
+        cues["end"] = end
+        timeline.append({"start": start, "end": end, "cues": cues})
+        clock = end
+    for i in range(len(captions) - 1):
+        captions[i]["end"] = min(captions[i]["end"], captions[i + 1]["start"])
+    return timeline, audio, captions, clock + 0.8
+
+
+def check_cues(scenes, timeline):
+    for index, (sc, tl) in enumerate(zip(scenes, timeline)):
+        for spec in CUE_ATTRS.findall(sc["html"]):
+            for part in spec.split(","):
+                name = re.match(r"[\w.]+", part.strip()).group(0)
+                if name not in tl["cues"]:
+                    raise RuntimeError(f"Scène {index} : repère « {name} » absent de la narration (ajoutez {{#{name}}})")
+
+
+def write_page(meta, scenes, timeline, captions, total, path):
+    data = {"scenes": timeline, "captions": captions}
+    scene_html = "".join(f'<section class="scene" id="scene-{i}">{sc["html"]}</section>' for i, sc in enumerate(scenes))
+    css = (HERE / "theme.css").as_uri()
+    js = (HERE / "runtime.js").as_uri()
+    path.write_text(f"""<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><link rel="stylesheet" href="{css}"></head>
+<body>{scene_html}<div id="caption"></div><div id="progress"></div><div id="brand">{html.escape(meta["brand"])}</div>
+<script>window.EPISODE = {json.dumps(data, ensure_ascii=False)}; window.DURATION = {total:.3f};</script>
+<script src="{js}"></script></body></html>""", encoding="utf-8")
+
+
+def capture(page, work, total):
+    frames = int(total * FPS)
+    bounds = [round(frames * k / WORKERS) for k in range(WORKERS + 1)]
+    parts = [work / f"part{k}.mp4" for k in range(WORKERS)]
+
+    def job(k):
+        return run([NODE, str(HERE / "capture.js"), str(page), str(parts[k]), str(FPS), FFMPEG, str(bounds[k]), str(bounds[k + 1])],
+                   capture_output=True, text=True, encoding="utf-8", errors="replace").stdout.strip()
+
+    with ThreadPoolExecutor(WORKERS) as pool:
+        for line in pool.map(job, range(WORKERS)):
+            print("  ", line, flush=True)
+    listing = work / "parts.txt"
+    listing.write_text("".join(f"file '{p.as_posix()}'\n" for p in parts), encoding="utf-8")
+    video = work / "video.mp4"
+    run([FFMPEG, "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(listing), "-c", "copy", str(video)])
+    return video
+
+
+def mix_audio(audio, total, work):
+    inputs = ["-f", "lavfi", "-t", f"{total:.3f}", "-i", "anullsrc=r=48000:cl=stereo"]
+    chains = ["[0:a]anull[a0]"]
+    for n, (mp3, at) in enumerate(audio, 1):
+        inputs += ["-i", str(mp3)]
+        delay = int(round(at * 1000))
+        chains.append(f"[{n}:a]aformat=sample_rates=48000:channel_layouts=stereo,adelay={delay}|{delay}[a{n}]")
+    labels = "".join(f"[a{n}]" for n in range(len(audio) + 1))
+    chains.append(f"{labels}amix=inputs={len(audio) + 1}:normalize=0:duration=first,loudnorm=I=-16:TP=-1.5:LRA=11,"
+                  f"aresample=48000,atrim=0:{total:.3f}[out]")
+    script = work / "mix.txt"
+    script.write_text(";\n".join(chains), encoding="utf-8")
+    wav = work / "voice.wav"
+    run([FFMPEG, "-y", "-loglevel", "error", *inputs, "-/filter_complex", str(script), "-map", "[out]", "-c:a", "pcm_s16le", str(wav)])
+    return wav
 
 
 def srt_time(seconds):
-    millis = int(round(seconds * 1000))
-    hours, millis = divmod(millis, 3_600_000)
-    minutes, millis = divmod(millis, 60_000)
-    secs, millis = divmod(millis, 1000)
-    return f"{hours:02}:{minutes:02}:{secs:02},{millis:03}"
+    ms = int(round(seconds * 1000))
+    h, ms = divmod(ms, 3_600_000)
+    m, ms = divmod(ms, 60_000)
+    s, ms = divmod(ms, 1000)
+    return f"{h:02}:{m:02}:{s:02},{ms:03}"
 
 
-def build(module_name, output):
+def build(module_name, out_dir):
+    sys.path.insert(0, str(HERE / "episodes"))
+    sys.path.insert(0, str(HERE))
     module = importlib.import_module(module_name)
-    slides, chapter = module.SLIDES, module.CHAPTER
-    work = HERE / f"work-{module_name}"
-    work.mkdir(exist_ok=True)
-    segments, cues, clock = [], [], 0.0
-    for index, slide in enumerate(slides):
-        stem = work / f"s{index:02}"
-        html_path, png, mp3, seg = (stem.with_suffix(ext) for ext in (".html", ".png", ".mp3", ".mp4"))
-        html_path.write_text(slide_html(slide, index, len(slides), chapter), encoding="utf-8")
-        render_png(html_path, png)
-        sentences = asyncio.run(synthesize(slide["narration"], mp3))
-        duration = media_duration(mp3) + LEAD_S + TAIL_S
-        encode_segment(png, mp3, seg, duration)
-        cues.extend((clock + LEAD_S + start, clock + LEAD_S + end, text) for start, end, text in sentences)
-        clock += media_duration(seg)
-        segments.append(seg)
-        print(f"diapositive {index + 1}/{len(slides)} : {duration:.1f} s", flush=True)
+    meta, scenes = module.META, module.SCENES
+    work = HERE / "work" / module_name
+    cache = HERE / "work" / "voice-cache"
+    work.mkdir(parents=True, exist_ok=True)
+    cache.mkdir(parents=True, exist_ok=True)
 
-    concat_list = work / "concat.txt"
-    concat_list.write_text("".join(f"file '{seg.as_posix()}'\n" for seg in segments), encoding="utf-8")
-    srt = Path(output).with_suffix(".srt")
-    srt.write_text("\n".join(f"{i}\n{srt_time(a)} --> {srt_time(b)}\n{t}\n" for i, (a, b, t) in enumerate(cues, 1)),
-                   encoding="utf-8")
-    joined = work / "joined.mp4"
-    subprocess.run([FFMPEG, "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", str(concat_list),
-                    "-c", "copy", str(joined)], check=True)
-    subprocess.run([FFMPEG, "-y", "-loglevel", "error", "-i", str(joined), "-i", str(srt), "-map", "0", "-map", "1",
-                    "-c", "copy", "-c:s", "mov_text", "-metadata:s:s:0", "language=fre",
-                    "-metadata", f"title={chapter}", "-movflags", "+faststart", str(output)], check=True)
-    print(f"OK {output} : {media_duration(output) / 60:.1f} min, {len(cues)} sous-titres")
+    timeline, audio, captions, total = build_timeline(scenes, cache)
+    check_cues(scenes, timeline)
+    print(f"{module_name} : {len(scenes)} scènes, {total / 60:.1f} min", flush=True)
+    page = work / "episode.html"
+    write_page(meta, scenes, timeline, captions, total, page)
+    if "--page-only" in sys.argv:
+        return
+    page_hash = hashlib.sha1(page.read_bytes() + (HERE / "theme.css").read_bytes() + (HERE / "runtime.js").read_bytes()).hexdigest()
+    stamp = work / "video.hash"
+    video = work / "video.mp4"
+    if video.exists() and stamp.exists() and stamp.read_text() == page_hash:
+        print("  capture inchangée : réutilisation", flush=True)
+    else:
+        video = capture(page, work, total)
+        stamp.write_text(page_hash)
+    wav = mix_audio(audio, total, work)
+
+    out_dir.mkdir(parents=True, exist_ok=True)
+    stem = out_dir / meta["file"]
+    srt = stem.with_suffix(".srt")
+    srt.write_text("\n".join(f"{i}\n{srt_time(c['start'])} --> {srt_time(c['end'])}\n{c['text']}\n"
+                             for i, c in enumerate(captions, 1)), encoding="utf-8")
+    run([FFMPEG, "-y", "-loglevel", "error", "-i", str(video), "-i", str(wav), "-map", "0:v", "-map", "1:a", "-c:v", "copy",
+         "-c:a", "aac", "-b:a", "192k", "-shortest", "-metadata", f"title={meta['title']}", "-movflags", "+faststart",
+         str(stem.with_suffix(".mp4"))])
+    run([FFMPEG, "-y", "-loglevel", "error", "-i", str(srt), str(stem.with_suffix(".vtt"))])
+    print(f"OK {stem.with_suffix('.mp4')} : {duration_of(stem.with_suffix('.mp4')) / 60:.1f} min", flush=True)
 
 
 if __name__ == "__main__":
-    sys.path.insert(0, str(HERE))
-    build(sys.argv[1], sys.argv[2])
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    build(args[0], Path(args[1]) if len(args) > 1 else HERE / "out")

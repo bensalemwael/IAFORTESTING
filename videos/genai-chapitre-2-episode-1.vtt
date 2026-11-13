@@ -1,0 +1,475 @@
+WEBVTT
+
+00:00.664 --> 00:05.154
+Bonjour, et bienvenue dans le chapitre deux, le plus important du syllabus.
+
+00:05.264 --> 00:09.426
+Dans ce premier épisode, on apprend à écrire un bon prompt : sa structure, les grandes
+
+00:09.426 --> 00:12.640
+techniques, et la différence entre system prompt et user prompt.
+
+00:12.778 --> 00:16.378
+Trois objectifs de niveau K deux, et environ quinze minutes.
+
+00:16.488 --> 00:18.297
+Installez-vous, on y va.
+
+00:20.426 --> 00:24.362
+Le chapitre deux représente trois cent soixante-cinq minutes de formation officielle,
+
+00:24.421 --> 00:26.050
+presque la moitié du programme.
+
+00:26.146 --> 00:28.252
+On le découpe donc en quatre épisodes.
+
+00:28.403 --> 00:31.630
+Le premier, celui-ci : écrire de bons prompts.
+
+00:31.766 --> 00:35.972
+Le deuxième : utiliser l'IA pour l'analyse de test et la conception des tests.
+
+00:36.148 --> 00:41.385
+Le troisième : la régression automatisée, le pilotage, et le choix de la bonne technique.
+
+00:41.496 --> 00:45.864
+Ces deux épisodes couvrent les objectifs K trois, ceux où l'examen vous décrit une situation
+
+00:45.864 --> 00:47.209
+et vous demande quoi faire.
+
+00:47.306 --> 00:51.731
+Et le quatrième : mesurer la qualité des résultats, et améliorer ses prompts.
+
+00:53.820 --> 00:55.694
+Commençons par une expérience.
+
+00:55.806 --> 01:00.360
+Vous ouvrez votre assistant, et vous tapez : écris des tests pour la page de connexion.
+
+01:00.497 --> 01:05.896
+Vous envoyez. La réponse arrive : tester une connexion valide, tester un mot de passe invalide,
+
+01:05.896 --> 01:07.139
+tester un champ vide.
+
+01:07.660 --> 01:11.522
+Max : Sérieusement ? J'aurais pu l'écrire moi-même en dix secondes
+
+01:12.021 --> 01:15.505
+Exactement, Max. C'est générique.
+
+01:15.602 --> 01:17.966
+Ça pourrait s'appliquer à n'importe quel site.
+
+01:18.064 --> 01:21.407
+Et ce n'est pas la faute du modèle : il ne sait rien de votre application,
+
+01:21.453 --> 01:23.959
+de vos règles métier, ni de ce que vous attendez.
+
+01:24.070 --> 01:27.936
+Le syllabus le dit clairement : un bon prompt augmente les chances d'obtenir des résultats
+
+01:27.936 --> 01:29.333
+précis et utiles.
+
+01:31.456 --> 01:34.232
+Le syllabus propose une structure en six composants.
+
+01:34.328 --> 01:38.608
+Un : le rôle. On indique au modèle quel point de vue adopter, par exemple un
+
+01:38.608 --> 01:41.023
+testeur ou un ingénieur en automatisation.
+
+01:41.119 --> 01:43.212
+Cela oriente son ton et sa démarche.
+
+01:43.310 --> 01:49.045
+Deux : le contexte. Ce sont les informations de fond : l'objet de test, la fonctionnalité
+
+01:49.045 --> 01:51.937
+à tester. Trois : l'instruction.
+
+01:52.048 --> 01:56.808
+C'est la tâche elle-même, formulée de façon claire, à l'impératif, et concise.
+
+01:56.905 --> 01:58.869
+Quatre : les données d'entrée.
+
+01:58.982 --> 02:03.497
+Tout ce dont le modèle a besoin pour travailler : une user story, des critères d'acceptation,
+
+02:03.544 --> 02:08.343
+une capture d'écran, du code, des cas de test existants, ou des exemples de sortie.
+
+02:08.439 --> 02:13.981
+Cinq : les contraintes. Les restrictions à respecter, autrement dit, la façon d'appliquer
+
+02:13.981 --> 02:18.737
+l'instruction aux données. Et six : le format de sortie, c'est-à-dire la forme attendue
+
+02:18.737 --> 02:19.799
+de la réponse.
+
+02:21.870 --> 02:25.123
+Reprenons notre exemple, mais cette fois avec un vrai brief.
+
+02:25.274 --> 02:28.604
+Le rôle : tu es un testeur expert en applications bancaires.
+
+02:28.700 --> 02:32.739
+Le contexte : nous testons le virement instantané de l'application mobile.
+
+02:32.851 --> 02:36.902
+L'instruction : rédige les cas de test fonctionnels de la user story.
+
+02:37.013 --> 02:41.323
+Les données d'entrée : la user story elle-même, ici l'US quarante-deux.
+
+02:41.459 --> 02:45.562
+Les contraintes : couvrir les valeurs limites du montant, et pas plus de douze cas.
+
+02:45.672 --> 02:51.252
+Et le format de sortie : un tableau, avec identifiant, préconditions, étapes et résultat
+
+02:51.252 --> 02:56.257
+attendu. Six composants. Chacun ajoute de la clarté et de la précision.
+
+02:58.350 --> 03:01.371
+Et voici ce que donne le même modèle avec ce prompt structuré.
+
+03:01.483 --> 03:05.804
+On l'envoie… Cette fois, les cas de test ciblent le vrai plafond de mille euros,
+
+03:05.825 --> 03:10.031
+avec les valeurs juste en dessous et juste au-dessus, et ils respectent le format demandé.
+
+03:10.129 --> 03:14.375
+C'est exploitable. Retenez cette idée : le modèle n'a pas changé.
+
+03:14.471 --> 03:17.427
+C'est la qualité du brief qui fait la qualité de la réponse.
+
+03:17.540 --> 03:21.372
+Mais attention : même un bon résultat doit être relu par le testeur.
+
+03:23.460 --> 03:26.713
+À l'examen, quatre composants se confondent facilement.
+
+03:26.851 --> 03:31.302
+Le contexte, c'est l'arrière-plan : de quoi parle-t-on, quel objet de test.
+
+03:31.398 --> 03:35.166
+Les données d'entrée, c'est le matériel concret que le modèle doit traiter.
+
+03:35.277 --> 03:38.769
+Les contraintes, ce sont les règles qui disent comment appliquer l'instruction à ces
+
+03:38.769 --> 03:42.576
+données. Et le format de sortie décrit seulement la forme du résultat.
+
+03:42.688 --> 03:46.747
+Un indice simple : si la phrase limite ou filtre ce que le modèle produit, c'est
+
+03:46.747 --> 03:50.682
+une contrainte. Si elle décrit la présentation, c'est le format.
+
+03:52.740 --> 03:53.841
+À vous de jouer.
+
+03:53.939 --> 03:57.823
+Dans un prompt, on lit : ne propose que des cas de test négatifs.
+
+03:57.921 --> 03:59.769
+De quel composant s'agit-il
+
+04:04.290 --> 04:05.713
+Ce sont les contraintes.
+
+04:05.811 --> 04:09.824
+La phrase ne décrit pas la tâche elle-même, elle restreint la façon de l'appliquer.
+
+04:11.914 --> 04:17.152
+Deuxième question. Voici la user story US quarante-deux et la capture de l'écran de virement.
+
+04:17.248 --> 04:18.658
+Quel composant
+
+04:23.161 --> 04:28.565
+Les données d'entrée. Une user story, une capture d'écran, du code ou des cas existants
+
+04:28.715 --> 04:30.640
+c'est le matériel de travail du modèle.
+
+04:32.720 --> 04:35.174
+Passons à l'objectif deux point un point deux.
+
+04:35.284 --> 04:40.058
+Le syllabus retient trois techniques de base, à combiner avec la structure en six composants.
+
+04:40.156 --> 04:42.661
+Le chaînage de prompts, ou prompt chaining.
+
+04:42.772 --> 04:45.071
+Le few-shot, avec des exemples.
+
+04:45.168 --> 04:50.033
+Et le méta-prompting. Voyons-les une par une, avec une démonstration à chaque fois.
+
+04:52.156 --> 04:56.241
+Le chaînage consiste à découper une tâche en une suite d'étapes intermédiaires, chacune
+
+04:56.241 --> 04:57.561
+avec son propre prompt.
+
+04:57.671 --> 05:01.808
+Prenons l'exemple d'un exercice du syllabus : améliorer les critères d'acceptation d'une
+
+05:01.808 --> 05:05.512
+user story. Premier prompt : repérer les ambiguïtés.
+
+05:05.622 --> 05:08.372
+Deuxième prompt : évaluer la testabilité.
+
+05:08.509 --> 05:11.246
+Troisième prompt : vérifier la complétude.
+
+05:11.343 --> 05:16.884
+Et voici le point essentiel : entre deux étapes, le résultat est vérifié et corrigé, manuellement
+
+05:16.884 --> 05:19.119
+ou automatiquement, avant de continuer.
+
+05:19.217 --> 05:21.992
+Chaque réponse validée alimente le prompt suivant.
+
+05:22.090 --> 05:26.232
+C'est ce qui rend le chaînage plus précis, et c'est la technique des tâches complexes.
+
+05:28.350 --> 05:30.108
+Pourquoi ne pas tout demander d'un coup
+
+05:30.206 --> 05:34.368
+Avec un seul gros prompt, une erreur commise au début contamine toute la réponse, et
+
+05:34.368 --> 05:36.152
+on ne sait pas où le raisonnement a déraillé.
+
+05:36.248 --> 05:40.939
+Avec le chaînage, chaque sous-tâche est simple, chaque sortie est contrôlée, et les erreurs
+
+05:40.939 --> 05:45.282
+sont repérées tôt. Le syllabus ajoute que le chaînage permet des interactions dynamiques
+
+05:45.282 --> 05:46.898
+dans le processus de test.
+
+05:48.964 --> 05:52.037
+Deuxième technique : donner des exemples dans le prompt.
+
+05:52.186 --> 05:56.830
+Sans aucun exemple, on parle de zero-shot : le modèle s'appuie sur ses connaissances.
+
+05:56.928 --> 06:00.987
+Avec un seul exemple, qui montre le résultat attendu pour une entrée donnée, c'est du
+
+06:00.987 --> 06:04.806
+one-shot. Et avec plusieurs exemples, c'est du few-shot.
+
+06:04.905 --> 06:08.874
+Les exemples servent de référence : ils rendent les résultats cohérents et conformes aux
+
+06:08.874 --> 06:13.177
+attentes. C'est particulièrement efficace quand des exemples peuvent illustrer le comportement
+
+06:13.177 --> 06:15.592
+voulu, par exemple un format imposé.
+
+06:17.700 --> 06:21.339
+Voyons une démonstration, tirée d'un exercice du syllabus.
+
+06:21.489 --> 06:26.803
+Le prompt contient deux exemples complets : une user story, puis le scénario Gherkin correspondant,
+
+06:26.811 --> 06:29.046
+avec Given, When, Then.
+
+06:29.182 --> 06:32.924
+Ensuite, on donne une nouvelle user story : appliquer un code promo.
+
+06:33.021 --> 06:36.849
+Le modèle généralise à partir des exemples et produit des scénarios dans exactement
+
+06:36.849 --> 06:40.741
+le même style. Si le résultat n'est pas bon, on améliore les exemples ou le
+
+06:40.741 --> 06:41.378
+prompt.
+
+06:43.490 --> 06:46.877
+Max : Le problème, c'est que je ne sais même pas comment écrire mon prompt.
+
+06:47.370 --> 06:50.558
+Alors demandez au modèle de l'écrire avec vous, Max.
+
+06:50.656 --> 06:54.721
+C'est le méta-prompting : le modèle génère ou améliore ses propres prompts.
+
+06:54.833 --> 06:58.673
+Par exemple : aide-moi à écrire le meilleur prompt pour analyser un rapport de tests de
+
+06:58.673 --> 07:03.467
+régression. Le modèle pose des questions, propose un prompt, et le testeur l'évalue et
+
+07:03.467 --> 07:06.473
+l'affine. On boucle jusqu'à obtenir un bon prompt.
+
+07:06.585 --> 07:11.044
+Deux avantages selon le syllabus : on réduit l'effort manuel, et on profite de ce que
+
+07:11.044 --> 07:12.879
+le modèle sait des prompts efficaces.
+
+07:13.042 --> 07:17.333
+Le syllabus parle d'une forme de pairing : le testeur et l'IA travaillent ensemble, comme
+
+07:17.333 --> 07:18.485
+en pair testing.
+
+07:20.570 --> 07:22.779
+Entraînement à reconnaître les techniques.
+
+07:22.877 --> 07:26.542
+Étape un sur trois : liste les ambiguïtés de cette user story.
+
+07:26.640 --> 07:29.094
+Je t'enverrai l'étape deux après validation.
+
+07:29.191 --> 07:30.331
+Quelle technique
+
+07:34.913 --> 07:39.307
+Le chaînage de prompts : une tâche découpée en étapes, avec une validation entre chaque
+
+07:39.307 --> 07:39.944
+étape.
+
+07:42.004 --> 07:46.618
+Et celle-ci : le prompt contient un seul rapport de défaut complet comme modèle, puis demande
+
+07:46.618 --> 07:47.899
+d'en rédiger un nouveau.
+
+07:52.424 --> 07:55.340
+Du one-shot ! Il n'y a qu'un seul exemple.
+
+07:55.452 --> 07:59.142
+Attention à ce piège : few-shot suppose plusieurs exemples.
+
+08:01.214 --> 08:05.240
+Dernier objectif de l'épisode : distinguer system prompt et user prompt.
+
+08:05.390 --> 08:08.488
+Le system prompt est défini par le développeur ou le testeur.
+
+08:08.598 --> 08:12.323
+Dans la plupart des interfaces, l'utilisateur du chatbot ne le voit pas et ne peut
+
+08:12.323 --> 08:16.709
+pas le modifier. Il reste constant pendant toute la session, et il fixe les règles
+
+08:16.833 --> 08:21.910
+le comportement, la personnalité, et les paramètres opérationnels, comme un ton formel,
+
+08:21.910 --> 08:24.789
+des réponses concises, ou des règles propres au domaine.
+
+08:24.886 --> 08:27.932
+Il peut contenir le rôle, le contexte et les contraintes.
+
+08:28.083 --> 08:31.671
+Le user prompt, lui, c'est la demande de l'utilisateur.
+
+08:31.767 --> 08:35.504
+Il change à chaque échange, il est visible, et il forme le contexte immédiat de
+
+08:35.504 --> 08:36.489
+la réponse.
+
+08:38.572 --> 08:40.780
+Voici comment cela se passe en pratique.
+
+08:40.956 --> 08:44.822
+Le system prompt est défini une seule fois, au début : tu es un assistant professionnel
+
+08:44.822 --> 08:49.698
+de test, réponds clairement, en langage formel, selon les pratiques ISTQB.
+
+08:49.834 --> 08:53.770
+Ensuite, l'utilisateur envoie ses demandes, les unes après les autres.
+
+08:53.907 --> 08:58.082
+Pour chaque réponse, le modèle tient compte des deux à la fois : le system prompt,
+
+08:58.082 --> 09:00.535
+qui ne change pas, et le user prompt du moment.
+
+09:00.632 --> 09:04.704
+Une image pour retenir : le règlement que le restaurant donne à son serveur, et la
+
+09:04.704 --> 09:06.101
+commande de chaque client.
+
+09:08.191 --> 09:10.967
+Une dernière question avant le récapitulatif.
+
+09:11.078 --> 09:14.949
+Dans la plupart des interfaces de chatbot, qui définit le system prompt
+
+09:19.503 --> 09:21.299
+Le développeur ou le testeur.
+
+09:21.397 --> 09:26.286
+L'utilisateur du chatbot, lui, ne le voit généralement pas et ne peut pas le modifier.
+
+09:28.344 --> 09:32.640
+Récapitulons. Un : les six composants d'un prompt structuré.
+
+09:32.738 --> 09:35.900
+Deux : ne confondez pas contraintes et format de sortie.
+
+09:36.051 --> 09:41.082
+Trois : le chaînage, pour les tâches complexes, avec une vérification à chaque étape.
+
+09:41.179 --> 09:46.442
+Quatre : zéro, un ou plusieurs exemples, c'est zero-shot, one-shot ou few-shot.
+
+09:46.553 --> 09:50.708
+Cinq : le méta-prompting, pour co-créer le prompt avec le modèle.
+
+09:50.832 --> 09:55.038
+Et six : le system prompt est constant et défini par le développeur ou le testeur,
+
+09:55.136 --> 09:57.061
+le user prompt change à chaque échange.
+
+09:59.164 --> 10:01.863
+Bravo, c'est la fin de ce premier épisode.
+
+10:01.987 --> 10:06.239
+Dans le prochain, on passe à la pratique : l'analyse de test, puis la conception et
+
+10:06.239 --> 10:08.860
+l'implémentation des tests avec l'IA générative.
+
+10:08.957 --> 10:12.699
+Ce sont des objectifs K trois, avec des scénarios comme à l'examen.
+
+10:12.798 --> 10:16.902
+D'ici là, faites les questions et les flashcards du chapitre deux dans l'application.
+
+10:17.038 --> 10:18.048
+À très vite

@@ -1,0 +1,767 @@
+1
+00:00:00,652 --> 00:00:04,510
+Bonjour, et bienvenue dans le cinquième et dernier chapitre du syllabus.
+
+2
+00:00:04,646 --> 00:00:09,316
+On prend de la hauteur : comment une organisation de test adopte-t-elle l'IA générative
+
+3
+00:00:09,414 --> 00:00:14,723
+Shadow AI, stratégie, choix des modèles, phases d'adoption, compétences et évolution des
+
+4
+00:00:14,723 --> 00:00:19,426
+rôles. Quatre-vingts minutes de formation officielle, et sept objectifs : quatre de niveau
+
+5
+00:00:19,426 --> 00:00:23,073
+K un, où il faut se souvenir, et trois de niveau K deux, où il
+
+6
+00:00:23,073 --> 00:00:26,455
+faut expliquer. Plus un exercice d'estimation des coûts.
+
+7
+00:00:26,592 --> 00:00:27,487
+Allons-y.
+
+8
+00:00:29,550 --> 00:00:31,063
+Section cinq point un.
+
+9
+00:00:31,162 --> 00:00:34,900
+Une stratégie de test avec l'IA générative doit considérer avec soin plusieurs aspects
+
+10
+00:00:34,900 --> 00:00:39,745
+clés : les objectifs de test à atteindre, le choix des LLM appropriés, les problèmes liés
+
+11
+00:00:39,745 --> 00:00:43,418
+aux données d'entrée utilisées dans les prompts, et la conformité aux normes et aux réglementations
+
+12
+00:00:43,418 --> 00:00:48,107
+sur l'IA. À partir de cette stratégie, l'organisation établit une feuille de route, et
+
+13
+00:00:48,107 --> 00:00:50,857
+suit ses progrès dans l'intégration de l'IA générative.
+
+14
+00:00:50,995 --> 00:00:54,376
+Mais d'abord, voyons ce qui arrive quand il n'y a pas de stratégie.
+
+15
+00:00:56,467 --> 00:01:00,442
+Max : Moi, j'utilise mon compte perso de chatbot, ça va plus vite
+
+16
+00:01:00,930 --> 00:01:03,887
+Justement, Max, regardons ce que ça donne.
+
+17
+00:01:03,986 --> 00:01:07,870
+Un testeur colle l'export de la base clients de production dans son assistant personnel,
+
+18
+00:01:07,903 --> 00:01:09,609
+pour générer des données de test.
+
+19
+00:01:09,746 --> 00:01:12,651
+Envoyé. L'outil s'exécute sans broncher.
+
+20
+00:01:12,747 --> 00:01:14,080
+C'est du shadow AI.
+
+21
+00:01:14,192 --> 00:01:17,929
+Le syllabus le définit comme l'usage d'outils ou de systèmes d'IA générative au sein
+
+22
+00:01:17,929 --> 00:01:21,491
+d'une organisation, sans approbation formelle ni supervision.
+
+23
+00:01:21,602 --> 00:01:25,215
+Ici, personne n'a validé l'outil, ni l'envoi de ces données.
+
+24
+00:01:27,363 --> 00:01:29,366
+Le syllabus cite trois risques.
+
+25
+00:01:29,476 --> 00:01:33,734
+Un : des faiblesses de sécurité de l'information et de confidentialité des données.
+
+26
+00:01:33,831 --> 00:01:37,839
+Les outils d'IA personnels peuvent manquer de sécurité robuste, d'où des fuites de données
+
+27
+00:01:37,839 --> 00:01:41,877
+possibles. Deux : des problèmes de conformité réglementaire.
+
+28
+00:01:41,975 --> 00:01:45,570
+Utiliser des outils non approuvés peut conduire à enfreindre les normes et réglementations
+
+29
+00:01:45,570 --> 00:01:48,797
+du secteur, avec de possibles conséquences juridiques.
+
+30
+00:01:48,910 --> 00:01:51,647
+Trois : une propriété intellectuelle floue.
+
+31
+00:01:51,743 --> 00:01:55,686
+Des outils aux licences peu claires exposent à des litiges, surtout si des données protégées
+
+32
+00:01:55,686 --> 00:01:58,230
+par le droit d'auteur sont traitées sans autorisation.
+
+33
+00:01:58,342 --> 00:02:03,670
+Le remède : une stratégie, et des étapes claires pour intégrer et déployer l'IA générative.
+
+34
+00:02:05,760 --> 00:02:09,653
+À vous. Un testeur traite des documents protégés par le droit d'auteur avec un outil
+
+35
+00:02:09,653 --> 00:02:11,307
+d'IA dont la licence est floue.
+
+36
+00:02:11,405 --> 00:02:14,296
+Quel risque du shadow AI est le plus directement en jeu
+
+37
+00:02:18,873 --> 00:02:20,850
+La propriété intellectuelle floue.
+
+38
+00:02:20,946 --> 00:02:26,029
+Le surapprentissage, lui, est un défi du fine-tuning, pas un risque du shadow AI.
+
+39
+00:02:28,090 --> 00:02:30,196
+Objectif cinq point un point deux.
+
+40
+00:02:30,294 --> 00:02:35,075
+Tout commence par des objectifs de test mesurables : gagner en productivité, raccourcir
+
+41
+00:02:35,075 --> 00:02:37,928
+les cycles de test, améliorer la qualité des tests.
+
+42
+00:02:38,079 --> 00:02:42,305
+Le choix des LLM doit être aligné sur ces objectifs, compatible avec l'infrastructure
+
+43
+00:02:42,305 --> 00:02:45,313
+de test existante, et capable de monter en charge.
+
+44
+00:02:45,424 --> 00:02:50,610
+La qualité des données est critique : des données d'entrée exactes, pertinentes, et protégées.
+
+45
+00:02:50,720 --> 00:02:53,637
+C'est la clé pour obtenir des résultats dignes de confiance.
+
+46
+00:02:53,734 --> 00:02:57,605
+Il faut des programmes de formation, pour les compétences techniques et éthiques.
+
+47
+00:02:57,703 --> 00:03:00,982
+Des métriques, pour mesurer l'efficacité des résultats.
+
+48
+00:03:01,080 --> 00:03:05,402
+Et des lignes directrices de processus, pour respecter la réglementation et l'éthique.
+
+49
+00:03:07,481 --> 00:03:10,282
+Voici à quoi peuvent ressembler ces lignes directrices.
+
+50
+00:03:10,380 --> 00:03:14,375
+Une règle sur l'usage des données sensibles : aucune donnée personnelle ou confidentielle
+
+51
+00:03:14,375 --> 00:03:15,733
+non masquée dans un prompt.
+
+52
+00:03:15,858 --> 00:03:20,128
+Une obligation de transparence : on indique ce qui a été généré avec l'IA.
+
+53
+00:03:20,225 --> 00:03:24,264
+Et une quality gate : le testware généré est relu avant d'être intégré.
+
+54
+00:03:24,361 --> 00:03:28,678
+Ce sont exactement les trois exemples du syllabus : des règles sur les données sensibles,
+
+55
+00:03:28,678 --> 00:03:33,220
+des obligations de transparence, et des quality gates avec revue du testware généré.
+
+56
+00:03:35,300 --> 00:03:40,422
+Une situation. Une direction lance : utilisons l'IA générative dans le test
+
+57
+00:03:40,559 --> 00:03:42,832
+Mais personne ne sait quel résultat est attendu.
+
+58
+00:03:42,943 --> 00:03:44,250
+Que manque-t-il d'abord
+
+59
+00:03:48,784 --> 00:03:50,916
+Des objectifs de test mesurables.
+
+60
+00:03:51,013 --> 00:03:54,227
+Le syllabus est clair : la stratégie commence par là.
+
+61
+00:03:54,324 --> 00:03:59,213
+Par exemple gagner en productivité, raccourcir les cycles, ou améliorer la qualité.
+
+62
+00:04:01,280 --> 00:04:04,790
+Objectif cinq point un point trois : choisir ses modèles.
+
+63
+00:04:04,902 --> 00:04:08,090
+Il existe une grande variété de LLM et de SLM.
+
+64
+00:04:08,188 --> 00:04:12,342
+Ils diffèrent par leurs capacités fonctionnelles, comme l'entrée multimodale ou le raisonnement,
+
+65
+00:04:12,556 --> 00:04:16,293
+leurs caractéristiques techniques, comme la taille de la fenêtre de contexte, et leur
+
+66
+00:04:16,293 --> 00:04:18,927
+type de licence, commerciale ou open source.
+
+67
+00:04:19,052 --> 00:04:23,730
+Et attention : de nombreux benchmarks évaluent les modèles sur le langage, le code ou l'analyse
+
+68
+00:04:23,730 --> 00:04:27,382
+d'images, mais très peu portent spécifiquement sur les tâches de test.
+
+69
+00:04:27,478 --> 00:04:30,100
+D'où l'importance de critères de sélection clairs.
+
+70
+00:04:32,200 --> 00:04:34,641
+Le syllabus retient quatre critères.
+
+71
+00:04:34,818 --> 00:04:38,890
+La performance du modèle : on l'évalue sur les tâches de test visées, par rapport aux
+
+72
+00:04:38,890 --> 00:04:42,864
+benchmarks de l'organisation, avec des métriques comme celles du chapitre deux.
+
+73
+00:04:43,013 --> 00:04:47,962
+Le potentiel de fine-tuning : est-il possible, et utile, d'affiner le modèle avec des données
+
+74
+00:04:47,962 --> 00:04:51,073
+du domaine, pour gagner en exactitude et en pertinence
+
+75
+00:04:51,222 --> 00:04:55,217
+Le coût récurrent : frais de licence et dépenses d'exploitation, qui doivent tenir dans
+
+76
+00:04:55,217 --> 00:04:59,971
+le budget. Et la communauté et le support : une communauté active et une documentation
+
+77
+00:04:59,971 --> 00:05:02,437
+détaillée aident à la mise en œuvre et au dépannage.
+
+78
+00:05:02,549 --> 00:05:05,440
+Au final, on peut retenir un ou plusieurs modèles.
+
+79
+00:05:07,530 --> 00:05:11,860
+Une équipe soumet chaque modèle candidat à ses propres user stories, et mesure les résultats
+
+80
+00:05:11,860 --> 00:05:13,399
+avec des métriques de qualité.
+
+81
+00:05:13,496 --> 00:05:15,718
+Quel critère de sélection évalue-t-elle
+
+82
+00:05:20,296 --> 00:05:25,404
+La performance du modèle, mesurée sur ses tâches de test, face à ses propres benchmarks.
+
+83
+00:05:27,487 --> 00:05:31,565
+Place à l'exercice pratique de niveau H un : estimer les coûts récurrents.
+
+84
+00:05:31,662 --> 00:05:36,306
+On pose des hypothèses : quatre cents user stories par mois, un prompt par user story,
+
+85
+00:05:36,404 --> 00:05:39,077
+trois mille tokens en entrée et mille cinq cents en sortie.
+
+86
+00:05:39,174 --> 00:05:43,458
+Avec une offre commerciale aux prix fictifs, on obtient douze euros soixante par mois.
+
+87
+00:05:43,608 --> 00:05:48,253
+Le modèle open source, lui, n'a pas de prix au token, mais il faut l'héberger.
+
+88
+00:05:48,760 --> 00:05:50,698
+Max : Douze euros soixante par mois
+
+89
+00:05:50,810 --> 00:05:51,835
+Max : C'est donné
+
+90
+00:05:52,330 --> 00:05:54,263
+Attention aux hypothèses, Max.
+
+91
+00:05:54,263 --> 00:05:57,472
+Passez à une chaîne de trois prompts par user story, ou lancez la tâche chaque
+
+92
+00:05:57,472 --> 00:05:59,242
+jour, et la facture change.
+
+93
+00:05:59,355 --> 00:06:03,092
+L'exercice compare plusieurs fournisseurs, dont au moins une solution commerciale et
+
+94
+00:06:03,092 --> 00:06:05,107
+un modèle sous licence open source.
+
+95
+00:06:07,190 --> 00:06:09,541
+Objectif cinq point un point quatre.
+
+96
+00:06:09,639 --> 00:06:14,563
+Un : la découverte. On sensibilise et on construit les capacités : former les équipes aux
+
+97
+00:06:14,563 --> 00:06:19,279
+concepts, donner accès à des LLM et des SLM, et expérimenter de premiers cas d'usage
+
+98
+00:06:19,279 --> 00:06:24,027
+pour prendre confiance. Deux : l'initiation et la définition des usages.
+
+99
+00:06:24,123 --> 00:06:28,401
+On identifie et on priorise des cas d'usage concrets, on évalue l'infrastructure de test
+
+100
+00:06:28,401 --> 00:06:33,896
+propulsée par LLM, et on développe l'expertise, en restant aligné sur les besoins de l'organisation.
+
+101
+00:06:34,009 --> 00:06:36,681
+Trois : l'utilisation et l'itération.
+
+102
+00:06:36,831 --> 00:06:41,186
+L'IA générative est pleinement intégrée, avec un suivi continu, et une transformation
+
+103
+00:06:41,186 --> 00:06:43,125
+mesurée et pilotée pour durer.
+
+104
+00:06:43,234 --> 00:06:46,306
+Ces phases peuvent avancer en parallèle selon les cas d'usage.
+
+105
+00:06:46,404 --> 00:06:50,043
+Et il faut traiter tôt les inquiétudes, comme la peur de perdre son emploi.
+
+106
+00:06:52,120 --> 00:06:57,280
+Une organisation évalue des outils de test propulsés par LLM pour ses cas d'usage prioritaires.
+
+107
+00:06:57,378 --> 00:06:58,775
+Dans quelle phase est-elle
+
+108
+00:07:03,291 --> 00:07:06,866
+L'initiation et la définition des usages, la deuxième phase.
+
+109
+00:07:07,016 --> 00:07:10,758
+Et attention : industrialisation ne fait pas partie des trois phases.
+
+110
+00:07:12,821 --> 00:07:15,558
+Section cinq point deux : conduire le changement.
+
+111
+00:07:15,655 --> 00:07:18,817
+Objectif cinq point deux point un : les compétences.
+
+112
+00:07:18,915 --> 00:07:22,678
+Maîtriser le prompt engineering et l'affinage des prompts, et comprendre les fenêtres
+
+113
+00:07:22,678 --> 00:07:27,744
+de contexte. Évaluer les capacités des LLM et le testware généré, avec des méthodes de
+
+114
+00:07:27,744 --> 00:07:32,305
+revue. Combiner l'expertise du domaine et du test avec des compétences IA, par exemple
+
+115
+00:07:32,305 --> 00:07:36,299
+pour la génération de cas de test, l'analyse des rapports de défaut, ou la génération
+
+116
+00:07:36,299 --> 00:07:37,555
+de données de test.
+
+117
+00:07:37,653 --> 00:07:41,163
+Connaître les risques de l'IA générative, et leurs atténuations.
+
+118
+00:07:41,274 --> 00:07:45,249
+Comprendre les enjeux de sécurité du partage de testware avec un LLM.
+
+119
+00:07:45,347 --> 00:07:49,947
+Et penser à l'environnement : des modèles de bonne taille, en équilibrant bénéfices, coût
+
+120
+00:07:49,947 --> 00:07:51,434
+et consommation d'énergie.
+
+121
+00:07:53,567 --> 00:07:56,830
+Max : Masquer les données avant chaque prompt, c'est vraiment utile
+
+122
+00:07:57,354 --> 00:08:00,156
+Oui, Max, c'est une compétence attendue.
+
+123
+00:08:00,253 --> 00:08:04,299
+Ici, le testeur demande l'analyse d'un rapport de défaut, mais le nom du client et
+
+124
+00:08:04,299 --> 00:08:06,856
+son IBAN ont été remplacés par des étiquettes.
+
+125
+00:08:06,994 --> 00:08:11,715
+Envoyé. L'analyse reste tout aussi utile : ces données n'étaient pas nécessaires.
+
+126
+00:08:11,825 --> 00:08:13,363
+Les données sont protégées.
+
+127
+00:08:13,462 --> 00:08:17,895
+C'est l'assainissement des données : retirer ou masquer les informations sensibles, personnelles
+
+128
+00:08:17,895 --> 00:08:22,044
+ou confidentielles. Il va de pair avec des pratiques de prompt engineering qui préservent
+
+129
+00:08:22,044 --> 00:08:23,376
+la confidentialité.
+
+130
+00:08:25,451 --> 00:08:29,768
+Pour classer des rapports de défaut, un testeur choisit un petit modèle suffisant, plutôt
+
+131
+00:08:29,768 --> 00:08:31,680
+que le plus gros LLM disponible.
+
+132
+00:08:31,778 --> 00:08:32,969
+Pourquoi ce choix
+
+133
+00:08:37,480 --> 00:08:41,849
+Les considérations environnementales : choisir un modèle de bonne taille, pour limiter
+
+134
+00:08:41,849 --> 00:08:43,903
+le calcul, le coût et l'énergie.
+
+135
+00:08:45,960 --> 00:08:49,832
+Objectif cinq point deux point deux : comment développer ces compétences.
+
+136
+00:08:49,943 --> 00:08:55,446
+Le syllabus insiste sur une approche pratique : s'exercer avec différents LLM et SLM, suivre
+
+137
+00:08:55,446 --> 00:08:59,059
+des parcours structurés, et partager progressivement le savoir-faire.
+
+138
+00:08:59,157 --> 00:09:03,718
+La formation passe par des exercices guidés, l'apprentissage entre pairs, et l'intégration
+
+139
+00:09:03,718 --> 00:09:06,056
+progressive de l'IA dans les tâches quotidiennes.
+
+140
+00:09:06,168 --> 00:09:09,802
+On progresse des prompts de base vers des techniques ciblées, comme les prompts spécifiques
+
+141
+00:09:09,802 --> 00:09:14,273
+au test. Enfin, des communautés de pratique internes se réunissent régulièrement pour
+
+142
+00:09:14,273 --> 00:09:17,513
+partager les réussites, les difficultés et les bonnes pratiques.
+
+143
+00:09:17,609 --> 00:09:21,243
+Elles diffusent des bibliothèques de prompt patterns, et documentent les leçons apprises
+
+144
+00:09:21,243 --> 00:09:22,460
+d'un projet à l'autre.
+
+145
+00:09:24,532 --> 00:09:25,980
+Qu'est-ce qu'un prompt pattern
+
+146
+00:09:26,077 --> 00:09:30,471
+C'est un modèle réutilisable pour rédiger des prompts efficaces, et guider l'IA générative
+
+147
+00:09:30,471 --> 00:09:32,345
+vers des sorties cohérentes et fiables.
+
+148
+00:09:32,443 --> 00:09:38,325
+Voici un exemple, bâti sur la structure du chapitre deux : le rôle, le contexte, l'instruction,
+
+149
+00:09:38,358 --> 00:09:41,598
+les données d'entrée, les contraintes, et le format de sortie.
+
+150
+00:09:41,695 --> 00:09:44,574
+Les éléments entre accolades se complètent à chaque usage.
+
+151
+00:09:44,673 --> 00:09:49,184
+Une fois validé, ce patron rejoint la bibliothèque de la communauté de pratique, et toute
+
+152
+00:09:49,184 --> 00:09:50,452
+l'équipe en profite.
+
+153
+00:09:52,520 --> 00:09:57,049
+Question de vocabulaire. Qu'est-ce qu'un prompt pattern, selon le syllabus
+
+154
+00:10:01,551 --> 00:10:05,894
+Un modèle réutilisable pour rédiger des prompts efficaces, et obtenir des sorties cohérentes
+
+155
+00:10:05,894 --> 00:10:06,736
+et fiables.
+
+156
+00:10:08,801 --> 00:10:13,741
+Dernier objectif, cinq point deux point trois : l'évolution des processus et des rôles.
+
+157
+00:10:13,892 --> 00:10:17,887
+Le testeur passe de spécialiste de la conception et de l'exécution des tests à spécialiste
+
+158
+00:10:17,887 --> 00:10:19,593
+du test assisté par l'IA.
+
+159
+00:10:19,702 --> 00:10:23,130
+Il combine sa maîtrise des techniques de test avec la capacité de guider et de
+
+160
+00:10:23,130 --> 00:10:24,888
+vérifier le testware généré.
+
+161
+00:10:24,986 --> 00:10:29,631
+Ses tâches s'élargissent : revue de l'ensemble des sorties de l'IA, affinage des prompts,
+
+162
+00:10:29,754 --> 00:10:32,453
+et maintenance des bibliothèques de prompts spécifiques au test.
+
+163
+00:10:34,530 --> 00:10:35,940
+Et le test manager
+
+164
+00:10:36,038 --> 00:10:39,594
+Ses responsabilités incluent désormais une stratégie de test et une gestion des risques
+
+165
+00:10:39,594 --> 00:10:43,486
+fondées sur l'IA, ainsi que le suivi et le contrôle des processus de test fondés
+
+166
+00:10:43,486 --> 00:10:47,571
+sur l'IA. Il équilibre les capacités humaines et celles de l'IA, et met en place
+
+167
+00:10:47,571 --> 00:10:50,089
+des cadres de gouvernance de l'IA pour les cas d'usage.
+
+168
+00:10:50,202 --> 00:10:53,385
+Il veille à ce que son équipe garde ses compétences de test classiques tout en
+
+169
+00:10:53,385 --> 00:10:55,104
+développant sa culture de l'IA.
+
+170
+00:10:55,253 --> 00:10:58,913
+Et il ne dirige plus seulement des testeurs : il coordonne aussi des agents de test
+
+171
+00:10:58,913 --> 00:11:00,903
+propulsés par l'IA générative.
+
+172
+00:11:01,039 --> 00:11:04,601
+Piloter ces équipes hybrides demande de nouvelles compétences de management.
+
+173
+00:11:06,672 --> 00:11:11,852
+Dernière question. Dans une organisation qui adopte l'IA générative, quelle responsabilité
+
+174
+00:11:11,852 --> 00:11:13,339
+revient au test manager
+
+175
+00:11:17,840 --> 00:11:20,629
+Établir une gouvernance de l'IA pour les cas d'usage.
+
+176
+00:11:20,780 --> 00:11:23,697
+Les trois autres tâches font partie du nouveau rôle du testeur.
+
+177
+00:11:25,774 --> 00:11:32,713
+Récapitulons. Un : le shadow AI expose à trois risques, sécurité et confidentialité, conformité,
+
+178
+00:11:32,772 --> 00:11:37,848
+et propriété intellectuelle. Deux : une stratégie part d'objectifs mesurables, et pense
+
+179
+00:11:37,848 --> 00:11:41,552
+aux modèles, aux données, à la formation, aux métriques et aux règles.
+
+180
+00:11:41,689 --> 00:11:44,336
+Trois : quatre critères de choix d'un modèle.
+
+181
+00:11:44,447 --> 00:11:48,189
+Quatre : trois phases d'adoption, qui peuvent avancer en parallèle.
+
+182
+00:11:48,300 --> 00:11:52,300
+Cinq : des compétences qui se construisent par la pratique et les communautés.
+
+183
+00:11:52,398 --> 00:11:57,192
+Et six : le testeur devient spécialiste du test assisté par l'IA, et le test manager
+
+184
+00:11:57,192 --> 00:11:58,859
+pilote des équipes hybrides.
+
+185
+00:12:00,952 --> 00:12:04,501
+Et voilà : vous venez de terminer le cinquième et dernier chapitre.
+
+186
+00:12:04,597 --> 00:12:08,507
+Félicitations, vous avez parcouru tout le syllabus CT-GenAI
+
+187
+00:12:08,605 --> 00:12:11,214
+Place maintenant à l'entraînement en conditions réelles.
+
+188
+00:12:11,312 --> 00:12:15,281
+Faites les examens d'exemple officiels de l'ISTQB, puis enchaînez les examens blancs
+
+189
+00:12:15,281 --> 00:12:17,516
+de l'application, en vous chronométrant.
+
+190
+00:12:17,613 --> 00:12:20,273
+Revoyez les épisodes des chapitres où vous hésitez.
+
+191
+00:12:20,410 --> 00:12:21,923
+Vous avez toutes les clés en main.
+
+192
+00:12:22,047 --> 00:12:24,810
+Bonne préparation, et bonne chance pour l'examen

@@ -1,0 +1,631 @@
+1
+00:00:00,664 --> 00:00:03,440
+Bonjour, et bienvenue dans le chapitre quatre.
+
+2
+00:00:03,537 --> 00:00:06,171
+On quitte le prompt seul pour regarder ce qu'il y a autour.
+
+3
+00:00:06,282 --> 00:00:10,836
+Dans ce premier épisode : les composants d'une infrastructure de test propulsée par LLM,
+
+4
+00:00:10,870 --> 00:00:14,715
+puis le RAG, qui permet au modèle de s'appuyer sur vos propres documents.
+
+5
+00:00:14,878 --> 00:00:19,742
+Deux objectifs de niveau K deux, un exercice pratique, et environ onze minutes.
+
+6
+00:00:19,839 --> 00:00:20,875
+C'est parti.
+
+7
+00:00:23,016 --> 00:00:27,732
+Le chapitre quatre représente cent dix minutes de formation officielle, et cinq objectifs,
+
+8
+00:00:27,732 --> 00:00:29,026
+tous de niveau K deux.
+
+9
+00:00:29,123 --> 00:00:33,741
+À l'examen, on vous demandera donc d'expliquer, de résumer et de distinguer.
+
+10
+00:00:33,892 --> 00:00:38,653
+Dans cet épisode, l'architecture d'une infrastructure de test propulsée par LLM.
+
+11
+00:00:38,815 --> 00:00:42,622
+Puis le RAG, la génération augmentée par la récupération.
+
+12
+00:00:42,732 --> 00:00:47,325
+Dans l'épisode suivant, les agents, le fine-tuning, et LLMOps.
+
+13
+00:00:47,475 --> 00:00:53,060
+Les mots clés du chapitre : infrastructure de test, RAG, base de données vectorielle, agent,
+
+14
+00:00:53,068 --> 00:00:55,096
+fine-tuning et LLMOps.
+
+15
+00:00:57,233 --> 00:01:01,666
+Le syllabus distingue deux types d'infrastructures de test qui utilisent des LLM, déjà
+
+16
+00:01:01,666 --> 00:01:03,024
+rencontrés au chapitre un.
+
+17
+00:01:03,174 --> 00:01:08,140
+Le chatbot IA est d'abord centré sur la conversation : on pose une question, il répond.
+
+18
+00:01:08,264 --> 00:01:13,578
+L'outil de test propulsé par LLM, lui, est conçu pour soutenir le test logiciel.
+
+19
+00:01:13,689 --> 00:01:17,916
+Il traite des requêtes liées au test, analyse les exigences, génère des cas de test
+
+20
+00:01:17,916 --> 00:01:19,313
+et évalue des résultats.
+
+21
+00:01:19,409 --> 00:01:24,074
+Une infrastructure de test propulsée par LLM, c'est donc un système qui intègre un LLM
+
+22
+00:01:24,074 --> 00:01:28,314
+dans le processus de test, pour améliorer l'automatisation, le raisonnement et la prise
+
+23
+00:01:28,314 --> 00:01:29,260
+de décision.
+
+24
+00:01:31,340 --> 00:01:36,211
+Voyons l'architecture typique. Elle repose sur plusieurs composants, pour une interaction
+
+25
+00:01:36,211 --> 00:01:38,278
+sûre et efficace avec le LLM.
+
+26
+00:01:38,442 --> 00:01:42,932
+Le front-end, c'est l'interface : le testeur y saisit ses requêtes ou ses commandes.
+
+27
+00:01:43,081 --> 00:01:47,630
+Le back-end traite cette saisie, et gère les fonctions critiques : l'authentification, la
+
+28
+00:01:47,630 --> 00:01:52,249
+récupération des données, la préparation du prompt, et l'interaction avec le LLM.
+
+29
+00:01:52,345 --> 00:01:54,825
+Il s'appuie sur des sources de données externes.
+
+30
+00:01:54,950 --> 00:01:58,872
+Et enfin, le LLM génère les réponses à partir de prompts structurés.
+
+31
+00:01:58,969 --> 00:02:03,363
+Il peut être hébergé comme un service tiers, accessible par API, ou être un modèle
+
+32
+00:02:03,363 --> 00:02:04,051
+maison.
+
+33
+00:02:06,140 --> 00:02:10,180
+Suivons une requête. Le testeur saisit sa demande dans le front-end.
+
+34
+00:02:10,343 --> 00:02:14,402
+Le back-end l'authentifie, va chercher les données utiles dans ses sources, et prépare
+
+35
+00:02:14,402 --> 00:02:17,770
+un prompt structuré. Le LLM génère sa réponse.
+
+36
+00:02:17,907 --> 00:02:21,353
+Puis le back-end améliore cette sortie brute, par un post-traitement.
+
+37
+00:02:21,502 --> 00:02:26,134
+L'objectif : que la réponse soit alignée sur les conditions de test du processus de test,
+
+38
+00:02:26,193 --> 00:02:28,093
+avant d'être présentée dans le front-end.
+
+39
+00:02:30,171 --> 00:02:34,784
+Le syllabus insiste : cette architecture va au-delà d'un modèle client-serveur classique,
+
+40
+00:02:34,784 --> 00:02:38,682
+pour quatre raisons. Un : le LLM n'est pas un simple serveur.
+
+41
+00:02:38,779 --> 00:02:43,011
+C'est un composant intelligent, qui interprète et raisonne à partir du testware.
+
+42
+00:02:43,110 --> 00:02:47,406
+Deux : contrairement aux chatbots à base de règles, qui suivent des réponses scriptées,
+
+43
+00:02:47,530 --> 00:02:52,375
+l'infrastructure génère ses analyses dynamiquement, à partir du contexte : exigences, code
+
+44
+00:02:52,375 --> 00:02:53,733
+ou résultats de test.
+
+45
+00:02:53,896 --> 00:02:56,633
+Trois : le back-end intègre plusieurs sources.
+
+46
+00:02:56,729 --> 00:03:00,479
+Des bases relationnelles, pour les données structurées comme les cas de test, et des bases
+
+47
+00:03:00,479 --> 00:03:04,711
+vectorielles, pour retrouver des contenus proches par le sens, grâce aux embeddings.
+
+48
+00:03:04,809 --> 00:03:08,500
+Quatre : le back-end post-traite la sortie brute du LLM.
+
+49
+00:03:08,611 --> 00:03:10,330
+Retenez bien le premier point.
+
+50
+00:03:12,390 --> 00:03:16,140
+Max : Concrètement, il se passe quoi entre ma question et la réponse
+
+51
+00:03:16,630 --> 00:03:19,419
+Regardons les coulisses, Max.
+
+52
+00:03:19,544 --> 00:03:23,235
+Le testeur demande des cas de test pour l'exigence REQ cent dix-huit.
+
+53
+00:03:23,384 --> 00:03:25,709
+Le back-end vérifie d'abord son identité.
+
+54
+00:03:25,807 --> 00:03:29,647
+Il lit l'exigence et les cas existants dans la base relationnelle, puis cherche des passages
+
+55
+00:03:29,647 --> 00:03:31,353
+proches dans la base vectorielle.
+
+56
+00:03:31,477 --> 00:03:37,397
+Il assemble un prompt structuré, appelle le LLM, et post-traite la réponse : format vérifié,
+
+57
+00:03:37,521 --> 00:03:41,069
+doublons retirés. Le testeur ne voit que le résultat final.
+
+58
+00:03:41,166 --> 00:03:44,136
+Et ce résultat, il le relit avant de l'utiliser.
+
+59
+00:03:46,230 --> 00:03:47,356
+À vous de jouer.
+
+60
+00:03:47,494 --> 00:03:52,005
+Dans une infrastructure de test propulsée par LLM, à quoi sert le post-traitement réalisé
+
+61
+00:03:52,005 --> 00:03:53,015
+par le back-end
+
+62
+00:03:57,580 --> 00:04:01,227
+À aligner la sortie brute du LLM sur les conditions de test, avant de la
+
+63
+00:04:01,227 --> 00:04:02,676
+présenter dans le front-end.
+
+64
+00:04:02,786 --> 00:04:07,207
+L'authentification, elle, a lieu avant l'appel au LLM, et la saisie se fait dans le
+
+65
+00:04:07,207 --> 00:04:08,024
+front-end.
+
+66
+00:04:10,127 --> 00:04:14,406
+Deuxième question. Qu'est-ce qui distingue une infrastructure de test propulsée par LLM
+
+67
+00:04:14,406 --> 00:04:16,060
+d'un chatbot à base de règles
+
+68
+00:04:20,590 --> 00:04:24,229
+Elle génère ses analyses dynamiquement, à partir du contexte.
+
+69
+00:04:24,380 --> 00:04:28,187
+Le chatbot à base de règles, lui, suit des réponses scriptées.
+
+70
+00:04:30,270 --> 00:04:34,077
+Passons à l'objectif quatre point un point deux, avec une expérience.
+
+71
+00:04:34,228 --> 00:04:37,952
+On demande à un LLM : quel est le plafond de retrait hebdomadaire de notre carte
+
+72
+00:04:37,952 --> 00:04:40,302
+Premium, et quelles valeurs limites tester
+
+73
+00:04:40,452 --> 00:04:44,760
+Envoyé. Il répond avec assurance : environ mille euros par semaine.
+
+74
+00:04:44,858 --> 00:04:47,531
+Mais ce chiffre ne vient pas de notre spécification.
+
+75
+00:04:47,642 --> 00:04:49,735
+La réponse n'est pas ancrée dans nos données.
+
+76
+00:04:49,885 --> 00:04:53,506
+Le modèle s'appuie seulement sur ce qu'il a appris pendant son entraînement : il ne connaît
+
+77
+00:04:53,506 --> 00:04:54,967
+pas nos documents internes.
+
+78
+00:04:55,078 --> 00:04:58,125
+C'est exactement le problème que le RAG vient résoudre.
+
+79
+00:05:00,266 --> 00:05:04,897
+La Retrieval-Augmented Generation, en français génération augmentée par la récupération,
+
+80
+00:05:05,060 --> 00:05:08,616
+améliore les LLM en intégrant des sources de données supplémentaires dans leur processus
+
+81
+00:05:08,616 --> 00:05:13,854
+de génération. Sans RAG, le modèle ne répond qu'à partir de son entraînement préalable.
+
+82
+00:05:13,963 --> 00:05:19,362
+Avec le RAG, on associe le LLM à un système de récupération, un retriever, qui
+
+83
+00:05:19,362 --> 00:05:21,081
+va chercher les données pertinentes.
+
+84
+00:05:21,245 --> 00:05:24,776
+La réponse n'est plus seulement fondée sur l'entraînement du modèle : elle est enrichie
+
+85
+00:05:24,776 --> 00:05:26,882
+de données précises, liées au prompt.
+
+86
+00:05:26,978 --> 00:05:32,834
+Résultat : des réponses plus pertinentes, plus exactes, et donc plus fiables pour l'utilisateur.
+
+87
+00:05:34,911 --> 00:05:38,059
+Comment ça marche ? Tout commence par un prétraitement.
+
+88
+00:05:38,158 --> 00:05:40,019
+On part de documents volumineux.
+
+89
+00:05:40,129 --> 00:05:44,498
+On les découpe en petits morceaux, appelés chunks, par exemple de deux cent cinquante-six
+
+90
+00:05:44,498 --> 00:05:45,959
+à cinq cent douze tokens.
+
+91
+00:05:46,071 --> 00:05:51,668
+Pourquoi ? Pour une récupération ciblée, et compatible avec la fenêtre de contexte du modèle.
+
+92
+00:05:51,766 --> 00:05:57,299
+Chaque chunk est nettoyé, traité, puis encodé en un vecteur de grande dimension, un embedding,
+
+93
+00:05:57,384 --> 00:05:59,000
+à l'aide de modèles pré-entraînés.
+
+94
+00:05:59,124 --> 00:06:02,557
+Ces embeddings peuvent être stockés dans une base de données vectorielle.
+
+95
+00:06:02,655 --> 00:06:06,676
+Elle permet une recherche efficace par similarité au moment de l'exécution, qu'on appelle
+
+96
+00:06:06,676 --> 00:06:07,918
+aussi l'inférence.
+
+97
+00:06:10,040 --> 00:06:13,950
+Ensuite, à chaque prompt, le système RAG travaille en deux étapes.
+
+98
+00:06:14,099 --> 00:06:17,043
+La requête de l'utilisateur est encodée, elle aussi.
+
+99
+00:06:17,152 --> 00:06:21,560
+Première étape, la récupération : le système cherche les informations pertinentes dans
+
+100
+00:06:21,560 --> 00:06:26,522
+la base vectorielle. En général, il compare l'embedding du prompt à ceux des chunks, par
+
+101
+00:06:26,522 --> 00:06:31,804
+similarité sémantique. Deuxième étape, la génération : les chunks récupérés sont fournis
+
+102
+00:06:31,804 --> 00:06:33,524
+au LLM comme contexte.
+
+103
+00:06:33,622 --> 00:06:37,454
+Il produit une réponse qui combine ses connaissances existantes et ces nouvelles données.
+
+104
+00:06:37,565 --> 00:06:41,591
+On obtient une réponse ancrée, plus exacte et mieux adaptée au contexte.
+
+105
+00:06:41,689 --> 00:06:46,719
+À l'examen, retenez l'ordre : récupération d'abord, génération ensuite.
+
+106
+00:06:48,837 --> 00:06:53,778
+Même question, mais cette fois, l'outil de test est relié par RAG à nos spécifications.
+
+107
+00:06:53,874 --> 00:06:56,019
+On repose exactement la même question.
+
+108
+00:06:56,144 --> 00:07:00,899
+Envoyé. Le système a d'abord récupéré le bon passage de la spécification des cartes, puis
+
+109
+00:07:00,899 --> 00:07:05,216
+le LLM a généré sa réponse : mille cinq cents euros sur sept jours glissants, avec
+
+110
+00:07:05,216 --> 00:07:07,657
+les valeurs limites correspondantes, et la source.
+
+111
+00:07:07,753 --> 00:07:10,014
+Cette fois, la réponse est ancrée.
+
+112
+00:07:10,112 --> 00:07:14,338
+Elle repose sur des informations pertinentes, exactes et adaptées au contexte, et pas
+
+113
+00:07:14,338 --> 00:07:16,160
+seulement sur l'entraînement du modèle.
+
+114
+00:07:16,272 --> 00:07:19,370
+Le testeur la vérifie quand même, mais il sait d'où elle vient.
+
+115
+00:07:21,450 --> 00:07:24,058
+Et dans le test logiciel, concrètement
+
+116
+00:07:24,209 --> 00:07:28,403
+Le RAG permet à l'infrastructure de test d'accéder aux sources de données de l'entreprise
+
+117
+00:07:28,500 --> 00:07:31,186
+bases de données, documentation, dépôts.
+
+118
+00:07:31,308 --> 00:07:34,342
+Elle y récupère des informations contextuelles en temps réel.
+
+119
+00:07:34,440 --> 00:07:38,280
+Ainsi, des tâches comme l'analyse de test ou la conception des tests restent alignées
+
+120
+00:07:38,280 --> 00:07:43,041
+sur les dernières spécifications, les dernières exigences, et les données de test existantes.
+
+121
+00:07:45,127 --> 00:07:48,240
+Max : Donc avec le RAG, le modèle a toujours raison
+
+122
+00:07:48,730 --> 00:07:50,630
+Pas si vite, Max.
+
+123
+00:07:50,728 --> 00:07:54,947
+C'est justement l'objet de l'exercice pratique du syllabus, de niveau H un.
+
+124
+00:07:55,045 --> 00:07:57,744
+On alimente un système RAG avec des documents.
+
+125
+00:07:57,841 --> 00:08:01,462
+On compare la sortie du LLM avec et sans RAG, sur la même tâche de
+
+126
+00:08:01,462 --> 00:08:05,947
+test. On observe que les réponses sont plus ou moins exactes, selon la complexité de
+
+127
+00:08:05,947 --> 00:08:10,399
+l'information. On examine les données récupérées, et les résultats générés.
+
+128
+00:08:10,523 --> 00:08:14,530
+Le but : identifier les forces et les limites du RAG, selon les types de tâches
+
+129
+00:08:14,530 --> 00:08:15,451
+de test.
+
+130
+00:08:17,510 --> 00:08:19,680
+Passons à l'entraînement sur le RAG.
+
+131
+00:08:19,818 --> 00:08:24,076
+Dans un système RAG, sur quoi repose en général l'étape de récupération
+
+132
+00:08:28,614 --> 00:08:31,416
+La similarité sémantique entre embeddings.
+
+133
+00:08:31,565 --> 00:08:34,380
+Le prompt est encodé, puis comparé aux chunks.
+
+134
+00:08:34,478 --> 00:08:38,065
+Attention au piège : le RAG ne réentraîne pas le modèle.
+
+135
+00:08:40,173 --> 00:08:43,168
+Pourquoi découpe-t-on les documents en chunks lors du prétraitement
+
+136
+00:08:47,690 --> 00:08:52,334
+Pour une récupération ciblée, et compatible avec la fenêtre de contexte du modèle.
+
+137
+00:08:54,390 --> 00:08:58,605
+Une situation. Une équipe veut que son outil conçoive des tests alignés sur la dernière
+
+138
+00:08:58,605 --> 00:09:01,342
+version des exigences, stockées dans son dépôt.
+
+139
+00:09:01,439 --> 00:09:02,617
+Que lui conseiller
+
+140
+00:09:07,193 --> 00:09:10,136
+Le RAG, relié au dépôt des exigences.
+
+141
+00:09:10,233 --> 00:09:14,408
+Il récupère en temps réel le contexte de l'entreprise, pour que la conception reste alignée
+
+142
+00:09:14,408 --> 00:09:15,972
+sur les dernières exigences.
+
+143
+00:09:18,041 --> 00:09:23,008
+Dernière question. Dans un système RAG, que stocke la base de données vectorielle
+
+144
+00:09:27,570 --> 00:09:29,521
+Les chunks encodés en embeddings.
+
+145
+00:09:29,618 --> 00:09:34,172
+Les données structurées, comme les cas de test, vont plutôt dans une base relationnelle.
+
+146
+00:09:36,264 --> 00:09:42,592
+Récapitulons. Un : une infrastructure de test propulsée par LLM, c'est un front-end, un back-end,
+
+147
+00:09:42,592 --> 00:09:44,813
+des sources de données, et un LLM.
+
+148
+00:09:44,963 --> 00:09:49,955
+Deux : le back-end fait le gros du travail, de l'authentification jusqu'au post-traitement.
+
+149
+00:09:50,066 --> 00:09:54,852
+Trois : ce n'est pas un simple client-serveur, le LLM raisonne sur le testware.
+
+150
+00:09:54,949 --> 00:10:00,014
+Quatre : le RAG prépare les documents en chunks, puis en embeddings, stockés dans une base
+
+151
+00:10:00,014 --> 00:10:06,424
+vectorielle. Cinq : à chaque prompt, récupération par similarité sémantique, puis génération.
+
+152
+00:10:06,548 --> 00:10:12,107
+Et six : en test, le RAG aligne le travail sur les dernières spécifications de l'entreprise.
+
+153
+00:10:14,172 --> 00:10:16,896
+Bravo, c'est la fin de ce premier épisode.
+
+154
+00:10:17,007 --> 00:10:22,630
+Dans le prochain, on découvre les agents propulsés par LLM, puis le fine-tuning et LLMOps,
+
+155
+00:10:22,651 --> 00:10:25,440
+pour rendre l'IA générative opérationnelle dans le test.
+
+156
+00:10:25,576 --> 00:10:28,519
+Trois objectifs K deux, avec des démonstrations.
+
+157
+00:10:28,617 --> 00:10:33,038
+D'ici là, révisez l'architecture et le RAG avec les questions du chapitre quatre dans
+
+158
+00:10:33,038 --> 00:10:35,181
+l'application. À très vite

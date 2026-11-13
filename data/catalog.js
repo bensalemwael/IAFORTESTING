@@ -22,7 +22,7 @@
         { chapter: 5, k: 2, count: 3 },
       ],
       chapters: [
-        { n: 1, title: "Introduction à la GenAI pour le test", minutes: 100, video: "videos/genai-chapitre-1", videoMinutes: 15, los: [
+        { n: 1, title: "Introduction à la GenAI pour le test", minutes: 100, videos: [{ src: "videos/genai-chapitre-1-episode-1", title: "L'IA générative expliquée simplement", minutes: 14 }], los: [
           ['GenAI-1.1.1', 1, "Citer les types d'IA : symbolique, ML classique, deep learning, générative"],
           ['GenAI-1.1.2', 2, "Expliquer les bases de la GenAI et des LLM"],
           ['GenAI-1.1.3', 2, "Distinguer LLM de fondation, instruction-tuned et de raisonnement"],
@@ -30,7 +30,7 @@
           ['GenAI-1.2.1', 2, "Donner des exemples de capacités des LLM pour les tâches de test"],
           ['GenAI-1.2.2', 2, "Comparer les modèles d'interaction (chatbot / application LLM)"],
         ] },
-        { n: 2, title: "Prompt engineering pour le test", minutes: 365, video: "videos/genai-chapitre-2", videoMinutes: 14, los: [
+        { n: 2, title: "Prompt engineering pour le test", minutes: 365, videos: [{ src: "videos/genai-chapitre-2-episode-1", title: "Écrire des prompts efficaces", minutes: 10 }, { src: "videos/genai-chapitre-2-episode-2", title: "Analyser et concevoir les tests avec l'IA", minutes: 13 }, { src: "videos/genai-chapitre-2-episode-3", title: "Automatiser la régression et piloter les tests", minutes: 13 }, { src: "videos/genai-chapitre-2-episode-4", title: "Évaluer les résultats et affiner ses prompts", minutes: 12 }], los: [
           ['GenAI-2.1.1', 2, "Donner des exemples de structure de prompt"],
           ['GenAI-2.1.2', 2, "Différencier les techniques de prompting de base"],
           ['GenAI-2.1.3', 2, "Distinguer system prompt et user prompt"],
@@ -42,7 +42,7 @@
           ['GenAI-2.3.1', 2, "Comprendre les métriques d'évaluation des résultats GenAI"],
           ['GenAI-2.3.2', 2, "Donner des exemples de techniques d'évaluation et de raffinement"],
         ] },
-        { n: 3, title: "Gérer les risques de la GenAI", minutes: 160, video: "videos/genai-chapitre-3", videoMinutes: 11, los: [
+        { n: 3, title: "Gérer les risques de la GenAI", minutes: 160, videos: [{ src: "videos/genai-chapitre-3-episode-1", title: "Hallucinations, erreurs de raisonnement et biais", minutes: 14 }, { src: "videos/genai-chapitre-3-episode-2", title: "Confidentialité, sécurité, environnement et réglementation", minutes: 14 }], los: [
           ['GenAI-3.1.1', 1, "Rappeler les définitions : hallucination, erreur de raisonnement, biais"],
           ['GenAI-3.1.2', 3, "Identifier hallucinations, erreurs de raisonnement et biais"],
           ['GenAI-3.1.3', 2, "Résumer les techniques d'atténuation"],
@@ -53,14 +53,14 @@
           ['GenAI-3.3.1', 2, "Expliquer l'impact sur la consommation d'énergie"],
           ['GenAI-3.4.1', 1, "Rappeler réglementations, normes et cadres"],
         ] },
-        { n: 4, title: "Infrastructure de test à base de LLM", minutes: 110, los: [
+        { n: 4, title: "Infrastructure de test à base de LLM", minutes: 110, videos: [{ src: "videos/genai-chapitre-4-episode-1", title: "Architecture et RAG", minutes: 11 }, { src: "videos/genai-chapitre-4-episode-2", title: "Agents, fine-tuning et LLMOps", minutes: 12 }], los: [
           ['GenAI-4.1.1', 2, "Expliquer les composants d'architecture"],
           ['GenAI-4.1.2', 2, "Résumer le RAG"],
           ['GenAI-4.1.3', 2, "Expliquer le rôle des agents LLM"],
           ['GenAI-4.2.1', 2, "Expliquer le fine-tuning"],
           ['GenAI-4.2.2', 2, "Expliquer le LLMOps"],
         ] },
-        { n: 5, title: "Déployer la GenAI dans l'organisation de test", minutes: 80, los: [
+        { n: 5, title: "Déployer la GenAI dans l'organisation de test", minutes: 80, videos: [{ src: "videos/genai-chapitre-5-episode-1", title: "Déployer l'IA générative dans l'organisation de test", minutes: 12 }], los: [
           ['GenAI-5.1.1', 1, "Rappeler les risques du shadow AI"],
           ['GenAI-5.1.2', 2, "Expliquer les aspects clés d'une stratégie GenAI"],
           ['GenAI-5.1.3', 2, "Résumer les critères de sélection LLM/SLM"],

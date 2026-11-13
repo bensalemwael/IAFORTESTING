@@ -34,9 +34,29 @@ Un examen en cours reprend après un rechargement de la page ; le chrono continu
 
 ## Vidéos
 
-Les chapitres 1 à 3 de CT-GenAI ont une vidéo explicative en français, sous-titrée (15, 14 et 11 minutes). Elles sont intégrées à leur fiche dans l'onglet Cours ; les fichiers sont aussi dans `videos/`.
-Les vidéos des chapitres 2 et 3 sont animées : les éléments apparaissent au fil de la voix, avec un second narrateur et des quiz à compte à rebours.
-Les générateurs sont dans `tools/video/` (`build.py` pour le style simple, `build2.py` pour le style animé). Ils demandent Python, Microsoft Edge et les paquets `edge-tts` et `imageio-ffmpeg` ; la voix est synthétisée par le service en ligne de Microsoft.
+Les cinq chapitres de CT-GenAI sont expliqués en vidéo, en français : 10 épisodes animés de 10 à 14 minutes, soit un peu plus de deux heures.
+
+| Chapitre | Épisodes |
+|---|---|
+| 1. Introduction à la GenAI pour le test | 1 |
+| 2. Prompt engineering pour le test | 4 |
+| 3. Gérer les risques de la GenAI | 2 |
+| 4. Infrastructure de test à base de LLM | 2 |
+| 5. Déployer la GenAI dans l'organisation de test | 1 |
+
+Chaque épisode s'ouvre dans la fiche de son chapitre, onglet Cours, avec un sélecteur d'épisode ; les fichiers sont aussi dans `videos/`.
+Les éléments apparaissent au mot près avec la voix, un second narrateur pose les questions que l'on se pose, et chaque épisode se termine par des quiz à compte à rebours. Les sous-titres sont incrustés.
+
+Le générateur est dans `tools/video/` : un épisode est un module Python de `episodes/`, décrit dans `AUTHORING.md`.
+
+```text
+cd tools/video
+npm install
+pip install edge-tts imageio-ffmpeg
+python build.py genai_ch2_ep1
+```
+
+Il demande Python, Node.js et Microsoft Edge ; la voix est synthétisée par le service en ligne de Microsoft.
 
 ## Ateliers pratiques
 

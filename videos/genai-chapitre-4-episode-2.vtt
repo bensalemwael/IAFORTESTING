@@ -1,0 +1,499 @@
+WEBVTT
+
+00:00.650 --> 00:03.980
+Bienvenue dans le deuxième et dernier épisode du chapitre quatre.
+
+00:04.078 --> 00:08.704
+Après l'architecture et le RAG, on s'intéresse aux agents propulsés par LLM, puis aux
+
+00:08.704 --> 00:12.763
+deux pratiques qui rendent l'IA générative opérationnelle dans le test : le fine-tuning
+
+00:12.763 --> 00:17.615
+et LLMOps. Trois objectifs de niveau K deux, et deux démonstrations.
+
+00:17.712 --> 00:18.748
+C'est parti.
+
+00:20.840 --> 00:23.809
+Commençons par l'objectif quatre point un point trois.
+
+00:23.909 --> 00:28.643
+Un chatbot IA traditionnel se concentre uniquement sur les interactions question-réponse.
+
+00:28.754 --> 00:33.277
+Un agent propulsé par LLM est une application d'IA générative spécialisée, conçue pour
+
+00:33.277 --> 00:36.439
+traiter des tâches définies de façon semi-autonome ou autonome.
+
+00:36.536 --> 00:38.913
+Sa grande différence : il peut agir.
+
+00:39.010 --> 00:42.817
+Il invoque un ensemble prédéfini de fonctions, qu'on appelle des outils.
+
+00:42.915 --> 00:46.837
+Cela lui permet d'interagir avec des systèmes externes, et de les manipuler.
+
+00:46.936 --> 00:48.719
+C'est ce qui le rend si polyvalent.
+
+00:50.801 --> 00:52.301
+Que trouve-t-on dans un agent
+
+00:52.411 --> 00:56.681
+Au cœur, un LLM, pour comprendre et générer le langage naturel.
+
+00:56.779 --> 01:01.702
+Autour, la capacité de traiter des instructions, de récupérer du contexte, et de mener
+
+01:01.702 --> 01:03.885
+des actions intelligentes grâce aux outils.
+
+01:04.036 --> 01:08.469
+Le glossaire du syllabus le résume ainsi : un agent intègre le raisonnement, la prise de
+
+01:08.469 --> 01:12.714
+décision et la mémoire d'un LLM, et utilise des outils pour réaliser des tâches.
+
+01:14.853 --> 01:17.113
+Le degré d'autonomie d'un agent peut varier.
+
+01:17.211 --> 01:21.830
+Un agent autonome opère de façon indépendante, avec une intervention humaine minimale.
+
+01:21.926 --> 01:26.205
+Il s'appuie sur des règles prédéfinies, l'apprentissage par renforcement, et des boucles
+
+01:26.205 --> 01:31.825
+de rétroaction adaptatives. Un agent semi-autonome, lui, réalise ses tâches sous une supervision
+
+01:31.825 --> 01:36.714
+humaine périodique, pour s'assurer que la sortie atteint les objectifs définis par l'utilisateur.
+
+01:36.825 --> 01:40.232
+Le mot clé à repérer à l'examen : la supervision humaine.
+
+01:42.310 --> 01:46.593
+On peut aussi faire travailler plusieurs agents ensemble : c'est une architecture multi-agents,
+
+01:46.666 --> 01:49.983
+un système collaboratif où chaque agent a un rôle spécialisé.
+
+01:50.095 --> 01:55.056
+Imaginons un agent pour l'analyse, un pour la conception, un pour l'exécution, et un pour
+
+01:55.056 --> 01:58.883
+le rapport. Ils communiquent et se coordonnent pour résoudre des problèmes complexes
+
+01:58.883 --> 02:00.885
+plus efficacement qu'un agent seul.
+
+02:00.983 --> 02:03.591
+Cette coordination s'appelle l'orchestration.
+
+02:03.689 --> 02:07.156
+Les agents automatisent alors des tâches de test en imitant le raisonnement et la prise
+
+02:07.156 --> 02:08.334
+de décision humains.
+
+02:10.390 --> 02:14.320
+Dans les outils de test modernes, les agents sont souvent proposés aux utilisateurs via
+
+02:14.320 --> 02:17.599
+des assistants IA, intégrés au flux de travail du test.
+
+02:17.697 --> 02:22.014
+Ces assistants transforment des user stories ou des exigences en artefacts de test, sur
+
+02:22.014 --> 02:27.516
+tout le cycle de vie : analyse, conception, implémentation, exécution et rapport de test,
+
+02:27.516 --> 02:32.634
+de façon semi-autonome. On obtient une automatisation continue, de bout en bout, qui réduit
+
+02:32.634 --> 02:35.448
+l'effort manuel et raccourcit les cycles de rétroaction.
+
+02:35.545 --> 02:39.746
+Et l'automatisation des tests change de nature : on passe de l'exécution de scripts à
+
+02:39.746 --> 02:43.115
+une automatisation pilotée par les objectifs, à base d'agents.
+
+02:43.225 --> 02:45.356
+Une formulation à bien retenir.
+
+02:47.430 --> 02:51.657
+Place à la démonstration prévue par le syllabus : un agent qui aide à automatiser une
+
+02:51.657 --> 02:57.527
+tâche répétitive. En entrée, un objectif : trier les échecs de la régression nocturne.
+
+02:57.689 --> 03:02.225
+L'agent appelle ses outils : il lit le rapport, trente-sept tests en échec, puis les journaux
+
+03:02.225 --> 03:06.478
+d'exécution.Il raisonne : vingt-neuf échecs ont la même cause, un timeout du service
+
+03:06.478 --> 03:11.147
+de paiement. Il interroge l'outil de gestion des défauts, trouve un défaut déjà ouvert,
+
+03:11.193 --> 03:12.539
+et y relie ces échecs.
+
+03:12.676 --> 03:17.097
+Pour les huit autres, il rédige des brouillons de rapports, puis il s'arrête : une validation
+
+03:17.097 --> 03:21.915
+humaine est demandée. Voilà les trois aspects à observer : les données d'entrée, le comportement
+
+03:21.915 --> 03:24.355
+de l'agent, et les résultats de ses actions.
+
+03:26.430 --> 03:30.668
+Max : Génial ! Je laisse l'agent tourner seul toutes les nuits, alors
+
+03:31.172 --> 03:36.976
+Prudence, Max. Les agents souffrent des mêmes problèmes que les LLM, vus au chapitre trois
+
+03:37.009 --> 03:39.862
+hallucinations, erreurs de raisonnement et biais.
+
+03:39.959 --> 03:43.709
+Ils peuvent produire des résultats incorrects ou trompeurs, et affaiblir la fiabilité
+
+03:43.709 --> 03:45.711
+des processus de test automatisés.
+
+03:45.822 --> 03:50.229
+Deux parades selon le syllabus : mettre en place des procédures de vérification automatisée
+
+03:50.229 --> 03:54.629
+des résultats de l'agent, ou utiliser des agents semi-autonomes pour les tâches critiques.
+
+03:54.727 --> 03:58.430
+C'est pour cela que notre agent de démonstration demandait une validation humaine.
+
+04:00.500 --> 04:01.626
+À vous de jouer.
+
+04:01.726 --> 04:05.868
+Qu'est-ce qui distingue un agent propulsé par LLM d'un chatbot IA traditionnel
+
+04:10.410 --> 04:14.140
+Il agit, en invoquant des fonctions prédéfinies, les outils.
+
+04:14.250 --> 04:18.134
+Et non : un agent peut se tromper, et il n'est pas forcément autonome.
+
+04:20.211 --> 04:25.319
+Une situation. Un agent prépare la décision de mise en production d'une application bancaire.
+
+04:25.417 --> 04:27.303
+Comment limiter le risque d'erreur
+
+04:31.863 --> 04:35.141
+Avec un agent semi-autonome, supervisé par un humain.
+
+04:35.238 --> 04:39.078
+C'est la parade prévue pour les tâches critiques, avec la vérification automatisée des
+
+04:39.078 --> 04:39.921
+résultats.
+
+04:42.004 --> 04:43.672
+Section quatre point deux.
+
+04:43.783 --> 04:48.010
+Pour rendre opérationnelle une infrastructure de test propulsée par LLM, le syllabus
+
+04:48.010 --> 04:53.878
+retient deux pratiques : le fine-tuning, et la gestion du pipeline opérationnel avec LLMOps.
+
+04:53.976 --> 04:57.796
+Commençons par le fine-tuning, objectif quatre point deux point un.
+
+04:57.894 --> 05:02.383
+On part d'un modèle de langage pré-entraîné : un LLM, ou un SLM.
+
+05:02.481 --> 05:06.824
+On lui fournit un jeu de données ciblé, fait d'exemples étiquetés : c'est un apprentissage
+
+05:06.824 --> 05:11.468
+supervisé. On poursuit son entraînement sur ces données, ce qui met à jour ses poids.
+
+05:11.618 --> 05:14.303
+Le modèle apprend les connaissances et les nuances du domaine.
+
+05:14.413 --> 05:18.408
+Ses performances s'améliorent pour l'application visée : il devient plus précis et plus
+
+05:18.408 --> 05:19.276
+pertinent.
+
+05:21.364 --> 05:25.449
+En pratique, le fine-tuning sert à doter un LLM générique de capacités de raisonnement
+
+05:25.449 --> 05:29.965
+spécialisées, propres à un domaine, ou à lui faire adopter le vocabulaire de ce domaine.
+
+05:30.076 --> 05:34.058
+Mais on peut aussi affiner des modèles plus petits, les SLM, qui consomment moins de
+
+05:34.058 --> 05:38.908
+ressources. Un SLM affiné peut atteindre de hautes performances sur des tâches précises,
+
+05:38.955 --> 05:40.828
+sans le coût de calcul d'un LLM.
+
+05:40.925 --> 05:45.177
+Le syllabus souligne cette flexibilité : on choisit l'un ou l'autre selon les besoins
+
+05:45.177 --> 05:46.059
+de la tâche.
+
+05:48.180 --> 05:51.845
+Le syllabus prévoit une démonstration du processus, en quatre temps.
+
+05:51.982 --> 05:56.098
+Un : choisir un modèle approprié, un LLM ou un SLM.
+
+05:56.195 --> 06:00.473
+Deux : présenter un jeu de données adapté à la tâche, ici, les user stories de
+
+06:00.473 --> 06:03.520
+l'organisation, avec leurs cas de test au format maison.
+
+06:03.618 --> 06:08.777
+Trois : montrer une solution pour l'entraînement, par exemple un framework de machine learning.
+
+06:08.889 --> 06:13.520
+Quatre : envoyer un prompt au modèle affiné, et discuter de la qualité de sa sortie.
+
+06:13.617 --> 06:18.274
+Et la démonstration insiste sur un point en particulier : la qualité des données d'entraînement.
+
+06:20.400 --> 06:23.137
+Max : Je ne pourrais pas juste donner des exemples dans le prompt
+
+06:23.630 --> 06:28.211
+Bonne question, Max. Le few-shot guide le modèle le temps d'un prompt.
+
+06:28.309 --> 06:31.806
+Le fine-tuning, lui, poursuit l'entraînement du modèle.
+
+06:31.930 --> 06:33.882
+Prenons l'exemple du syllabus.
+
+06:33.979 --> 06:36.548
+On demande les cas de test d'une nouvelle user story.
+
+06:36.686 --> 06:42.175
+Envoyé. Le modèle affiné répond directement au format de l'organisation, avec ses identifiants
+
+06:42.175 --> 06:45.846
+et sa terminologie. Il a été entraîné sur les user stories et les cas de
+
+06:45.846 --> 06:50.968
+test de l'organisation. Il s'aligne donc sur son processus de test et sur son vocabulaire.
+
+06:53.060 --> 06:55.450
+Le fine-tuning présente quatre défis.
+
+06:55.574 --> 06:57.461
+Un : la qualité des données.
+
+06:57.598 --> 07:01.360
+Pour éviter des résultats biaisés ou inexacts, il faut des jeux d'entraînement de haute
+
+07:01.360 --> 07:03.312
+qualité, propres à la tâche.
+
+07:03.408 --> 07:06.802
+Deux : le surapprentissage, ou overfitting.
+
+07:06.915 --> 07:10.768
+Le modèle devient trop spécialisé sur ses données d'entraînement, et ses performances
+
+07:10.768 --> 07:12.409
+baissent sur des données nouvelles.
+
+07:12.519 --> 07:15.153
+Il faut préserver sa capacité à généraliser.
+
+07:15.264 --> 07:20.032
+Trois : l'opacité, c'est-à-dire le manque de transparence sur la façon dont le modèle produit
+
+07:20.032 --> 07:23.530
+ses sorties. Cela complique le débogage et la validation.
+
+07:23.627 --> 07:28.001
+Quatre : les importantes ressources de calcul nécessaires, pour les LLM.
+
+07:28.124 --> 07:31.416
+Le surapprentissage est un grand classique des questions d'examen.
+
+07:33.480 --> 07:37.888
+Une situation. Un modèle affiné produit d'excellents cas de test pour les user stories
+
+07:37.888 --> 07:40.883
+de son jeu d'entraînement, mais de médiocres pour les nouvelles.
+
+07:40.993 --> 07:42.029
+Quel défi
+
+07:46.540 --> 07:51.379
+Le surapprentissage. Le modèle est devenu trop spécialisé sur ses données d'entraînement,
+
+07:51.477 --> 07:52.887
+et il généralise mal.
+
+07:54.993 --> 07:59.856
+Pourquoi une équipe affinerait-elle un SLM plutôt qu'un LLM, pour une tâche de test précise
+
+08:04.390 --> 08:08.699
+Pour obtenir de hautes performances sur cette tâche, avec moins de ressources de calcul.
+
+08:08.823 --> 08:11.779
+Et attention : les LLM aussi peuvent être affinés.
+
+08:13.830 --> 08:16.194
+Objectif quatre point deux point deux.
+
+08:16.306 --> 08:21.396
+LLMOps, ce sont les pratiques, outils et processus qui fluidifient le développement, le
+
+08:21.396 --> 08:24.056
+déploiement et la maintenance des LLM en production.
+
+08:24.153 --> 08:27.495
+Les décisions LLMOps dépendent de l'approche choisie.
+
+08:27.594 --> 08:29.442
+Un : un chatbot IA.
+
+08:29.605 --> 08:34.429
+L'enjeu : maîtriser confidentialité et sécurité, tout en optimisant le coût.
+
+08:34.540 --> 08:38.149
+On passe par une plateforme LLM-as-a-Service si les garanties sont données, ou par un
+
+08:38.149 --> 08:41.092
+LLM open source en interne, pour plus de contrôle.
+
+08:41.203 --> 08:45.396
+On évalue rigoureusement les garanties du fournisseur, ou ses propres capacités.
+
+08:45.493 --> 08:48.784
+Deux : un outil de test doté d'IA générative.
+
+08:48.922 --> 08:53.167
+Mêmes enjeux, plus les garanties de sécurité et de performance de l'éditeur.
+
+08:53.265 --> 08:57.819
+Et comme l'outil complète l'existant : analyse coût-bénéfice et évaluation des risques.
+
+08:59.937 --> 09:04.182
+Trois : développer en interne un outil de test fondé sur l'IA générative.
+
+09:04.279 --> 09:07.848
+Cette approche met l'accent sur le contrôle complet des risques de confidentialité et
+
+09:07.848 --> 09:12.939
+de sécurité. Elle demande de planifier soigneusement les ressources IA : puissance de calcul,
+
+09:12.939 --> 09:15.714
+stockage des données, et formation du personnel.
+
+09:15.812 --> 09:20.096
+Il faut aussi établir des processus structurés pour valider et maintenir ces développements.
+
+09:20.208 --> 09:23.919
+Et surtout, il faut de l'expertise pour mettre en œuvre et déployer une infrastructure
+
+09:23.919 --> 09:25.935
+de test propulsée par LLM.
+
+09:28.027 --> 09:30.865
+Max : Donc il faut choisir une seule de ces trois approches
+
+09:31.374 --> 09:33.905
+Non, Max, et c'est un piège d'examen.
+
+09:34.055 --> 09:36.199
+Les approches ne s'excluent pas mutuellement.
+
+09:36.296 --> 09:40.510
+Une organisation peut utiliser un chatbot IA pour certaines tâches, et développer ses
+
+09:40.510 --> 09:44.278
+propres outils pour d'autres, en même temps, selon les activités de test.
+
+09:44.375 --> 09:48.576
+Et toutes peuvent intégrer d'autres technologies, comme le RAG et le fine-tuning de LLM
+
+09:48.576 --> 09:53.015
+ou de SLM, pour rendre les processus de test plus efficaces et plus adaptables.
+
+09:55.094 --> 09:59.540
+Une organisation utilise déjà un chatbot IA, et veut aussi développer un outil de test
+
+09:59.540 --> 10:01.748
+maison. Que dit le syllabus
+
+10:06.270 --> 10:08.350
+Les deux approches peuvent coexister.
+
+10:08.448 --> 10:12.783
+Elles ne s'excluent pas mutuellement, et peuvent intégrer le RAG ou le fine-tuning.
+
+10:14.880 --> 10:18.770
+Dernière question. Quel point est mis en avant pour le développement interne d'un outil
+
+10:18.770 --> 10:21.031
+de test fondé sur l'IA générative
+
+10:25.550 --> 10:31.019
+La planification des ressources IA : calcul, stockage des données, formation du personnel.
+
+10:31.170 --> 10:35.376
+Les garanties de l'éditeur, elles, concernent l'approche avec un outil du marché.
+
+10:37.444 --> 10:43.308
+Récapitulons. Un : un agent propulsé par LLM agit grâce à des outils, de façon autonome
+
+10:43.308 --> 10:48.802
+ou semi-autonome. Deux : plusieurs agents spécialisés coordonnés, c'est l'orchestration.
+
+10:48.926 --> 10:53.037
+Trois : les agents ont les mêmes risques que les LLM ; on vérifie automatiquement leurs
+
+10:53.037 --> 10:56.393
+résultats, ou on reste semi-autonome pour les tâches critiques.
+
+10:56.504 --> 11:00.916
+Quatre : le fine-tuning poursuit l'entraînement d'un modèle sur un jeu de données ciblé.
+
+11:01.040 --> 11:06.542
+Cinq : ses quatre défis, qualité des données, surapprentissage, opacité et ressources de
+
+11:06.542 --> 11:12.514
+calcul. Et six : LLMOps dépend de l'approche choisie, et les trois approches se combinent.
+
+11:14.630 --> 11:17.470
+Bravo, vous avez terminé le chapitre quatre
+
+11:17.568 --> 11:21.408
+Dans le dernier chapitre, on passe à l'échelle de l'organisation : les risques du shadow
+
+11:21.408 --> 11:26.580
+AI, la stratégie, le choix des modèles, les phases d'adoption, et l'évolution des rôles.
+
+11:26.678 --> 11:30.923
+D'ici là, faites les questions et les flashcards du chapitre quatre dans l'application.
+
+11:31.061 --> 11:32.058
+À très vite
